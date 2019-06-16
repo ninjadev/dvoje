@@ -10,11 +10,11 @@
     "id": "sceneSwitcherNode",
     "type": "SceneSwitcherNode",
     "connected": {
-      "A": "SpinningCube.render"
+      "A": "GordonWalters.render"
     }
   },
   {
-    "id": "SpinningCube",
-    "type": "spinningCube"
+    "id": "GordonWalters",
+    "type": "gordonWalters"
   }
 ]
