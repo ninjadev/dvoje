@@ -10,11 +10,19 @@
     "id": "sceneSwitcherNode",
     "type": "SceneSwitcherNode",
     "connected": {
-      "A": "SpinningCube.render"
+      "A": "raymarcherShaderNode.render",
+      "B": "SpinningCube.render"
     }
   },
   {
     "id": "SpinningCube",
     "type": "spinningCube"
+  },
+  {
+    "id": "raymarcherShaderNode",
+    "type": "raymarcherShaderNode",
+    "options": {
+      "shader": "raymarcherShader"
+    }
   }
 ]
