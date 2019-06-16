@@ -1,0 +1,6 @@
+    
+bin/
+gen/
+.*.swp
+.DS_STORE
+.idea
