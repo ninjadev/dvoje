@@ -1,107 +1,81 @@
-/// <reference path='three.js' />
 (function(global) {
-  class gordonWalters extends NIN.THREENode {
-    constructor(id, options) {
+  class gordonWalters extends NIN.Node {
+    constructor(id) {
       super(id, {
-        camera: options.camera,
         outputs: {
           render: new NIN.TextureOutput()
         }
       });
 
-      this.lineHeight = 4;
-      this.linesAndCircles = [];
-      var screenHeight = 1080;
-      var screenWidth = 1980;
-      this.lineWidth = screenWidth;
+      this.canvas = document.createElement('canvas');
+      this.ctx = this.canvas.getContext('2d');
+      this.output = new THREE.VideoTexture(this.canvas);
+      this.output.minFilter = THREE.LinearFilter;
+      this.output.magFilter = THREE.LinearFilter;
 
-      var color = 0;
-      var colors = [0xcccbc4, 0x232321]
-      for(var posY = -screenHeight/2; posY < screenHeight/2; posY += this.lineHeight) {
-        var xOffset = (-this.lineWidth/2 * Math.random()) + this.lineWidth/4;
-        var leftLine = this.lineGenerator(colors[color % 2], posY, -this.lineWidth/2 + xOffset);
-        var rightLine = this.lineGenerator(colors[color % 2], posY, 13 + (this.lineWidth/2) + xOffset);
-        var centerLine = this.lineGenerator(colors[(color+1) % 2], posY+2, 0, this.lineHeight+2);
-        centerLine.position.z = -10;
-
-        var leftCircle = this.circleGenerator(colors[color % 2], posY + this.lineHeight/2, 0 + xOffset);
-        var rightCircle = this.circleGenerator(colors[color % 2], posY + this.lineHeight/2, 12 + xOffset);
-
-        var direction = Math.random() < 0.5 ? -1 : 1
-
-        this.linesAndCircles.push({
-          circles: [leftCircle, rightCircle],
-          lines: [centerLine, leftLine, rightLine],
-          direction: direction,
-          acc: (Math.random() * direction)
-        });
-
-        color++;
-      }
-
-
-      for(var obj of this.linesAndCircles) {
-        for(var line of obj.lines) {
-          this.scene.add(line)
-        }
-        for(var circle of obj.circles) {
-          this.scene.add(circle)
-        }
-      }
-      
-      var plane = new THREE.Mesh(new THREE.PlaneGeometry(screenHeight, screenWidth),  new THREE.MeshBasicMaterial({
-        color: 0xffffff,
-      }))
-      this.scene.add(plane)
-      var light = new THREE.PointLight(0x00, 1, 100);
-      light.position.set(50, 50, 50);
-
-      this.scene.add(light);
-      this.camera.position.z = -100;
+      this.fullWidth = 16;
+      this.fullHeight = 9;
+      this.resize();
+      this.lineHeight = GU / 2
     }
 
     update(frame) {
       super.update(frame);
+      this.frame = frame;
+    }
 
-      for(var obj of this.linesAndCircles) {
+    resize() {
+      this.canvas.width = this.fullWidth * GU;
+      this.canvas.height = this.fullHeight * GU;
+    }
 
-        for(var line of obj.lines) {
-          line.position.y -= 0.3;
-          line.position.x += obj.acc;
-        }
-        for(var circle of obj.circles) {
-          circle.position.y -= 0.3;
-          circle.position.x += obj.acc;
-          /*
-          if (circle.position.x > 200) {
-            circle.position.x = -200;
-          }
-          if (circle.position.x < -200) {
-            circle.position.x = 200;
-          }
-          */
-        }
-        
+    render() {
+      this.ctx.save();
+
+      //this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height)
+
+      this.ctx.fillStyle = 'rgb(255, 0, 255)';
+      this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+      var colors = ['#cccbc4', '#232321']
+
+      for(var line = 0; line <= this.canvas.height / this.lineHeight; line++) {
+        var posY = line * this.lineHeight;
+        this.drawLine(colors[line % 2], posY, this.lineHeight);
       }
+
+      this.drawCircles(colors[0], colors[1], (this.frame/1356) * this.canvas.width, 4*this.lineHeight, this.lineHeight);
       
-      
-      this.camera.position.z = 300 + (30 * Math.cos(frame / 80));
-      //this.camera.rotation.x = 30 * Math.cos(frame / 80) * Math.PI / 180
+      this.drawCircles(colors[1], colors[0], (1 - this.frame/1356) * this.canvas.width, 5*this.lineHeight, this.lineHeight);
+      this.ctx.restore();
+
+      this.output.needsUpdate = true;
+      this.outputs.render.setValue(this.output);
     }
 
+    drawLine(color, posY, lineHeight) {
+      this.ctx.fillStyle = color;
 
-    lineGenerator(color, posY, posX, lineHeight2 = this.lineHeight) {
-      var line = new THREE.Mesh(new THREE.BoxGeometry(this.lineWidth, lineHeight2, lineHeight2), new THREE.MeshBasicMaterial({color: color}))
-      line.position.y = posY
-      line.position.x = posX
-      return line
+      this.ctx.fillRect(0, posY, this.canvas.width, lineHeight)
     }
 
-    circleGenerator(color, posY, posX) {
-      var circle = new THREE.Mesh(new THREE.SphereGeometry(this.lineHeight, 16, 16), new THREE.MeshBasicMaterial({color: color}))
-      circle.position.y = posY;
-      circle.position.x = posX;
-      return circle
+    drawCircles(color, inverseColor, posX, posY, lineHeight) {
+
+      var scale = 0.7 + 0.1 * (this.frame / FRAME_FOR_BEAN(4))
+      var radius = lineHeight * scale;
+ 
+      this.ctx.fillStyle = inverseColor;
+      this.ctx.fillRect(posX + lineHeight, posY, 2*lineHeight, lineHeight)
+
+      this.ctx.beginPath();
+      this.ctx.arc(posX + lineHeight, posY + (1-scale)*lineHeight, radius, 0, 2 * Math.PI, false);
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
+
+      this.ctx.beginPath();
+      this.ctx.arc(posX + 3*lineHeight, posY+ (1-scale)*lineHeight, radius, 0, 2 * Math.PI, false);
+      this.ctx.fillStyle = color;
+      this.ctx.fill();
     }
   }
 
