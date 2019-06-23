@@ -1,5 +1,5 @@
 {
     "tDiffuse": { "type": "t", "value": null },
     "frame": { "type": "f", "value": 0.0 },
-    "layer0": { "type": "t", "value": null }
+    "input_image": { "type": "t", "value": null }
 }

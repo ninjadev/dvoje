@@ -19,7 +19,7 @@
     "id": "digitalUI",
     "type": "digitalUI",
     "connected": {
-      "input_scene": "SpinningCube.render"
+      "input_scene": "canvasLayer0.render"
     }
   },
   {
@@ -32,5 +32,9 @@
     "options": {
       "shader": "raymarcherShader"
     }
+  },
+  {
+    "id": "canvasLayer0",
+    "type": "canvasLayer0"
   }
 ]

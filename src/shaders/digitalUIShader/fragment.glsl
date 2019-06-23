@@ -1,15 +1,16 @@
 uniform float frame;
 uniform sampler2D tDiffuse;
-uniform sampler2D layer0;
+uniform sampler2D input_image;
 
 varying vec2 vUv;
 
-void main() {
-    if (vUv.y > 0.5)
-    {
-        gl_FragColor = vec4(vUv, 0.5 + 0.5 * sin(frame / 60.0), 1.0);
-    } else {
-        gl_FragColor = texture2D(layer0, vUv);
-    }
+#define NUMBER_OF_SCANLINES 80.
+#define SCANLINE_DARKNESS 0.65
 
+void main() {
+    vec4 color = texture2D(input_image, vUv);
+    if (fract(vUv.y * NUMBER_OF_SCANLINES) > 0.5) {
+        color = vec4(color.r * SCANLINE_DARKNESS, color.g * SCANLINE_DARKNESS, color.b * SCANLINE_DARKNESS, color.a);
+    }
+    gl_FragColor = color;
 }
