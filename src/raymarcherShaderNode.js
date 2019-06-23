@@ -16,6 +16,7 @@
     }*/
 
     update(frame) {
+      this.uniforms.frame.value = frame;
       /*this.uniforms.raw_bg.value = this.testpattern;
       this.uniforms.depthmap.value = this.inputs.lines.getValue();
       this.uniforms.rendered_input.value = this.inputs.rendered_input.getValue();

@@ -11,7 +11,15 @@
     "type": "SceneSwitcherNode",
     "connected": {
       "A": "raymarcherShaderNode.render",
-      "B": "SpinningCube.render"
+      "B": "SpinningCube.render",
+      "C": "digitalUI.render"
+    }
+  },
+  {
+    "id": "digitalUI",
+    "type": "digitalUI",
+    "connected": {
+      "input_scene": "SpinningCube.render"
     }
   },
   {

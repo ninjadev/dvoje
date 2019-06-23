@@ -744,12 +744,12 @@ const float ray_max = 200.0;
 const float fog_density = .03;
 
 const float cam_dist = 5.;
-const float iTime = 0.;
+float iTime = 0.;
 
 float fField(vec3 p)
 {
    float towerspacing = 3.5;
-   vec2 c = pMod2(p.xz, vec2(towerspacing));
+   vec2 c = pMod2(p.xz, vec2(towerspacing)) + frame / 1000.;
    float towerfaces = 5. + floor(2. * sin(9. * c.x + 2.12345 * c.y));
    pModPolar(p.xz, towerfaces);
    
@@ -897,14 +897,14 @@ void mainImage(out vec4 fragColor, vec2 fragCoord)
    
    // Simple model-view matrix:
    float ang, si, co;
-   ang = 1.;
+   ang = frame/ 60.;
    si = sin(ang); co = cos(ang);
    mat4 cam_mat = mat4(
       co, 0., si, 0.,
       0., 1., 0., 0.,
      -si, 0., co, 0.,
       0., 0., 0., 1.);
-   ang = 1.; //iTime*.2;
+   ang = 0.7 + 0.5 * sin(frame / 20.);
    si = sin(ang); co = cos(ang);
    cam_mat = cam_mat * mat4(
       1., 0., 0., 0.,
@@ -960,6 +960,8 @@ float fField(vec3 p)
 void main() {
     vec4 output_color;
     mainImage(output_color, vUv);
+
+    iTime = frame / 60.;
 
     //gl_FragColor = vec4(vUv, 0.5 + 0.5 * sin(frame / 60.0), 1.0);
     gl_FragColor = output_color;
