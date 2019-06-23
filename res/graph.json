@@ -16,13 +16,6 @@
     }
   },
   {
-    "id": "digitalUI",
-    "type": "digitalUI",
-    "connected": {
-      "input_scene": "canvasLayer0.render"
-    }
-  },
-  {
     "id": "SpinningCube",
     "type": "spinningCube"
   },
@@ -34,7 +27,19 @@
     }
   },
   {
+    "id": "digitalUI",
+    "type": "digitalUI",
+    "connected": {
+      "input_scene0": "canvasLayer0.render",
+      "input_scene1": "canvasLayer1.render"
+    }
+  },
+  {
     "id": "canvasLayer0",
     "type": "canvasLayer0"
+  },
+  {
+    "id": "canvasLayer1",
+    "type": "canvasLayer1"
   }
 ]
