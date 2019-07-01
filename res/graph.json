@@ -10,8 +10,8 @@
     "id": "sceneSwitcherNode",
     "type": "SceneSwitcherNode",
     "connected": {
-      "A": "SpinningCube.render",
-      "B": "greets.render"
+      "B": "greets.render",
+      "A": "edges.render"
     }
   },
   {
@@ -28,5 +28,16 @@
   {
     "id": "Batmobile",
     "type": "batmobile"
+  },
+  {
+    "id": "edges",
+    "type": "edgesNode",
+    "options": {
+      "shader": "edges"
+    },
+    "connected": {
+      "tDiffuse": "SpinningCube.render",
+      "tNormal": "SpinningCube.normal"
+    }
   }
 ]
