@@ -16,10 +16,17 @@
   },
   {
     "id": "SpinningCube",
-    "type": "spinningCube"
+    "type": "spinningCube",
+    "connected": {
+      "model": "Batmobile.out"
+    }
   },
   {
     "id": "greets",
     "type": "greets"
+  },
+  {
+    "id": "Batmobile",
+    "type": "batmobile"
   }
 ]
