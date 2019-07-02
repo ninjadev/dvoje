@@ -7,7 +7,58 @@
         }
       });
 
+      const materials = {
+        black: new THREE.MeshBasicMaterial({
+          color: 0,
+          side: THREE.BackSide,
+        }),
+        'SOLID-BLACK': new THREE.MeshBasicMaterial({
+          color: 0,
+          side: THREE.BackSide,
+        }),
+        'SOLID-MEDIUM_ORANGE': new THREE.MeshBasicMaterial({
+          color: 0xF58624,
+          side: THREE.BackSide,
+        }),
+        'METAL-SILVER': new THREE.MeshBasicMaterial({
+          color: 0x8A928D,
+          side: THREE.BackSide,
+        }),
+        'RUBBER-BLACK': new THREE.MeshBasicMaterial({
+          color: 0x222222,
+          side: THREE.BackSide,
+        }),
+        'CHROME-ANTIQUE_BRASS': new THREE.MeshBasicMaterial({
+          color: 0xffff00,
+          side: THREE.BackSide,
+        }),
+        'SOLID-DARK_AZURE': new THREE.MeshBasicMaterial({
+          color: 0x469bc3,
+          side: THREE.BackSide,
+        }),
+        'SOLID-BRIGHT_GREEN': new THREE.MeshBasicMaterial({
+          color: 0x009624,
+          side: THREE.BackSide,
+        }),
+        'SOLID-WHITE': new THREE.MeshBasicMaterial({
+          color: 0xffffff,
+          side: THREE.BackSide,
+        }),
+       };
+
+      for(let materialName in materials) {
+        materials[materialName].name = materialName;
+        materials[materialName].originalColor = materials[materialName].color.clone();
+      }
+
       function replaceMaterial(oldMaterial) {
+        if(!oldMaterial) {
+          return;
+        }
+        if(oldMaterial.name in materials) {
+          return materials[oldMaterial.name];
+        }
+        console.log('MATERIAL NOT FOUND', oldMaterial.name);
         return new THREE.MeshBasicMaterial({
           side: THREE.BackSide,
           color: oldMaterial.color,
@@ -15,7 +66,7 @@
       }
 
       const loader = new THREE.ColladaLoader();
-      Loader.loadAjax('res/lego_transformer/batmobile.dae', text => {
+      Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
         parsed.scene.traverse(item => {
           if(item.material) {
@@ -29,6 +80,7 @@
           }
         });
         this.outputs.out.value = parsed.scene;
+        parsed.scene.materials = materials;
       });
     }
 

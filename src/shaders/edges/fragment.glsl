@@ -2,6 +2,8 @@ uniform float frame;
 uniform float GU;
 uniform sampler2D tDiffuse;
 uniform sampler2D tNormal;
+uniform sampler2D tDepth;
+uniform sampler2D tInverter;
 
 varying vec2 vUv;
 
@@ -41,18 +43,32 @@ void main() {
     vec3 left = texture2D(tNormal, vUv - eps.xz).rgb;
     vec3 upleft = texture2D(tNormal, vUv + eps.zy - eps.xz).rgb;
 
+    float Dup = texture2D(tDepth, vUv + eps.zy).r;
+    float Dupright = texture2D(tDepth, vUv + eps.xy).r;
+    float Dright = texture2D(tDepth, vUv + eps.xz).r;
+    float Ddownright = texture2D(tDepth, vUv - eps.zy + eps.xz).r;
+    float Ddown = texture2D(tDepth, vUv - eps.zy).r;
+    float Ddownleft = texture2D(tDepth, vUv - eps.xy).r;
+    float Dleft = texture2D(tDepth, vUv - eps.xz).r;
+    float Dupleft = texture2D(tDepth, vUv + eps.zy - eps.xz).r;
+
     float lines = (
-        sobel(upleft.r,   up.r,   upright.r,
-              left.r,             right.r,
-              downleft.r, down.r, downright.r) *
-        sobel(upleft.g,   up.g,   upright.g,
-              left.g,             right.g,
-              downleft.g, down.g, downright.g) *
-        sobel(upleft.b,   up.b,   upright.b,
-              left.b,             right.b,
-              downleft.b, down.b, downright.b)
+        ( 1. -smoothstep(0.85, 1., sobel(upleft.r,   up.r,   upright.r,
+                    left.r,             right.r,
+                    downleft.r, down.r, downright.r))) *
+        ( 1. -smoothstep(0.85, 1., sobel(upleft.g,   up.g,   upright.g,
+                    left.g,             right.g,
+                    downleft.g, down.g, downright.g))) *
+        ( 1. -smoothstep(0.85, 1., sobel(upleft.b,   up.b,   upright.b,
+                    left.b,             right.b,
+                    downleft.b, down.b, downright.b))) *
+        ( 1. -smoothstep(0.5, 0.6, sobel(Dupleft,   Dup,   Dupright,
+                    Dleft,             Dright,
+                    Ddownleft, Ddown, Ddownright)))
     );
 
-    vec3 color = diffuse * (1. - lines);
-    gl_FragColor = vec4(vec3(color), 1.);
+    vec3 inverter = texture2D(tInverter, vUv).rgb;
+
+    vec3 color = mix(diffuse * lines, vec3(0.9 - lines * 0.9), inverter.r);
+    gl_FragColor = vec4(color, 1.);
 }
