@@ -1,6 +1,8 @@
 {
     "tDiffuse": { "type": "t", "value": null },
     "tNormal": { "type": "t", "value": null },
+    "tDepth": { "type": "t", "value": null },
+    "tInverter": { "type": "t", "value": null },
     "frame": { "type": "f", "value": 0.0 },
     "GU": { "type": "f", "value": 0.0 }
 }

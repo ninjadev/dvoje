@@ -3,7 +3,7 @@
     "id": "root",
     "type": "NIN.RootNode",
     "connected": {
-      "screen": "sceneSwitcherNode.render"
+      "screen": "FXAA.render"
     }
   },
   {
@@ -37,7 +37,19 @@
     },
     "connected": {
       "tDiffuse": "SpinningCube.render",
-      "tNormal": "SpinningCube.normal"
+      "tNormal": "SpinningCube.normal",
+      "tDepth": "SpinningCube.depth",
+      "tInverter": "SpinningCube.inverter"
+    }
+  },
+  {
+    "id": "FXAA",
+    "type": "FXAANode",
+    "options": {
+      "shader": "FXAA"
+    },
+    "connected": {
+      "A": "sceneSwitcherNode.render"
     }
   }
 ]
