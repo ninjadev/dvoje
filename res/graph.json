@@ -3,7 +3,7 @@
     "id": "root",
     "type": "NIN.RootNode",
     "connected": {
-      "screen": "FXAA.render"
+      "screen": "postfx.render"
     }
   },
   {
@@ -50,6 +50,24 @@
     },
     "connected": {
       "A": "sceneSwitcherNode.render"
+    }
+  },
+  {
+    "id": "postfx",
+    "type": "postfxNode",
+    "options": {
+      "shader": "postfx"
+    },
+    "connected": {
+      "tDiffuse": "FXAA.render",
+      "paperTexture": "PaperJPG.out"
+    }
+  },
+  {
+    "id": "PaperJPG",
+    "type": "textureNode",
+    "options": {
+        "path": "res/paper.jpg"
     }
   }
 ]

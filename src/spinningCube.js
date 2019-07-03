@@ -15,6 +15,7 @@
       });
 
 
+
       var light = new THREE.PointLight(0xffffff, 1, 100);
       light.position.set(50, 50, 50);
       this.scene.add(light);
@@ -47,6 +48,59 @@
       this.normalRenderTarget.depthTexture.type = THREE.UnsignedShortType;
     }
 
+    resetPhysics() {
+      if(this.model) {
+        this.world = new OIMO.World({
+          timestep: 1/60,
+          iterations: 8,
+          broadphase: 2, // 1 brute force, 2 sweep and prune, 3 volume tree
+          worldscale: 1, // scale full world
+          random: false,  // randomize sample
+          info: false,   // calculate statistic or not
+          gravity: [0, 9.8, 0] ,
+        });
+
+        this.world.add({
+          type: 'box',
+          size: [10, 10, 10],
+          pos: [0, 5, 0],
+          rot: [0, 0, 0],
+          move: false,
+          density: 1,
+          friction: 0.2,
+          restitution: 0.2,
+          belongsTo: 1,
+          collidesWith: 0xffffffff,
+        });
+
+        this.model.traverse(item => {
+          if(item.material) {
+            item.body = this.world.add({
+              type: 'box',
+              size: item.size,
+              pos: [
+                item.originalPosition.x / 100,
+                item.originalPosition.y / 100,
+                item.originalPosition.z / 100,
+              ],
+              rot: [
+                item.originalRotation.x * 360 / Math.PI / 2,
+                item.originalRotation.y * 360 / Math.PI / 2,
+                item.originalRotation.z * 360 / Math.PI / 2,
+              ],
+              move: true,
+              density: 1,
+              friction: 0.2,
+              restitution: 0.2,
+              belongsTo: 1,
+              collidesWith: 0xffffffff,
+            });
+            item.body.applyImpulse(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, -0.05, 0));
+          }
+        });
+      }
+    }
+
     update(frame) {
       super.update(frame);
 
@@ -59,7 +113,31 @@
         this.model = model;
       }
 
+      if(this.model) {
+        if(frame === 100) {
+          this.resetPhysics();
+        }
+
+        this.model.traverse(obj => {
+          if(obj.body) {
+            if(frame >= 100) {
+              obj.position.copy(obj.body.getPosition());
+              obj.position.x *= 100;
+              obj.position.y *= 100;
+              obj.position.z *= 100;
+              obj.quaternion.copy(obj.body.getQuaternion());
+            } else {
+              obj.position.copy(obj.originalPosition);
+              obj.rotation.copy(obj.originalRotation);
+            }
+          }
+        });
+      }
+
       this.modelContainer.rotation.y = frame / 200;
+      if(this.world) {
+        this.world.step();
+      }
     }
 
     render(renderer) {
@@ -70,7 +148,7 @@
         const material = this.model.materials[materialName];
         material.color.copy(material.originalColor);
       }
-      renderer.setClearColor(0xf5f3da);
+      renderer.setClearColor(0xcad7eb);
       const renderTarget = NIN.FullscreenRenderTargetPool.getFullscreenRenderTarget();
       renderer.setRenderTarget(renderTarget);
       renderer.clear();
