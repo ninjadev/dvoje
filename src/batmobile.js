@@ -45,7 +45,6 @@
           side: THREE.BackSide,
         }),
        };
-
       for(let materialName in materials) {
         materials[materialName].name = materialName;
         materials[materialName].originalColor = materials[materialName].color.clone();
@@ -69,13 +68,25 @@
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
         parsed.scene.traverse(item => {
-          if(item.material) {
-            if(item.material instanceof Array) {
-              for(let i = 0; i < item.material.length; i++) {
-                item.material[i] = replaceMaterial(item.material[i]);
+          if(item.geometry) {
+            if(!item.geometry.boundingBox) {
+              item.geometry.computeBoundingBox();
+            }
+            item.size = [
+              (item.geometry.boundingBox.max.x - item.geometry.boundingBox.min.x) / 100,
+              (item.geometry.boundingBox.max.y - item.geometry.boundingBox.min.y) / 100,
+              (item.geometry.boundingBox.max.z - item.geometry.boundingBox.min.z) / 100,
+            ];
+            item.originalPosition = item.position.clone();
+            item.originalRotation = item.rotation.clone();
+            if(item.material) {
+              if(item.material instanceof Array) {
+                for(let i = 0; i < item.material.length; i++) {
+                  item.material[i] = replaceMaterial(item.material[i]);
+                }
+              } else {
+                item.material = replaceMaterial(item.material);
               }
-            } else {
-              item.material = replaceMaterial(item.material);
             }
           }
         });
