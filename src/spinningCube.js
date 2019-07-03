@@ -70,7 +70,7 @@
         const material = this.model.materials[materialName];
         material.color.copy(material.originalColor);
       }
-      renderer.setClearColor(0xf5f3da);
+      renderer.setClearColor(0xcad7eb);
       const renderTarget = NIN.FullscreenRenderTargetPool.getFullscreenRenderTarget();
       renderer.setRenderTarget(renderTarget);
       renderer.clear();
