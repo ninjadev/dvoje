@@ -8,7 +8,7 @@
   "aspectRatio": "16:9",
   "music": {
     "path": "res/music.mp3",
-    "bpm": 125,
+    "bpm": 103,
     "subdivision": 4,
     "BEANOffset": 0
   },
@@ -17,6 +17,38 @@
     {
       "name": "Start",
       "BEAN": 0
+    },
+    {
+      "name": "Build 1",
+      "BEAN": 256
+    },
+    {
+      "name": "Build 2",
+      "BEAN": 384
+    },
+    {
+      "name": "Build 3",
+      "BEAN": 512
+    },
+    {
+      "name": "Funk part",
+      "BEAN": 640
+    },
+    {
+      "name": "Build 4",
+      "BEAN": 768
+    },
+    {
+      "name": "Chill part",
+      "BEAN": 896
+    },
+    {
+      "name": "Build 5",
+      "BEAN": 1152
+    },
+    {
+      "name": "Build 6",
+      "BEAN": 1296
     }
   ]
 }
