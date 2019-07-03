@@ -7,6 +7,14 @@
         "type": "t",
         "value": null
     },
+    "videoTexture": {
+        "type": "t",
+        "value": null
+    },
+    "videoAmount": {
+        "type": "f",
+        "value": 0.0
+    },
     "frame": {
         "type": "f",
         "value": 0.0

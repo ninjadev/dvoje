@@ -1,4 +1,7 @@
 (function(global) {
+
+  const F = (frame, from, delta) => (frame - FRAME_FOR_BEAN(from)) / (FRAME_FOR_BEAN(from + delta) - FRAME_FOR_BEAN(from));
+
   class spinningCube extends NIN.THREENode {
     constructor(id, options) {
       super(id, {
@@ -97,12 +100,17 @@
             });
             item.body.applyImpulse(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, -0.05, 0));
           }
+          console.log(item.body);
         });
       }
     }
 
     update(frame) {
       super.update(frame);
+
+      this.camera.position.x = 60 * Math.sin(frame / 50);
+      this.camera.position.z = 60 * Math.cos(frame / 50);
+      this.camera.lookAt(new THREE.Vector3(0, 3, 0));
 
       const model = this.inputs.model.getValue();
       if(model !== this.model) {
@@ -113,30 +121,40 @@
         this.model = model;
       }
 
+      if(this.world) {
+        this.world.step();
+      }
+
       if(this.model) {
-        if(frame === 100) {
+
+        if(BEAN >= 256 && BEAN < 384) {
+          let i = 0;
+          this.model.traverse(obj => {
+            if(obj.material) {
+              i++;
+              obj.position.copy(obj.originalPosition);
+              obj.rotation.copy(obj.originalRotation);
+              obj.visible = (BEAN - 256) > i;
+            }
+          });
+        }
+
+
+        if(BEAT && BEAN === 380) {
           this.resetPhysics();
         }
 
-        this.model.traverse(obj => {
-          if(obj.body) {
-            if(frame >= 100) {
+        if(BEAN >= 380 && BEAN < 512) {
+          this.model.traverse(obj => {
+            if(obj.body) {
               obj.position.copy(obj.body.getPosition());
               obj.position.x *= 100;
               obj.position.y *= 100;
               obj.position.z *= 100;
               obj.quaternion.copy(obj.body.getQuaternion());
-            } else {
-              obj.position.copy(obj.originalPosition);
-              obj.rotation.copy(obj.originalRotation);
             }
-          }
-        });
-      }
-
-      this.modelContainer.rotation.y = frame / 200;
-      if(this.world) {
-        this.world.step();
+          });
+        }
       }
     }
 
