@@ -12,7 +12,8 @@
     "connected": {
       "B": "greets.render",
       "A": "edges.render",
-      "C": "NDVLogo.render"
+      "C": "NDVLogo.render",
+      "D": "Build.render"
     }
   },
   {
@@ -74,5 +75,16 @@
   {
     "id": "NDVLogo",
     "type": "nDVLogo"
+  },
+  {
+    "id": "buildLogo",
+    "type": "buildLogo"
+  },
+  {
+    "id": "Build",
+    "type": "build",
+    "connected": {
+      "logo": "buildLogo.out"
+    }
   }
 ]
