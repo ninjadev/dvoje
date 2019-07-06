@@ -11,7 +11,8 @@
     "type": "SceneSwitcherNode",
     "connected": {
       "B": "greets.render",
-      "A": "edges.render"
+      "A": "edges.render",
+      "C": "NDVLogo.render"
     }
   },
   {
@@ -67,7 +68,11 @@
     "id": "PaperJPG",
     "type": "textureNode",
     "options": {
-        "path": "res/paper.jpg"
+      "path": "res/paper.jpg"
     }
+  },
+  {
+    "id": "NDVLogo",
+    "type": "nDVLogo"
   }
 ]
