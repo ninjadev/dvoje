@@ -20,7 +20,8 @@
     "id": "SpinningCube",
     "type": "spinningCube",
     "connected": {
-      "model": "Batmobile.out"
+      "model": "Batmobile.out",
+      "positions": "Batmobile.positions"
     }
   },
   {

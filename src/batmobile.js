@@ -1,9 +1,11 @@
 (function(global) {
+  const namecounter = {};
   class batmobile extends NIN.Node {
     constructor(id) {
       super(id, {
         outputs: {
-          out: new NIN.Output()
+          out: new NIN.Output(),
+          positions: new NIN.Output(),
         }
       });
 
@@ -17,7 +19,7 @@
           side: THREE.BackSide,
         }),
         'SOLID-MEDIUM_ORANGE': new THREE.MeshBasicMaterial({
-          color: 0xF58624,
+          color: 0xFFA300,
           side: THREE.BackSide,
         }),
         'METAL-SILVER': new THREE.MeshBasicMaterial({
@@ -29,7 +31,7 @@
           side: THREE.BackSide,
         }),
         'CHROME-ANTIQUE_BRASS': new THREE.MeshBasicMaterial({
-          color: 0xffff00,
+          color: 0x645a4c,
           side: THREE.BackSide,
         }),
         'SOLID-DARK_AZURE': new THREE.MeshBasicMaterial({
@@ -57,7 +59,7 @@
         if(oldMaterial.name in materials) {
           return materials[oldMaterial.name];
         }
-        console.log('MATERIAL NOT FOUND', oldMaterial.name);
+        console.log('MATERIAL NOT FOUND', oldMaterial);
         return new THREE.MeshBasicMaterial({
           side: THREE.BackSide,
           color: oldMaterial.color,
@@ -65,6 +67,10 @@
       }
 
       const loader = new THREE.ColladaLoader();
+      Loader.loadAjax('res/robot_animation_data.json', text => {
+        this.positions = JSON.parse(text);
+        this.outputs.positions.value = this.positions;
+      });
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
         parsed.scene.traverse(item => {
@@ -72,6 +78,8 @@
             if(!item.geometry.boundingBox) {
               item.geometry.computeBoundingBox();
             }
+            let base_name_part = item.geometry.name;
+            let material_name_part = '';
             item.size = [
               (item.geometry.boundingBox.max.x - item.geometry.boundingBox.min.x) / 100,
               (item.geometry.boundingBox.max.y - item.geometry.boundingBox.min.y) / 100,
@@ -80,14 +88,22 @@
             item.originalPosition = item.position.clone();
             item.originalRotation = item.rotation.clone();
             if(item.material) {
-              if(item.material instanceof Array) {
+              if(item.material instanceof Array && item.material.length > 0) {
+                material_name_part = item.material[0].name;
                 for(let i = 0; i < item.material.length; i++) {
                   item.material[i] = replaceMaterial(item.material[i]);
                 }
               } else {
+                material_name_part = item.material.name;
                 item.material = replaceMaterial(item.material);
               }
             }
+            const base_name = base_name_part + '__' + material_name_part;
+            if(!(base_name in namecounter)) {
+              namecounter[base_name] = 0
+            }
+            namecounter[base_name]++;
+            item.name = base_name + '__' + namecounter[base_name];
           }
         });
         this.outputs.out.value = parsed.scene;

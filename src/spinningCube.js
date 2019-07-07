@@ -1,5 +1,6 @@
 (function(global) {
 
+
   const F = (frame, from, delta) => (frame - FRAME_FOR_BEAN(from)) / (FRAME_FOR_BEAN(from + delta) - FRAME_FOR_BEAN(from));
 
   class spinningCube extends NIN.THREENode {
@@ -8,6 +9,7 @@
         camera: options.camera,
         inputs: {
           model: new NIN.Input(),
+          positions: new NIN.Input(),
         },
         outputs: {
           render: new NIN.TextureOutput(),
@@ -24,7 +26,7 @@
       this.scene.add(light);
 
       this.camera.position.z = 60;
-      this.camera.position.y = 25;
+      this.camera.position.y = 35;
       this.camera.lookAt(new THREE.Vector3(0, 3, 0));
       this.camera.fov = 18;
       this.camera.near = 40;
@@ -100,17 +102,66 @@
             });
             item.body.applyImpulse(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, -0.05, 0));
           }
-          console.log(item.body);
         });
       }
+    }
+
+
+    updatePositions(frame) {
+      if(!this.positions) {
+        return;
+      }
+
+      if(!this.model) {
+        return;
+      }
+
+      frame -= 2210;
+
+      this.model.traverse(obj => {
+        if(obj.material) {
+          const actions = this.positions[obj.name];
+          if(actions === undefined) {
+            //console.log('ERROR', obj.name);
+            return;
+          }
+          for(const key of Object.keys(actions)) {
+            const action = actions[key];
+            obj.visible = true;
+            if(action.start_frame > frame) {
+              obj.visible = false;
+              return;
+            }
+            if(action.end_frame >= frame) {
+              const idx = frame - action.start_frame;
+              const value = action.values[idx];
+              switch(key) {
+                case 'location__0': obj.position.x = value; break;
+                case 'location__1': obj.position.y = value; break;
+                case 'location__2': obj.position.z = value; break;
+                case 'rotation_euler__0': obj.rotation.x = value; break;
+                case 'rotation_euler__1': obj.rotation.y = value; break;
+                case 'rotation_euler__2': obj.rotation.z = value; break;
+                  //case 'scale__0': obj.scale.x = value; break;
+                  //case 'scale__1': obj.scale.y = value; break;
+                  //case 'scale__2': obj.scale.z = value; break;
+              }
+            }
+          }
+        }
+      });
     }
 
     update(frame) {
       super.update(frame);
 
-      this.camera.position.x = 60 * Math.sin(frame / 50);
-      this.camera.position.z = 60 * Math.cos(frame / 50);
-      this.camera.lookAt(new THREE.Vector3(0, 3, 0));
+      this.updatePositions(frame);
+
+      this.positions = this.inputs.positions.getValue();
+
+      this.camera.position.x = 70 * Math.sin(frame / 500);
+      this.camera.position.z = 70 * Math.cos(frame / 500);
+      this.camera.lookAt(new THREE.Vector3(0, 8, 0));
 
       const model = this.inputs.model.getValue();
       if(model !== this.model) {
@@ -126,18 +177,6 @@
       }
 
       if(this.model) {
-
-        if(BEAN >= 256 && BEAN < 384) {
-          let i = 0;
-          this.model.traverse(obj => {
-            if(obj.material) {
-              i++;
-              obj.position.copy(obj.originalPosition);
-              obj.rotation.copy(obj.originalRotation);
-              obj.visible = (BEAN - 256) > i;
-            }
-          });
-        }
 
 
         if(BEAT && BEAN === 380) {

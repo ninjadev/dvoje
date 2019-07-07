@@ -13,5 +13,6 @@ void main() {
 
   vec3 color = originalColor * mix(1., pow((paperColor.r + paperColor.g + paperColor.b) / 3., 2.), 0.3333);
 
+
   gl_FragColor = vec4(mix(color, videoColor, videoAmount), 1.);
 }
