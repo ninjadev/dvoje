@@ -1,4 +1,5 @@
 (function(global) {
+  const namecounter = {};
   class batmobile extends NIN.Node {
     constructor(id) {
       super(id, {
@@ -18,7 +19,7 @@
           side: THREE.BackSide,
         }),
         'SOLID-MEDIUM_ORANGE': new THREE.MeshBasicMaterial({
-          color: 0xF58624,
+          color: 0xFFA300,
           side: THREE.BackSide,
         }),
         'METAL-SILVER': new THREE.MeshBasicMaterial({
@@ -30,7 +31,7 @@
           side: THREE.BackSide,
         }),
         'CHROME-ANTIQUE_BRASS': new THREE.MeshBasicMaterial({
-          color: 0xffff00,
+          color: 0x645a4c,
           side: THREE.BackSide,
         }),
         'SOLID-DARK_AZURE': new THREE.MeshBasicMaterial({
@@ -58,7 +59,7 @@
         if(oldMaterial.name in materials) {
           return materials[oldMaterial.name];
         }
-        console.log('MATERIAL NOT FOUND', oldMaterial.name);
+        console.log('MATERIAL NOT FOUND', oldMaterial);
         return new THREE.MeshBasicMaterial({
           side: THREE.BackSide,
           color: oldMaterial.color,
@@ -67,7 +68,6 @@
 
       const loader = new THREE.ColladaLoader();
       Loader.loadAjax('res/robot_animation_data.json', text => {
-        console.log(text);
         this.positions = JSON.parse(text);
         this.outputs.positions.value = this.positions;
       });
@@ -78,7 +78,7 @@
             if(!item.geometry.boundingBox) {
               item.geometry.computeBoundingBox();
             }
-            let base_name_part = item.name;
+            let base_name_part = item.geometry.name;
             let material_name_part = '';
             item.size = [
               (item.geometry.boundingBox.max.x - item.geometry.boundingBox.min.x) / 100,
@@ -98,7 +98,7 @@
                 item.material = replaceMaterial(item.material);
               }
             }
-            const base_name = item.name + '__' + item.material.name;
+            const base_name = base_name_part + '__' + material_name_part;
             if(!(base_name in namecounter)) {
               namecounter[base_name] = 0
             }

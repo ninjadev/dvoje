@@ -26,7 +26,7 @@
       this.scene.add(light);
 
       this.camera.position.z = 60;
-      this.camera.position.y = 25;
+      this.camera.position.y = 35;
       this.camera.lookAt(new THREE.Vector3(0, 3, 0));
       this.camera.fov = 18;
       this.camera.near = 40;
@@ -116,29 +116,36 @@
         return;
       }
 
+      frame -= 2210;
+
       this.model.traverse(obj => {
         if(obj.material) {
-          const actions = this.positions[obj.name][obj.name];
-          for(const key of actions) {
+          const actions = this.positions[obj.name];
+          if(actions === undefined) {
+            //console.log('ERROR', obj.name);
+            return;
+          }
+          for(const key of Object.keys(actions)) {
             const action = actions[key];
+            obj.visible = true;
             if(action.start_frame > frame) {
               obj.visible = false;
               return;
             }
-            obj.visible = true;
-            if(action.end_frame <= frame) {
-              obj.position.set(
-                action.location__0[frame - action.start_frame],
-                action.location__1[frame - action.start_frame],
-                action.location__2[frame - action.start_frame]);
-              obj.rotation.set(
-                action.rotation__0[frame - action.start_frame],
-                action.rotation__1[frame - action.start_frame],
-                action.rotation__2[frame - action.start_frame]);
-              obj.scale.set(
-                action.scale__0[frame - action.start_frame],
-                action.scale__1[frame - action.start_frame],
-                action.scale__2[frame - action.start_frame]);
+            if(action.end_frame >= frame) {
+              const idx = frame - action.start_frame;
+              const value = action.values[idx];
+              switch(key) {
+                case 'location__0': obj.position.x = value; break;
+                case 'location__1': obj.position.y = value; break;
+                case 'location__2': obj.position.z = value; break;
+                case 'rotation_euler__0': obj.rotation.x = value; break;
+                case 'rotation_euler__1': obj.rotation.y = value; break;
+                case 'rotation_euler__2': obj.rotation.z = value; break;
+                  //case 'scale__0': obj.scale.x = value; break;
+                  //case 'scale__1': obj.scale.y = value; break;
+                  //case 'scale__2': obj.scale.z = value; break;
+              }
             }
           }
         }
@@ -152,9 +159,9 @@
 
       this.positions = this.inputs.positions.getValue();
 
-      this.camera.position.x = 60 * Math.sin(frame / 50);
-      this.camera.position.z = 60 * Math.cos(frame / 50);
-      this.camera.lookAt(new THREE.Vector3(0, 3, 0));
+      this.camera.position.x = 70 * Math.sin(frame / 500);
+      this.camera.position.z = 70 * Math.cos(frame / 500);
+      this.camera.lookAt(new THREE.Vector3(0, 8, 0));
 
       const model = this.inputs.model.getValue();
       if(model !== this.model) {
@@ -170,18 +177,6 @@
       }
 
       if(this.model) {
-
-        if(BEAN >= 256 && BEAN < 384) {
-          let i = 0;
-          this.model.traverse(obj => {
-            if(obj.material) {
-              i++;
-              obj.position.copy(obj.originalPosition);
-              obj.rotation.copy(obj.originalRotation);
-              obj.visible = (BEAN - 256) > i;
-            }
-          });
-        }
 
 
         if(BEAT && BEAN === 380) {
