@@ -3,7 +3,8 @@
     constructor(id) {
       super(id, {
         outputs: {
-          out: new NIN.Output()
+          out: new NIN.Output(),
+          positions: new NIN.Output(),
         }
       });
 
@@ -65,6 +66,11 @@
       }
 
       const loader = new THREE.ColladaLoader();
+      Loader.loadAjax('res/robot_animation_data.json', text => {
+        console.log(text);
+        this.positions = JSON.parse(text);
+        this.outputs.positions.value = this.positions;
+      });
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
         parsed.scene.traverse(item => {
@@ -72,6 +78,8 @@
             if(!item.geometry.boundingBox) {
               item.geometry.computeBoundingBox();
             }
+            let base_name_part = item.name;
+            let material_name_part = '';
             item.size = [
               (item.geometry.boundingBox.max.x - item.geometry.boundingBox.min.x) / 100,
               (item.geometry.boundingBox.max.y - item.geometry.boundingBox.min.y) / 100,
@@ -80,14 +88,22 @@
             item.originalPosition = item.position.clone();
             item.originalRotation = item.rotation.clone();
             if(item.material) {
-              if(item.material instanceof Array) {
+              if(item.material instanceof Array && item.material.length > 0) {
+                material_name_part = item.material[0].name;
                 for(let i = 0; i < item.material.length; i++) {
                   item.material[i] = replaceMaterial(item.material[i]);
                 }
               } else {
+                material_name_part = item.material.name;
                 item.material = replaceMaterial(item.material);
               }
             }
+            const base_name = item.name + '__' + item.material.name;
+            if(!(base_name in namecounter)) {
+              namecounter[base_name] = 0
+            }
+            namecounter[base_name]++;
+            item.name = base_name + '__' + namecounter[base_name];
           }
         });
         this.outputs.out.value = parsed.scene;

@@ -1,5 +1,6 @@
 (function(global) {
 
+
   const F = (frame, from, delta) => (frame - FRAME_FOR_BEAN(from)) / (FRAME_FOR_BEAN(from + delta) - FRAME_FOR_BEAN(from));
 
   class spinningCube extends NIN.THREENode {
@@ -8,6 +9,7 @@
         camera: options.camera,
         inputs: {
           model: new NIN.Input(),
+          positions: new NIN.Input(),
         },
         outputs: {
           render: new NIN.TextureOutput(),
@@ -100,13 +102,55 @@
             });
             item.body.applyImpulse(new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, -0.05, 0));
           }
-          console.log(item.body);
         });
       }
     }
 
+
+    updatePositions(frame) {
+      if(!this.positions) {
+        return;
+      }
+
+      if(!this.model) {
+        return;
+      }
+
+      this.model.traverse(obj => {
+        if(obj.material) {
+          const actions = this.positions[obj.name][obj.name];
+          for(const key of actions) {
+            const action = actions[key];
+            if(action.start_frame > frame) {
+              obj.visible = false;
+              return;
+            }
+            obj.visible = true;
+            if(action.end_frame <= frame) {
+              obj.position.set(
+                action.location__0[frame - action.start_frame],
+                action.location__1[frame - action.start_frame],
+                action.location__2[frame - action.start_frame]);
+              obj.rotation.set(
+                action.rotation__0[frame - action.start_frame],
+                action.rotation__1[frame - action.start_frame],
+                action.rotation__2[frame - action.start_frame]);
+              obj.scale.set(
+                action.scale__0[frame - action.start_frame],
+                action.scale__1[frame - action.start_frame],
+                action.scale__2[frame - action.start_frame]);
+            }
+          }
+        }
+      });
+    }
+
     update(frame) {
       super.update(frame);
+
+      this.updatePositions(frame);
+
+      this.positions = this.inputs.positions.getValue();
 
       this.camera.position.x = 60 * Math.sin(frame / 50);
       this.camera.position.z = 60 * Math.cos(frame / 50);
