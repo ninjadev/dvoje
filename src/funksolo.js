@@ -226,13 +226,24 @@
         });
         this.scene.add(model);
       });
+      this.tireThrob = 0;
       Loader.loadAjax('res/robot.dae', text => {
         const model = loader.parse(text).scene;
         console.log(model);
+        this.robot = model;
         const scale = 0.02;
         model.scale.set(scale, scale, scale);
         model.position.z = 0;
         model.position.x = -2.5;
+        model.children[0].children.map((child, i) => {
+          if (child.children[0].geometry) {
+            console.log(child.children[0].geometry.name, i);
+          } 
+        });
+        this.tire1 = model.children[0].children[95].children[0];
+        this.tire2 = model.children[0].children[20].children[0];
+        this.tire1.originalPosition = this.tire1.position.clone();
+        this.tire2.originalPosition = this.tire2.position.clone();
         model.traverse(item => {
           if(item.material) {
             if(item.material instanceof Array && item.material.length > 0) {
@@ -259,6 +270,19 @@
     update(frame) {
       super.update(frame);
 
+      this.tireThrob *= 0.9;
+      if (BEAT && BEAN % 8 === 5) {
+        this.tireThrob = 1;
+      } 
+
+      if(BEAT) {
+        this.tireThrob += 0.1;
+      }
+
+      if (this.tire1) {
+        this.tire1.position.z = this.tire1.originalPosition.z + this.tireThrob * 30 + Math.random() * 1;
+        this.tire2.position.z = this.tire2.originalPosition.z + -this.tireTHrob * 30 + Math.random() * 1;
+      }
 
       this.ctx.globalAlpha = 1;
       this.ctx.fillStyle= 'rgba(0, 0, 0, 0.05)';
@@ -281,6 +305,28 @@
       this.lightThrob2 *= 0.95;
       this.lightThrob3 *= 0.95;
 
+      if (BEAT && BEAN === 640) {
+        this.cameraAngle = -0.2;
+        this.cameraHeight = 35;
+        this.cameraRadius = 65;
+      }
+
+      if (BEAT && BEAN === 672) {
+        this.cameraRadius = 20;
+        this.cameraAngle = 1;
+        this.cameraHeight = 15;
+      }
+
+      if (BEAT && BEAN === 688) {
+        this.cameraRadius = 8;
+        this.cameraAngle = -0.5;
+        this.cameraHeight = 10;
+      }
+        
+
+
+      this.cameraAngleSpeed = 0.001;
+
       if(BEAT && BEAN % 4 == 0) {
         this.lightThrob1 = Math.random() < 1 / 2;
         this.lightThrob3 = Math.random() < 1 / 2;
@@ -297,6 +343,7 @@
       this.camera.position.x = this.cameraRadius * Math.sin(this.cameraAngle);
       this.camera.position.z = this.cameraRadius * Math.cos(this.cameraAngle);
       this.cameraAngle += this.cameraAngleSpeed;
+      this.camera.position.y = this.cameraHeight;
       this.camera.lookAt(new THREE.Vector3(0, 8, 0));
 
       this.discolight1.intensity = this.lightThrob1 * 50;

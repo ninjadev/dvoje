@@ -3,6 +3,10 @@
         "type": "t",
         "value": null
     },
+    "overlayTexture": {
+        "type": "t",
+        "value": null
+    },
     "paperTexture": {
         "type": "t",
         "value": null
