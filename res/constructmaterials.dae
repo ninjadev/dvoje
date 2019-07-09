@@ -5,8 +5,8 @@
       <author>Blender User</author>
       <authoring_tool>Blender 2.80.74 commit date:2019-06-19, commit time:18:29, hash:d30f72dfd8ac</authoring_tool>
     </contributor>
-    <created>2019-07-07T04:02:00</created>
-    <modified>2019-07-07T04:02:00</modified>
+    <created>2019-07-07T19:54:25</created>
+    <modified>2019-07-07T19:54:25</modified>
     <unit name="meter" meter="1"/>
     <up_axis>Z_UP</up_axis>
   </asset>
@@ -1674,7 +1674,7 @@
             <instance_geometry url="#Part-32000_dot_dat-mesh" name="Object.185">
               <bind_material>
                 <technique_common>
-                  <instance_material symbol="SOLID-MEDIUM_ORANGE-material" target="#SOLID-MEDIUM_ORANGE-material"/>
+                  <instance_material symbol="CHROME-ANTIQUE_BRASS-material" target="#CHROME-ANTIQUE_BRASS-material"/>
                   <instance_material symbol="black-material" target="#black-material"/>
                 </technique_common>
               </bind_material>
@@ -1688,7 +1688,7 @@
             <instance_geometry url="#Part-32000_dot_dat-mesh" name="Object.186">
               <bind_material>
                 <technique_common>
-                  <instance_material symbol="SOLID-MEDIUM_ORANGE-material" target="#SOLID-MEDIUM_ORANGE-material"/>
+                  <instance_material symbol="CHROME-ANTIQUE_BRASS-material" target="#CHROME-ANTIQUE_BRASS-material"/>
                   <instance_material symbol="black-material" target="#black-material"/>
                 </technique_common>
               </bind_material>
@@ -1893,7 +1893,7 @@
             <instance_geometry url="#Part-32000_dot_dat-mesh" name="Object.201">
               <bind_material>
                 <technique_common>
-                  <instance_material symbol="SOLID-MEDIUM_ORANGE-material" target="#SOLID-MEDIUM_ORANGE-material"/>
+                  <instance_material symbol="CHROME-ANTIQUE_BRASS-material" target="#CHROME-ANTIQUE_BRASS-material"/>
                   <instance_material symbol="black-material" target="#black-material"/>
                 </technique_common>
               </bind_material>
@@ -2122,7 +2122,7 @@
             <instance_geometry url="#Part-3894_dot_dat-mesh" name="Object.218">
               <bind_material>
                 <technique_common>
-                  <instance_material symbol="SOLID-MEDIUM_ORANGE-material" target="#SOLID-MEDIUM_ORANGE-material"/>
+                  <instance_material symbol="SOLID-BRIGHT_GREEN-material" target="#SOLID-BRIGHT_GREEN-material"/>
                   <instance_material symbol="black-material" target="#black-material"/>
                 </technique_common>
               </bind_material>
@@ -2328,7 +2328,7 @@
             <instance_geometry url="#Part-3894_dot_dat-mesh" name="Object.249">
               <bind_material>
                 <technique_common>
-                  <instance_material symbol="SOLID-MEDIUM_ORANGE-material" target="#SOLID-MEDIUM_ORANGE-material"/>
+                  <instance_material symbol="CHROME-ANTIQUE_BRASS-material" target="#CHROME-ANTIQUE_BRASS-material"/>
                   <instance_material symbol="black-material" target="#black-material"/>
                 </technique_common>
               </bind_material>
@@ -2342,7 +2342,7 @@
             <instance_geometry url="#Part-3894_dot_dat-mesh" name="Object.250">
               <bind_material>
                 <technique_common>
-                  <instance_material symbol="SOLID-MEDIUM_ORANGE-material" target="#SOLID-MEDIUM_ORANGE-material"/>
+                  <instance_material symbol="CHROME-ANTIQUE_BRASS-material" target="#CHROME-ANTIQUE_BRASS-material"/>
                   <instance_material symbol="black-material" target="#black-material"/>
                 </technique_common>
               </bind_material>

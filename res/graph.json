@@ -3,7 +3,7 @@
     "id": "root",
     "type": "NIN.RootNode",
     "connected": {
-      "screen": "postfx.render"
+      "screen": "BlurAmountController.out"
     }
   },
   {
@@ -13,7 +13,8 @@
       "B": "greets.render",
       "A": "edges.render",
       "C": "NDVLogo.render",
-      "D": "Build.render"
+      "D": "Build.render",
+      "FUNK": "Funksolo.render"
     }
   },
   {
@@ -70,7 +71,7 @@
     "id": "PaperJPG",
     "type": "textureNode",
     "options": {
-      "path": "res/paper.jpg"
+      "path": "res/paperbg.jpg"
     }
   },
   {
@@ -86,6 +87,38 @@
     "type": "build",
     "connected": {
       "logo": "buildLogo.out"
+    }
+  },
+  {
+    "id": "Funksolo",
+    "type": "funksolo"
+  },
+  {
+    "id": "BlurX",
+    "type": "BlurPassNode",
+    "options": {
+      "direction": "x"
+    },
+    "connected": {
+      "tDiffuse": "BlurY.render"
+    }
+  },
+  {
+    "id": "BlurY",
+    "type": "BlurPassNode",
+    "connected": {
+      "tDiffuse": "postfx.render"
+    },
+    "options": {
+      "direction": "y"
+    }
+  },
+  {
+    "id": "BlurAmountController",
+    "type": "blurAmountController",
+    "connected": {
+        "original": "postfx.render",
+        "blurred": "BlurX.render"
     }
   }
 ]
