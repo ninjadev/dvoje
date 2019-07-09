@@ -81,6 +81,9 @@
       Loader.loadAjax('res/heli_animation_data.json', text => {
         this.positions.heli = JSON.parse(text);
       });
+      Loader.loadAjax('res/car_animation_data.json', text => {
+        this.positions.car = JSON.parse(text);
+      });
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
         console.log(parsed);

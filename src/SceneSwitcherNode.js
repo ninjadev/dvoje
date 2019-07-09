@@ -31,8 +31,10 @@
         selectedScene = this.inputs.A;
       } else if (BEAN < 768) {
         selectedScene = this.inputs.FUNK;
-      } else {
+      } else if (BEAN < 896) {
         selectedScene = this.inputs.B;
+      } else {
+        selectedScene = this.inputs.A;
       }
 
       selectedScene.enabled = true;

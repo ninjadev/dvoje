@@ -4,6 +4,7 @@ uniform float abberration;
 uniform sampler2D tDiffuse;
 uniform sampler2D paperTexture;
 uniform sampler2D videoTexture;
+uniform sampler2D overlayTexture;
 
 varying vec2 vUv;
 
@@ -13,21 +14,26 @@ float rand(float n){return fract(sin(n) * 43758.5453123);}
 
 
 vec3 getColor(vec2 uv) {
+  if(frame >= 5591. && frame < 6150.) {
+  }
   vec3 originalColor = texture2D(tDiffuse, uv).rgb;
   vec3 paperColor = texture2D(paperTexture, uv).rgb;
+  vec4 overlayColor = texture2D(overlayTexture, uv).rgba;
 
   vec3 color = originalColor * paperColor;
 
-  float steps = 3.;
-  color *= steps + 1.;
-  color = floor(color);
-  color /= steps;
-  color *= paperColor;
-
   if(frame >= 5591. && frame < 6150.) {
+      float steps = 3.;
+      color *= steps + 1.;
+      color = floor(color);
+      color /= steps;
+      color *= paperColor;
       float c = (color.r + color.g + color.b) / 3.;
       color = vec3(c);
+      vec2 circle = -2. + mod(uv * vec2(16. / 9., 1.) * 180., 1.) * 4.;
+      return mix(color * 2., color * vec3(0.95), step(1., circle.x * circle.x + circle.y * circle.y));
   }
+  return mix(color, overlayColor.rgb, overlayColor.a);
   return color;
   return vec3(1. ,0., 1.);
 }
@@ -36,6 +42,16 @@ void main() {
 
   float eps = 0.04 * abberration;
   vec2 uv = vUv;
+
+  if(frame < 5590.5 || frame > 7827.5) {
+      float boomer = mod(frame / 60. / 60. * 103. / 2., 1.);
+      float transitionDuration = 0.20;
+      if(boomer > (1. - transitionDuration)) {
+        uv.x = mod(uv.x + smoothstep(0., 1., (boomer - (1. - transitionDuration)) / transitionDuration), 1.);
+      }
+  }
+  //uv.x += frame / 60. / 60. * 103.;
+  uv.x = mod(uv.x, 1.);
 
   uv.y += abberration * 0.01 * sin(uv.x * PI * 2. + frame / 5. + abberration * 10.);
   uv.x += abberration * 0.001 * cos(uv.x * PI * 2. + frame / 5. + abberration * 10.);

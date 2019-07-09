@@ -130,15 +130,25 @@
 
       let positions = this.positions.robot;
       let frameOffset = 2210;
-      if(BEAN < 384) {
-      positions = this.positions.robot;
-      frameOffset = 2210;
-      } else if(BEAN < 512) {
-      positions = this.positions.heli;
-      frameOffset = 3354;
-      } else if(BEAN < 640) {
-      positions = this.positions.treb;
-      frameOffset = 4473;
+      if (BEAN < 384) {
+        positions = this.positions.car;
+        frameOffset = 2210;
+      } else if (BEAN < 512) {
+        positions = this.positions.heli;
+        frameOffset = 3354;
+      } else if (BEAN < 640) {
+        positions = this.positions.robot;
+        frameOffset = 4473;
+      } else if (BEAN < 1024) {
+        positions = this.positions.treb;
+        frameOffset = 7828;
+      } else if (BEAN < 1152) {
+        positions = this.positions.bat2;
+        frameOffset = 8947;
+      }
+
+      if (!positions) {
+        return;
       }
 
 
@@ -184,13 +194,9 @@
 
       this.positions = this.inputs.positions.getValue();
 
-      const angle = -0.8;
-      this.camera.position.x = 90 * Math.sin(angle);
-      this.camera.position.z = 90 * Math.cos(angle);
-      this.cameraHeight = lerp(30, 40, F(frame, 256, 128));
-      if(BEAN >= 384) {
-      this.cameraHeight = lerp(30, 40, F(frame, 384, 128));
-      }
+      const angle = 0;
+      this.camera.position.x = 60 * Math.sin(angle);
+      this.camera.position.z = 60 * Math.cos(angle);
       this.camera.position.y = this.cameraHeight;
       this.camera.lookAt(new THREE.Vector3(0, this.cameraHeight - 35+  8, 0));
 
@@ -203,6 +209,10 @@
         this.model = model;
       }
 
+      this.modelContainer.position.x = 0;
+      this.modelContainer.position.y = -0;
+      this.modelContainer.rotation.y = 0.7;
+
       if(this.world) {
         this.world.step();
       }
@@ -213,7 +223,7 @@
         if (BEAT && BEAN === 380) {
           this.resetPhysics();
         }
-        if (BEAT && BEAN === 504) {
+        if (BEAT && BEAN === 512) {
           this.resetPhysics();
         }
         if (BEAT && BEAN === 636) {
@@ -237,7 +247,11 @@
 
 
     render(renderer) {
-      if (BEAN >= 369 && BEAN < 380) {
+      if (BEAN >= 369 && BEAN < 380 ||
+        BEAN >= 496 && BEAN < 512 ||
+        BEAN >= 624 && BEAN < 640 ||
+        BEAN >= 1008 && BEAN < 1024 ||
+        BEAN >= 1126 && BEAN < 1152) {
         /* to workaround a bug */
         NIN.FullscreenRenderTargetPool.getFullscreenRenderTarget();
         return;
