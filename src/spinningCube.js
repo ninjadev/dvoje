@@ -19,18 +19,20 @@
         }
       });
 
-
-
       var light = new THREE.PointLight(0xffffff, 1, 100);
       light.position.set(50, 50, 50);
       this.scene.add(light);
 
-      this.camera.position.z = 60;
+      this.scene.add(light);
+      this.cameraHeight = 35;
+
+      this.camera.position.z = 200;
       this.camera.position.y = 35;
+      this.camera.position.x = 10;
       this.camera.lookAt(new THREE.Vector3(0, 3, 0));
       this.camera.fov = 18;
       this.camera.near = 40;
-      this.camera.far = 80;
+      this.camera.far = 120;
       this.camera.updateProjectionMatrix();
 
       this.modelContainer = new THREE.Object3D();
@@ -68,7 +70,7 @@
         this.world.add({
           type: 'box',
           size: [10, 10, 10],
-          pos: [0, 5, 0],
+          pos: [0, 7.5, 0],
           rot: [0, 0, 0],
           move: false,
           density: 1,
@@ -111,57 +113,86 @@
       if(!this.positions) {
         return;
       }
+      if(Object.keys(this.positions).length < 3) {
+        return;
+      }
 
       if(!this.model) {
         return;
       }
 
-      frame -= 2210;
+      /* skip during explosions */
+      if (BEAN >= 380 && BEAN < 384 ||
+        BEAN >= 508 && BEAN < 512 ||
+        BEAN >= 636 && BEAN < 640) {
+        return;
+      }
 
+      let positions = this.positions.robot;
+      let frameOffset = 2210;
+      if(BEAN < 384) {
+      positions = this.positions.robot;
+      frameOffset = 2210;
+      } else if(BEAN < 512) {
+      positions = this.positions.heli;
+      frameOffset = 3354;
+      } else if(BEAN < 640) {
+      positions = this.positions.treb;
+      frameOffset = 4473;
+      }
+
+
+      frame -= frameOffset;
       this.model.traverse(obj => {
         if(obj.material) {
-          const actions = this.positions[obj.name];
-          if(actions === undefined) {
+          const action = positions[obj.name];
+          if(action === undefined) {
             //console.log('ERROR', obj.name);
             return;
           }
-          for(const key of Object.keys(actions)) {
-            const action = actions[key];
-            obj.visible = true;
             if(action.start_frame > frame) {
-              obj.visible = false;
+              const materials = obj.material instanceof Array ? obj.material : [obj.material];
+              for(const material of materials) {
+                material.targetColor.copy(material.originalColor);
+                material.opacity = smoothstep(1, 0, (frame - action.start_frame + 10) / 10);
+              }
               return;
             }
-            if(action.end_frame >= frame) {
-              const idx = frame - action.start_frame;
-              const value = action.values[idx];
-              switch(key) {
-                case 'location__0': obj.position.x = value; break;
-                case 'location__1': obj.position.y = value; break;
-                case 'location__2': obj.position.z = value; break;
-                case 'rotation_euler__0': obj.rotation.x = value; break;
-                case 'rotation_euler__1': obj.rotation.y = value; break;
-                case 'rotation_euler__2': obj.rotation.z = value; break;
-                  //case 'scale__0': obj.scale.x = value; break;
-                  //case 'scale__1': obj.scale.y = value; break;
-                  //case 'scale__2': obj.scale.z = value; break;
-              }
+
+            const materials = obj.material instanceof Array ? obj.material : [obj.material];
+            for(const material of materials) {
+              material.targetColor.copy(material.originalColor);
+              material.opacity = smoothstep(0, 1, (frame - action.start_frame) / 5);
+              material.needsUpdate = true;
+              material.transparent = true;
             }
+
+            const idx = Math.min(frame - action.start_frame, action.end_frame - action.start_frame - 1);
+            obj.position.x = action.positions[0][idx];
+            obj.position.y = action.positions[1][idx];
+            obj.position.z = action.positions[2][idx];
+            obj.quaternion.x = action.quaterions[idx].x;
+            obj.quaternion.y = action.quaterions[idx].y;
+            obj.quaternion.z = action.quaterions[idx].z;
+            obj.quaternion.w = action.quaterions[idx].w;
           }
-        }
       });
     }
 
     update(frame) {
       super.update(frame);
 
-      this.updatePositions(frame);
-
       this.positions = this.inputs.positions.getValue();
 
-      this.camera.position.x = 70 * Math.sin(frame / 500);
-      this.camera.position.z = 70 * Math.cos(frame / 500);
-      this.camera.lookAt(new THREE.Vector3(0, 8, 0));
+      const angle = -0.8;
+      this.camera.position.x = 90 * Math.sin(angle);
+      this.camera.position.z = 90 * Math.cos(angle);
+      this.cameraHeight = lerp(30, 40, F(frame, 256, 128));
+      if(BEAN >= 384) {
+      this.cameraHeight = lerp(30, 40, F(frame, 384, 128));
+      }
+      this.camera.position.y = this.cameraHeight;
+      this.camera.lookAt(new THREE.Vector3(0, this.cameraHeight - 35+  8, 0));
 
       const model = this.inputs.model.getValue();
       if(model !== this.model) {
@@ -179,33 +210,50 @@
       if(this.model) {
 
 
-        if(BEAT && BEAN === 380) {
+        if (BEAT && BEAN === 380) {
+          this.resetPhysics();
+        }
+        if (BEAT && BEAN === 504) {
+          this.resetPhysics();
+        }
+        if (BEAT && BEAN === 636) {
           this.resetPhysics();
         }
 
-        if(BEAN >= 380 && BEAN < 512) {
-          this.model.traverse(obj => {
-            if(obj.body) {
-              obj.position.copy(obj.body.getPosition());
-              obj.position.x *= 100;
-              obj.position.y *= 100;
-              obj.position.z *= 100;
-              obj.quaternion.copy(obj.body.getQuaternion());
-            }
-          });
-        }
+        this.model.traverse(obj => {
+          if(obj.body) {
+            obj.position.copy(obj.body.getPosition());
+            obj.position.x *= 100;
+            obj.position.y *= 100;
+            obj.position.z *= 100;
+            obj.quaternion.copy(obj.body.getQuaternion());
+          }
+        });
       }
+
+      this.updatePositions(frame);
     }
 
+
+
     render(renderer) {
+      if (BEAN >= 369 && BEAN < 380) {
+        /* to workaround a bug */
+        NIN.FullscreenRenderTargetPool.getFullscreenRenderTarget();
+        return;
+      }
       if(!this.model) {
         return;
       }
-      for(const materialName in this.model.materials) {
-        const material = this.model.materials[materialName];
-        material.color.copy(material.originalColor);
-      }
-      renderer.setClearColor(0xcad7eb);
+      this.model.traverse(obj => {
+        if(obj.material) {
+          const materials = obj.material instanceof Array ? obj.material : [obj.material];
+          for(const material of materials) {
+            material.color.copy(material.targetColor);
+          }
+        }
+      });
+      renderer.setClearColor(0xeeeeee);
       const renderTarget = NIN.FullscreenRenderTargetPool.getFullscreenRenderTarget();
       renderer.setRenderTarget(renderTarget);
       renderer.clear();
@@ -224,14 +272,18 @@
       this.scene.overrideMaterial = null
       renderer.setRenderTarget(invertLinesRenderTarget);
       renderer.clear();
-      for(const materialName in this.model.materials) {
-        const material = this.model.materials[materialName];
-        if(material.name === 'SOLID-BLACK') {
-          material.color.setHex(0xffffff);
-        } else {
-          material.color.setHex(0);
+      this.model.traverse(obj => {
+        if(obj.material) {
+          const materials = obj.material instanceof Array ? obj.material : [obj.material];
+          for(const material of materials) {
+            if(material.name === 'SOLID-BLACK') {
+              material.color.setHex(0xffffff);
+            } else {
+              material.color.setHex(0);
+            }
+          }
         }
-      }
+      });
       renderer.render(this.scene, this.camera);
 
       renderer.setRenderTarget(null);

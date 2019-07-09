@@ -15,6 +15,10 @@
         "type": "f",
         "value": 0.0
     },
+    "abberration": {
+        "type": "f",
+        "value": 0.0
+    },
     "frame": {
         "type": "f",
         "value": 0.0

@@ -57,7 +57,10 @@
           return;
         }
         if(oldMaterial.name in materials) {
-          return materials[oldMaterial.name];
+          const m =  materials[oldMaterial.name].clone();
+          m.originalColor = m.color.clone();
+          m.targetColor = m.color.clone();
+          return m;
         }
         console.log('MATERIAL NOT FOUND', oldMaterial);
         return new THREE.MeshBasicMaterial({
@@ -66,14 +69,29 @@
         });
       }
 
+      this.positions = {};
+      this.outputs.positions.value = this.positions;
       const loader = new THREE.ColladaLoader();
       Loader.loadAjax('res/robot_animation_data.json', text => {
-        this.positions = JSON.parse(text);
-        this.outputs.positions.value = this.positions;
+        this.positions.robot = JSON.parse(text);
+      });
+      Loader.loadAjax('res/treb_animation_data.json', text => {
+        this.positions.treb = JSON.parse(text);
+      });
+      Loader.loadAjax('res/heli_animation_data.json', text => {
+        this.positions.heli = JSON.parse(text);
       });
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
+        console.log(parsed);
         parsed.scene.traverse(item => {
+          if(item.name && item.name.startsWith('Inner-Node')) {
+            console.log('resetting item.name!', item.name);
+            //item.rotation.set(0, 0, 0);
+          }
+          if(!item.geometry) {
+            //item.rotation.set(0, 0, 0);
+          }
           if(item.geometry) {
             if(!item.geometry.boundingBox) {
               item.geometry.computeBoundingBox();
