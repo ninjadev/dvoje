@@ -4,9 +4,13 @@
   const F = (frame, from, delta) => (frame - FRAME_FOR_BEAN(from)) / (FRAME_FOR_BEAN(from + delta) - FRAME_FOR_BEAN(from));
 
   class spinningCube extends NIN.THREENode {
+
     constructor(id, options) {
       super(id, {
         camera: options.camera,
+        partsOnCurrentPage: {},
+        changingPartsStartFrame: 0,
+        stepNumber: 0,
         inputs: {
           model: new NIN.Input(),
           positions: new NIN.Input(),
@@ -151,7 +155,6 @@
         return;
       }
 
-
       frame -= frameOffset;
       this.model.traverse(obj => {
         if(obj.material) {
@@ -169,6 +172,10 @@
               return;
             }
 
+            if (this.changingPartsStartFrame >= action.start_frame && this.changingPartsStartFrame+70 < action.end_frame) {
+              this.partsOnCurrentPage[obj.name] = obj;
+            }
+
             const materials = obj.material instanceof Array ? obj.material : [obj.material];
             for(const material of materials) {
               material.targetColor.copy(material.originalColor);
@@ -176,6 +183,7 @@
               material.needsUpdate = true;
               material.transparent = true;
             }
+            this.partsOnCurrentPage[obj.name] = obj;
 
             const idx = Math.min(frame - action.start_frame, action.end_frame - action.start_frame - 1);
             obj.position.x = action.positions[0][idx];
@@ -187,11 +195,18 @@
             obj.quaternion.w = action.quaterions[idx].w;
           }
       });
+      console.log('shown pieces: ', Object.keys(this.partsOnCurrentPage).length);
     }
 
     update(frame) {
       super.update(frame);
-
+      let currentStepNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
+      if (currentStepNumber != this.stepNumber) {
+        this.partsOnCurrentPage = {}
+        this.changingPartsStartFrame = frame
+      }
+      this.stepNumber = currentStepNumber;
+      console.log('step', this.stepNumber);
       this.positions = this.inputs.positions.getValue();
 
       const angle = 0;
