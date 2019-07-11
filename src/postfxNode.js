@@ -79,6 +79,18 @@
 
       ctx.strokeStyle = 'rgba(171, 199, 211)';
       const stepSize = 16;
+      
+      ctx.lineWidth = 6;
+      for (let i = 0; i < w / stepSize; i = i + 10) {
+        ctx.moveTo(i * stepSize, 0);
+        ctx.lineTo(i * stepSize, h);
+      }
+      for (let i = 0; i < h / stepSize; i = i + 5) {
+        ctx.moveTo(0, i * stepSize);
+        ctx.lineTo(w, i * stepSize);
+      }
+      ctx.stroke();
+
       ctx.lineWidth = 3;
       for (let i = 0; i < w / stepSize; i++) {
         ctx.moveTo(i * stepSize, 0);
