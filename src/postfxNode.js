@@ -75,10 +75,7 @@
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       
-      this.renderStepNumber(frame);
-
-      this.ctx.drawImage(this.box, 1820 - 500, 100);
-
+      this.renderStepNumberVerticalLineAndBox();
 
       this.canvasTexture.needsUpdate = true;
 
@@ -177,7 +174,7 @@
       }
     }
 
-    renderStepNumber(frame) {
+    renderStepNumberVerticalLineAndBox() {
 
       let stepNumber = 0
 
@@ -208,6 +205,8 @@
 
       this.ctx.fillStyle = 'black';
       this.ctx.fillRect(150, 400, 8, 600);
+
+      this.ctx.drawImage(this.box, 1820 - 500, 100);
     }
   }
 
