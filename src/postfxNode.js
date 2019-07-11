@@ -31,13 +31,18 @@
       this.canvasTexture.minFilter = THREE.LinearFilter;
       this.canvasTexture.magFilter = THREE.LinearFilter;
 
-      this.box = document.createElement('canvas');
-      this.box.width = 500;
-      this.box.height = 400;
-      this.drawBox(this.box.getContext('2d'), 0, 0, 500, 400);
+      this.inventoryBox = document.createElement('canvas');
+      this.inventoryBox.width = 400;
+      this.inventoryBox.height = 300;
+      this.drawInventoryBox(this.inventoryBox.getContext('2d'), 0, 0, 400, 300);
+
+      this.detailedBox = document.createElement('canvas');
+      this.detailedBox.width = 500;
+      this.detailedBox.height = 400;
+      this.drawDetailsBox(this.detailedBox.getContext('2d'), 0, 0, 500, 400);
     }
 
-    drawBox(ctx, x, y, w, h) {
+    drawDetailsBox(ctx, x, y, w, h) {
       ctx.save();
       ctx.translate(x, y);
       ctx.fillStyle = '#faecbf';
@@ -62,6 +67,34 @@
         ctx.lineTo(distance, i * stepSize + distance);
       }
       ctx.stroke();
+      ctx.restore();
+    }
+
+
+    drawInventoryBox(ctx, x, y, w, h) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(171, 199, 211)';
+      const stepSize = 16;
+      ctx.lineWidth = 3;
+      for (let i = 0; i < w / stepSize; i++) {
+        ctx.moveTo(i * stepSize, 0);
+        ctx.lineTo(i * stepSize, h);
+      }
+      for (let i = 0; i < h / stepSize; i++) {
+        ctx.moveTo(0, i * stepSize);
+        ctx.lineTo(w, i * stepSize);
+      }
+      ctx.stroke();
+
+
+      ctx.lineWidth = 8;
+      ctx.strokeStyle = 'rgba(47, 58, 58)';
+      ctx.strokeRect(0, 0, w, h);
+      
       ctx.restore();
     }
 
@@ -200,13 +233,16 @@
       const count = 35;
       for (let i = 0; i < count; i++) {
         this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
-        this.ctx.fillText(stepNumber, 400 - i, 350 - i);
+        this.ctx.fillText(stepNumber, 520 - i, 300 - i);
       }
 
       this.ctx.fillStyle = 'black';
       this.ctx.fillRect(150, 400, 8, 600);
 
-      this.ctx.drawImage(this.box, 1820 - 500, 100);
+      this.ctx.drawImage(this.inventoryBox, 50, 50);
+
+      // Will move based on interesting building
+      //this.ctx.drawImage(this.detailedBox, 1920-600, 400);
     }
   }
 
