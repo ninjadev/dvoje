@@ -26,6 +26,39 @@
       this.canvas.width = 1920;
       this.canvas.height = 1080;
       this.canvasTexture = new THREE.CanvasTexture(this.canvas);
+
+      this.box = document.createElement('canvas');
+      this.box.width = 500;
+      this.box.height = 400;
+      this.drawBox(this.box.getContext('2d'), 0, 0, 500, 400);
+    }
+
+    drawBox(ctx, x, y, w, h) {
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.fillStyle = '#faecbf';
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 8;
+      ctx.fillRect(0, 0, w, h);
+      ctx.strokeRect(0, 0, w, h);
+
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.1)';
+      const stepSize = 16;
+      ctx.lineWidth = 3;
+      for (let i = 0; i < w / stepSize; i++) {
+        ctx.moveTo(i * stepSize, 0);
+        const remainingWidth = w - i * stepSize;
+        let distance = Math.min(remainingWidth, h);
+        ctx.lineTo(i * stepSize + distance, distance);
+      }
+      for (let i = 0; i < h / stepSize; i++) {
+        ctx.moveTo(0, i * stepSize);
+        const remainingHeight = h - i * stepSize;
+        let distance = Math.min(remainingHeight, w);
+        ctx.lineTo(distance, i * stepSize + distance);
+      }
+      ctx.stroke();
+      ctx.restore();
     }
 
     update(frame) {
@@ -48,6 +81,10 @@
       }
       this.ctx.fillStyle = 'black';
       this.ctx.fillRect(150, 400, 8, 600);
+
+      this.ctx.drawImage(this.box, 1820 - 500, 100);
+
+
       this.canvasTexture.needsUpdate = true;
 
       if (BEAN < 384) {
