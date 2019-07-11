@@ -167,11 +167,23 @@
     }, {
       position: new THREE.Vector3(-2, 3, 0),
       lookAt: new THREE.Vector3(10, 4, -10),
-      distance: 80, height: 15, angle: 3,
+        distance: 80, height: 15, angle: 3,
     }, {
-      position: new THREE.Vector3(-5, 6.5, 0),
-      lookAt: new THREE.Vector3(10, 0, -10),
-      distance: 60, height: 15, angle: 4,
+      position: new THREE.Vector3(-2, 3, 0),
+      lookAt: new THREE.Vector3(10, 4, -10),
+        distance: 80, height: 15, angle: 3,
+    }, {
+      position: new THREE.Vector3(-2, 3, 0),
+      lookAt: new THREE.Vector3(10, 4, -10),
+        distance: 80, height: 15, angle: 3,
+    }, {
+      position: new THREE.Vector3(-2, 3, 0),
+      lookAt: new THREE.Vector3(10, 4, -10),
+        distance: 80, height: 15, angle: 3,
+    }, {
+        position: new THREE.Vector3(-10, 6.5, 0),
+        lookAt: new THREE.Vector3(0, 0, -10),
+        distance: 75, height: -5, angle: 3.9,
     }]
   };
 
@@ -462,7 +474,7 @@
     render(renderer) {
       if (BEAN >= 369 && BEAN < 380 ||
         BEAN >= 496 && BEAN < 512 ||
-        BEAN >= 624 && BEAN < 640 ||
+        BEAN >= 624 && BEAN < 636 ||
         BEAN >= 1008 && BEAN < 1024 ||
         BEAN >= 1126 && BEAN < 1152) {
         /* to workaround a bug */

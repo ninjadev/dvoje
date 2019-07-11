@@ -9,7 +9,7 @@
       super(id, options);
 
       this.videos = {};
-      for (const filename of ['res/car.mp4', 'res/heli.mp4', 'res/robot.mp4', 'res/trebuchet.mp4', 'res/bat2.mp4']) {
+      for (const filename of ['res/output-robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4', 'res/car.mp4']) {
         const video = document.createElement('video');
         const videoTexture = new THREE.VideoTexture(video);
         videoTexture.minFilter = THREE.LinearFilter;
@@ -38,6 +38,7 @@
     }
 
     drawBox(ctx, x, y, w, h) {
+      return;
       ctx.save();
       ctx.translate(x, y);
       ctx.fillStyle = '#faecbf';
@@ -74,8 +75,29 @@
 
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
       this.renderStepNumberVerticalLineAndBox();
+
+      this.ctx.font = 'bold 200px SchmelviticoBoulder';
+      this.ctx.strokeStyle = 'black';
+      this.ctx.lineWidth = 8;
+      this.ctx.textAlign = 'right';
+      const count = 35;
+      const stepNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
+      for (let i = 0; i < count; i++) {
+        this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
+        this.ctx.fillText(stepNumber, 450 - i, 330 - i);
+      }
+      this.ctx.fillStyle = 'black';
+      this.ctx.fillRect(150, 100, 8, 1080 - 200);
+
+      this.ctx.drawImage(this.box, 1820 - 500, 100);
+
+      this.ctx.save();
+      this.ctx.fillStyle = '#444';
+      this.ctx.font = '24px SchmelviticoBoulder';
+      this.ctx.textAlign = 'right';
+      this.ctx.fillText(`Ninjadev Multi Construction Kit 8032 Instruction Manual --  P. ${stepNumber}`, 1860, 1040);
+      this.ctx.restore();
 
       this.canvasTexture.needsUpdate = true;
 
@@ -124,7 +146,7 @@
       }
       if (BEAT && BEAN === 366) {
         if (currentVideo) {
-          currentVideo.video.currentTime = 0.4;
+          currentVideo.video.currentTime = 0.2;
           currentVideo.video.playbackRate = 1;
           currentVideo.video.play();
         }
