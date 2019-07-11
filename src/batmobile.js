@@ -84,12 +84,14 @@
       Loader.loadAjax('res/car_animation_data.json', text => {
         this.positions.car = JSON.parse(text);
       });
+      Loader.loadAjax('res/bat_animation_data.json', text => {
+        this.positions.bat = JSON.parse(text);
+        console.log('de bat', this.positions.bat);
+      });
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
-        console.log(parsed);
         parsed.scene.traverse(item => {
           if(item.name && item.name.startsWith('Inner-Node')) {
-            console.log('resetting item.name!', item.name);
             //item.rotation.set(0, 0, 0);
           }
           if(!item.geometry) {
