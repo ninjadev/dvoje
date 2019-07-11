@@ -14,7 +14,8 @@
       "A": "edges.render",
       "C": "NDVLogo.render",
       "D": "Build.render",
-      "FUNK": "Funksolo.render"
+      "FUNK": "Funksolo.render",
+      "OUTTRO": "outtro.render"
     }
   },
   {
@@ -117,8 +118,12 @@
     "id": "BlurAmountController",
     "type": "blurAmountController",
     "connected": {
-        "original": "postfx.render",
-        "blurred": "BlurX.render"
+      "original": "postfx.render",
+      "blurred": "BlurX.render"
     }
+  },
+  {
+    "id": "outtro",
+    "type": "outtro"
   }
 ]
