@@ -278,6 +278,27 @@
                                   [0,0,0,0,0,0,0,0,0,0],
                                   [0,0,0,0,0,0,0,0,0,0]]);
 
+      this.greet_merqury = [[2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+                            [2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2],
+                            [2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2],
+                            [2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2],
+                            [2,3,3,3,2,2,2,3,3,3,3,3,3,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,3,3,3,3,3,3,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,3,3,3,3,3,3,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,3,3,3,3,3,3,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,2],
+                            [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
+                            [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
+                            [2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,2],
+                            [2,3,3,3,2,2,2,2,2,2,2,2,2,2,2,2,3,3,3,2],
+                            [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
+                            [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
+                            [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
+                            [2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2]];
+
 
 
       var loadObject = function (objPath, material, three_scene, clone_array) {
@@ -350,7 +371,51 @@
               this.bricks[bc+3].position.x = +9.5 - x;
               this.bricks[bc+3].position.y = +4.5 - y * 0.5;
               this.bricks[bc+3].position.z = z * 0.6 + brick_fall;
-              bc += 4;  
+              bc += 4;
+
+              if (x == 0 && z < 20 && this.greet_merqury[19-z][y] == 3) {
+                if (this.bricks[bc] != undefined) {
+                  this.bricks[bc].traverse(function(child) {
+                    if (child instanceof THREE.Mesh) {
+                      child.material = new THREE.MeshStandardMaterial({color: 'red'});
+                      child.material.side = THREE.DoubleSide;
+                    }
+                  });
+                }
+              }
+              if (x == 0 && z < 20 && this.greet_merqury[19-z][19 -y] == 3) {
+                if (this.bricks[bc+2] != undefined) {
+                  this.bricks[bc+2].traverse(function(child) {
+                    if (child instanceof THREE.Mesh) {
+                      child.material = new THREE.MeshStandardMaterial({color: 'red'});
+                      child.material.side = THREE.DoubleSide;
+                    }
+                  });
+                }
+              }
+              if (x == 0 && z < 20 && this.greet_merqury[19-z][y] == 2) {
+                if (this.bricks[bc] != undefined) {
+                  this.bricks[bc].traverse(function(child) {
+                    if (child instanceof THREE.Mesh) {
+                      child.material = new THREE.MeshStandardMaterial({color: 'black'});
+                      child.material.side = THREE.DoubleSide;
+                    }
+                  });
+                }
+              }
+              if (x == 0 && z < 20 && this.greet_merqury[19-z][19 -y] == 2) {
+                if (this.bricks[bc+2] != undefined) {
+                  this.bricks[bc+2].traverse(function(child) {
+                    if (child instanceof THREE.Mesh) {
+                      child.material = new THREE.MeshStandardMaterial({color: 'black'});
+                      child.material.side = THREE.DoubleSide;
+                    }
+                  });
+                }
+              }
+              //this.bricks[bc].children[0].material
+
+              //this.greet_merqury
             }
           }
         }
@@ -378,7 +443,9 @@
                 this.bricks2[bc2+3].position.x = +9.5 - x;
                 this.bricks2[bc2+3].position.y = +4.5 - y * 0.5;
                 this.bricks2[bc2+3].position.z = z * 0.6;
-                bc2 += 4;  
+                bc2 += 4;
+
+
               }
             }
           }
