@@ -65,7 +65,7 @@
         lookAt: new THREE.Vector3(10, 15, -10),
         distance: 100, height: 25, angle: -6.2,
     }],
-    bat2: [],
+    bat: [],
     robot: [{
       position: new THREE.Vector3(0, 0, 0),
         lookAt: new THREE.Vector3(0, 0, 0),
@@ -330,8 +330,8 @@
         frameOffset = 7828;
         beanOffset = 896;
       } else if (BEAN < 1152) {
-        positions = this.positions.bat2;
-        cameraAngles = CAMERA_ANGLES.bat2;
+        positions = this.positions.bat;
+        cameraAngles = CAMERA_ANGLES.bat;
         frameOffset = 8947;
         beanOffset = 1024;
       }
@@ -396,7 +396,7 @@
               material.transparent = true;
             }
 
-            const idx = Math.min(frame - action.start_frame, action.end_frame - action.start_frame - 1);
+          const idx = Math.min(frame - action.start_frame, action.end_frame - action.start_frame);
             obj.position.x = action.positions[0][idx];
             obj.position.y = action.positions[1][idx];
             obj.position.z = action.positions[2][idx];
