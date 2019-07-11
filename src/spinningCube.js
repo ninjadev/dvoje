@@ -3,6 +3,62 @@
 
   const F = (frame, from, delta) => (frame - FRAME_FOR_BEAN(from)) / (FRAME_FOR_BEAN(from + delta) - FRAME_FOR_BEAN(from));
 
+  const CAMERA_ANGLES = {
+    heli: [],
+    bat2: [],
+    robot: [],
+    treb: [],
+    car: [{
+      position: new THREE.Vector3(-3, 3, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 40, height: 15, angle: 0,
+    }, {
+      position: new THREE.Vector3(-3, 6, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 45, height: 15, angle: -0.5,
+    }, {
+      position: new THREE.Vector3(-6, 4, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 40, height: 15, angle: 0,
+    }, {
+      position: new THREE.Vector3(-6, 5, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 40, height: 25, angle: 0,
+    }, {
+      position: new THREE.Vector3(-6, 5, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 20, height: 15, angle: 0,
+    }, {
+      position: new THREE.Vector3(-10, 2, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 40, height: 15, angle: 0,
+    }, {
+      position: new THREE.Vector3(-8, 3, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 50, height: 15, angle: 0.5,
+    }, {
+      position: new THREE.Vector3(-8, 5, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 50, height: 15, angle: 1,
+    }, {
+      position: new THREE.Vector3(-8, 5, 5),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 20, height: 60, angle: 1.5,
+      }, {
+      position: new THREE.Vector3(-8, 0, 8),
+      lookAt: new THREE.Vector3(10, 10, -10),
+      distance: 50, height: 25, angle: 2.5,
+    }, {
+      position: new THREE.Vector3(-2, 3, 0),
+      lookAt: new THREE.Vector3(10, 4, -10),
+      distance: 80, height: 15, angle: 3,
+    }, {
+      position: new THREE.Vector3(-5, 6.5, 0),
+      lookAt: new THREE.Vector3(10, 0, -10),
+      distance: 60, height: 15, angle: 4,
+    }]
+  };
+
   class spinningCube extends NIN.THREENode {
     constructor(id, options) {
       super(id, {
@@ -31,7 +87,7 @@
       this.camera.position.x = 10;
       this.camera.lookAt(new THREE.Vector3(0, 3, 0));
       this.camera.fov = 18;
-      this.camera.near = 40;
+      this.camera.near = 1;
       this.camera.far = 120;
       this.camera.updateProjectionMatrix();
 
@@ -45,6 +101,11 @@
       this.normalRenderTarget = new THREE.WebGLRenderTarget(1920 * 2, 1080 * 2);
       this.inverterRT = new THREE.WebGLRenderTarget(1920 / 4, 1080 / 4);
       this.resize();
+
+      this.lookAtHelper = new THREE.Mesh(
+        new THREE.BoxGeometry(0.1, 10, 0.1),
+        new THREE.MeshBasicMaterial({color: 0xff00ff}));
+      this.scene.add(this.lookAtHelper);
     }
 
     resize() {
@@ -129,27 +190,61 @@
       }
 
       let positions = this.positions.robot;
+      let cameraAngles = CAMERA_ANGLES.car;
       let frameOffset = 2210;
       if (BEAN < 384) {
         positions = this.positions.car;
+        cameraAngles = CAMERA_ANGLES.car;
         frameOffset = 2210;
       } else if (BEAN < 512) {
         positions = this.positions.heli;
+        cameraAngles = CAMERA_ANGLES.heli;
         frameOffset = 3354;
       } else if (BEAN < 640) {
         positions = this.positions.robot;
+        cameraAngles = CAMERA_ANGLES.robot;
         frameOffset = 4473;
       } else if (BEAN < 1024) {
         positions = this.positions.treb;
+        cameraAngles = CAMERA_ANGLES.treb;
         frameOffset = 7828;
       } else if (BEAN < 1152) {
         positions = this.positions.bat2;
+        cameraAngles = CAMERA_ANGLES.bat2;
         frameOffset = 8947;
       }
 
       if (!positions) {
         return;
       }
+
+
+      const step = (((BEAN % 256) / 8) | 0) + 1;
+      const t = F(frame, 256 + (step) * 8 - 1, 1);
+      const previousCameraAngle = cameraAngles[Math.max(step - 1, 0)];
+      const currentCameraAngle = cameraAngles[Math.max(0, Math.min(step, cameraAngles.length - 1))];
+      if (previousCameraAngle && currentCameraAngle) {
+        const angle = easeIn(previousCameraAngle.angle, currentCameraAngle.angle, t);
+        const lookAtX = easeIn(previousCameraAngle.lookAt.x, currentCameraAngle.lookAt.x, t);
+        const lookAtY = easeIn(previousCameraAngle.lookAt.y, currentCameraAngle.lookAt.y, t);
+        const lookAtZ = easeIn(previousCameraAngle.lookAt.z, currentCameraAngle.lookAt.z, t);
+        const distance = easeIn(previousCameraAngle.distance, currentCameraAngle.distance, t);
+        const height = easeIn(previousCameraAngle.height, currentCameraAngle.height, t);
+        const positionX = easeIn(previousCameraAngle.position.x, currentCameraAngle.position.x, t);
+        const positionY = easeIn(previousCameraAngle.position.y, currentCameraAngle.position.y, t);
+        const positionZ = easeIn(previousCameraAngle.position.z, currentCameraAngle.position.z, t);
+        const x = distance * Math.sin(angle);
+        const y = height;
+        const z = distance * Math.cos(angle);
+        this.camera.position.set(x, y, z);
+        this.camera.lookAt(new THREE.Vector3(lookAtX, lookAtY, lookAtZ));
+        this.camera.position.x += positionX;
+        this.camera.position.y += positionY;
+        this.camera.position.z += positionZ;
+      }
+
+
+
 
 
       frame -= frameOffset;
@@ -161,6 +256,7 @@
             return;
           }
             if(action.start_frame > frame) {
+              obj.visible = false;
               const materials = obj.material instanceof Array ? obj.material : [obj.material];
               for(const material of materials) {
                 material.targetColor.copy(material.originalColor);
@@ -169,6 +265,7 @@
               return;
             }
 
+            obj.visible = true;
             const materials = obj.material instanceof Array ? obj.material : [obj.material];
             for(const material of materials) {
               material.targetColor.copy(material.originalColor);
@@ -193,12 +290,6 @@
       super.update(frame);
 
       this.positions = this.inputs.positions.getValue();
-
-      const angle = 0;
-      this.camera.position.x = 60 * Math.sin(angle);
-      this.camera.position.z = 60 * Math.cos(angle);
-      this.camera.position.y = this.cameraHeight;
-      this.camera.lookAt(new THREE.Vector3(0, this.cameraHeight - 35+  8, 0));
 
       const model = this.inputs.model.getValue();
       if(model !== this.model) {

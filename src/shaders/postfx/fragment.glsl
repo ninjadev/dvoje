@@ -43,6 +43,7 @@ void main() {
   float eps = 0.04 * abberration;
   vec2 uv = vUv;
 
+  /*
   if(frame < 5590.5 || frame > 7827.5) {
       float boomer = mod(frame / 60. / 60. * 103. / 2., 1.);
       float transitionDuration = 0.20;
@@ -50,6 +51,7 @@ void main() {
         uv.x = mod(uv.x + smoothstep(0., 1., (boomer - (1. - transitionDuration)) / transitionDuration), 1.);
       }
   }
+  */
   //uv.x += frame / 60. / 60. * 103.;
   uv.x = mod(uv.x, 1.);
 
