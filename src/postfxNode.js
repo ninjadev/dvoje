@@ -9,7 +9,7 @@
       super(id, options);
 
       this.videos = {};
-      for (const filename of ['res/output-robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4']) {
+      for (const filename of ['res/car.mp4', 'res/heli.mp4', 'res/robot.mp4', 'res/trebuchet.mp4', 'res/bat2.mp4']) {
         const video = document.createElement('video');
         const videoTexture = new THREE.VideoTexture(video);
         videoTexture.minFilter = THREE.LinearFilter;
@@ -74,7 +74,7 @@
 
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      
+
       this.renderStepNumberVerticalLineAndBox();
 
       this.canvasTexture.needsUpdate = true;
@@ -84,9 +84,9 @@
       } else if (BEAN < 512) {
         currentVideo = this.videos['res/heli.mp4'];
       } else if (BEAN < 640) {
-        currentVideo = this.videos['res/output-robot.mp4'];
+        currentVideo = this.videos['res/robot.mp4'];
       } else if (BEAN < 1024) {
-        currentVideo = this.videos['res/Trebuchet.mp4'];
+        currentVideo = this.videos['res/trebuchet.mp4'];
       } else {
         currentVideo = this.videos['res/bat2.mp4'];
       }
@@ -98,7 +98,7 @@
       if (BEAN >= 518) {
         this.uniforms.abberration.value =
           easeOut(0.5, 0, F(frame, 518, 8));
-      } 
+      }
       if (BEAN >= 534) {
         this.uniforms.abberration.value =
           easeOut(0.5, 0, F(frame, 534, 8));
