@@ -7,6 +7,7 @@
       super(id, options);
       this.texture = Loader.loadTexture(options.path);
       this.texture.wrapS = this.texture.wrapT = THREE.RepeatWrapping;
+      this.texture.magFilter = this.texture.minFilter = THREE.LinearFilter;
     }
 
     render() {
