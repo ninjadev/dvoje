@@ -77,7 +77,6 @@
       m.targetColor = m.color.clone();
       return m;
     }
-    console.log('MATERIAL NOT FOUND', oldMaterial);
     return new THREE.MeshBasicMaterial({
       side: THREE.BackSide,
       color: 0xffff00,
@@ -126,6 +125,12 @@
           emissive: 0xffffff,
           side: THREE.DoubleSide,
         }));
+      this.floor.material.map.minFilter = this.floor.material.map.magFilter = THREE.LinearFilter;
+      this.floor.material.aoMap.minFilter = this.floor.material.map.magFilter = THREE.LinearFilter;
+      this.floor.material.normalMap.minFilter = this.floor.material.normalMap.magFilter = THREE.LinearFilter;
+      this.floor.material.roughnessMap.minFilter = this.floor.material.roughnessMap.magFilter = THREE.LinearFilter;
+      this.floor.material.emissiveMap.minFilter = this.floor.material.emissiveMap.magFilter = THREE.LinearFilter;
+
       this.floor.material.map.wrapS = this.floor.material.map.wrapT = THREE.RepeatWrapping;
       this.floor.material.aoMap.wrapS = this.floor.material.map.wrapT = THREE.RepeatWrapping;
       this.floor.material.normalMap.wrapS = this.floor.material.normalMap.wrapT = THREE.RepeatWrapping;
@@ -229,17 +234,11 @@
       this.tireThrob = 0;
       Loader.loadAjax('res/robot.dae', text => {
         const model = loader.parse(text).scene;
-        console.log(model);
         this.robot = model;
         const scale = 0.02;
         model.scale.set(scale, scale, scale);
         model.position.z = 0;
         model.position.x = -2.5;
-        model.children[0].children.map((child, i) => {
-          if (child.children[0].geometry) {
-            console.log(child.children[0].geometry.name, i);
-          } 
-        });
         this.tire1 = model.children[0].children[95].children[0];
         this.tire2 = model.children[0].children[20].children[0];
         this.tire1.originalPosition = this.tire1.position.clone();

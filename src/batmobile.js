@@ -62,7 +62,6 @@
           m.targetColor = m.color.clone();
           return m;
         }
-        console.log('MATERIAL NOT FOUND', oldMaterial);
         return new THREE.MeshBasicMaterial({
           side: THREE.BackSide,
           color: oldMaterial.color,
@@ -86,7 +85,6 @@
       });
       Loader.loadAjax('res/bat_animation_data.json', text => {
         this.positions.bat = JSON.parse(text);
-        console.log('de bat', this.positions.bat);
       });
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);

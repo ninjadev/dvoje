@@ -12,6 +12,8 @@
       for (const filename of ['res/output-robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4']) {
         const video = document.createElement('video');
         const videoTexture = new THREE.VideoTexture(video);
+        videoTexture.minFilter = THREE.LinearFilter;
+        videoTexture.magFilter = THREE.LinearFilter;
         Loader.load(filename, video, () => {
           video.play();
         });
@@ -26,6 +28,8 @@
       this.canvas.width = 1920;
       this.canvas.height = 1080;
       this.canvasTexture = new THREE.CanvasTexture(this.canvas);
+      this.canvasTexture.minFilter = THREE.LinearFilter;
+      this.canvasTexture.magFilter = THREE.LinearFilter;
 
       this.box = document.createElement('canvas');
       this.box.width = 500;
