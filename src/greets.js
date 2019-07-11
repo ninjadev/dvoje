@@ -321,18 +321,18 @@
       // brick count
       var bc = 0;
 
-      frame = frame % FRAME_FOR_BEAN(48) + FRAME_FOR_BEAN(768);
+      frame = frame % FRAME_FOR_BEAN(24) + FRAME_FOR_BEAN(768);
 
-      var start_shrink = FRAME_FOR_BEAN(776);
-      var shrink_duration = FRAME_FOR_BEAN(24)
+      var start_shrink = FRAME_FOR_BEAN(775);
+      var shrink_duration = FRAME_FOR_BEAN(16)
       var sp = Math.min(1, Math.max(0, (frame - start_shrink) / shrink_duration)); // zoom progress
 
       for(var x = 0; x < 10; x++) {
         for(var y = 0; y < 10; y++) {
           for(var z = 0; z < this.brick_placements.length; z++) {
             if (this.brick_placements[z][x][y] == 1 && bc + 4 <= this.bricks.length) {
-              var start_build = FRAME_FOR_BEAN(784);
-              var brick_fall = 1 - Math.min(1, (frame - start_build - (x+y+z) * 5));
+              var start_build = FRAME_FOR_BEAN(776);
+              var brick_fall = 1 - Math.min(1, (frame - start_build - (x+y+z) * 3));
 
               // Place one brick and mirror that operation on the xz and yz plane
               this.bricks[bc].position.x = -9.5 + x;
@@ -390,9 +390,15 @@
       this.proto_brick2.scale.z = 0.05;
       if (this.bricks.length > 0) {
         if (BEAN < 788) {
+          var ela_scale = easeIn(0, 1, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(3)) + 
+                          easeOut(1, 0, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(5)) * Math.sin(frame) * 5;
+          this.bricks[0].scale.x = ela_scale;
+          this.bricks[0].scale.y = ela_scale;
+          this.bricks[0].scale.z = ela_scale;
           this.bricks[0].position.x = -9.5;
           this.bricks[0].position.y = -4.5;
           this.bricks[0].position.z = 0;
+          this.proto_brick2.position.z = 1000;
         } else {
           this.bricks[0].position.x = -9.5;
           this.bricks[0].position.y = -4.5;
