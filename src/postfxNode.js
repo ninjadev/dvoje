@@ -74,15 +74,9 @@
 
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      this.ctx.font = 'bold 200px SchmelviticoBoulder';
-      this.ctx.strokeStyle = 'black';
-      this.ctx.lineWidth = 8;
-      const count = 35;
-      const stepNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
-      for (let i = 0; i < count; i++) {
-        this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
-        this.ctx.fillText(stepNumber, 400 - i, 350 - i);
-      }
+      
+      this.renderStepNumber(frame);
+
       this.ctx.fillStyle = 'black';
       this.ctx.fillRect(150, 400, 8, 600);
 
@@ -183,6 +177,36 @@
       }
       if (BEAN >= 1136 && BEAN < 1152) {
         this.uniforms.videoAmount.value = 1;
+      }
+    }
+
+    renderStepNumber(frame) {
+
+      let stepNumber = 0
+
+      if (BEAN >= 256 && BEAN < 368) { //car
+        stepNumber = ((BEAN - 256) / 8 | 0) + 1;
+      } else if (BEAN >= 384 && BEAN < 496) { // heli
+        stepNumber = ((BEAN - 384) / 8 | 0) + 1;
+      } else if (BEAN >= 512 && BEAN < 624) { // robot
+        stepNumber = ((BEAN - 512) / 8 | 0) + 1;
+      } else if (BEAN >= 896 && BEAN < 1008) { // treb
+        stepNumber = ((BEAN - 896) / 8 | 0) + 1;
+      } else if (BEAN >= 1024 && BEAN < 1136) { // bat
+        stepNumber = ((BEAN - 1024) / 8 | 0) + 1;
+      }
+
+      if (stepNumber < 1) {
+        return;
+      }
+
+      this.ctx.font = 'bold 200px SchmelviticoBoulder';
+      this.ctx.strokeStyle = 'black';
+      this.ctx.lineWidth = 8;
+      const count = 35;
+      for (let i = 0; i < count; i++) {
+        this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
+        this.ctx.fillText(stepNumber, 400 - i, 350 - i);
       }
     }
   }
