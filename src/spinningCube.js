@@ -4,14 +4,130 @@
   const F = (frame, from, delta) => (frame - FRAME_FOR_BEAN(from)) / (FRAME_FOR_BEAN(from + delta) - FRAME_FOR_BEAN(from));
 
   const CAMERA_ANGLES = {
-    heli: [],
+    heli: [{
+        position: new THREE.Vector3(-10, 6, 0),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 30, height: 13, angle: 0,
+    }, {
+        position: new THREE.Vector3(-20, 10, 8),
+      lookAt: new THREE.Vector3(10, 0, -10),
+        distance: 30, height: 25, angle: 0,
+    }, {
+        position: new THREE.Vector3(-20, -8, 5),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 30, height: 35, angle: -2,
+    }, {
+        position: new THREE.Vector3(-11, -8, 5),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 50, height: 35, angle: -3.5,
+    }, {
+        position: new THREE.Vector3(-5, -8, 5),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 30, height: 5, angle: -4.5,
+    }, {
+        position: new THREE.Vector3(-5, -4, 5),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 30, height: 25, angle: -5.5,
+    }, {
+        position: new THREE.Vector3(2, -4, 5),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 40, height: 25, angle: -5.5,
+    }, {
+        position: new THREE.Vector3(-5, -4, 5),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 80, height: 25, angle: -8.,
+    }, {
+        position: new THREE.Vector3(-5, -4, 5),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 40, height: 25, angle: -8.,
+    }, {
+        position: new THREE.Vector3(-24, 2, 2),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 40, height: 45, angle: -8.5,
+    }, {
+        position: new THREE.Vector3(-16, -8, 2),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 40, height: 45, angle: -6.,
+    }, {
+        position: new THREE.Vector3(-16, 0, 2),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 60, height: 45, angle: -6.2,
+    }, {
+        position: new THREE.Vector3(-16, -5, 2),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 100, height: 45, angle: -6.2,
+    }, {
+        position: new THREE.Vector3(-16, -5, 2),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 100, height: 45, angle: -6.2,
+    }, {
+        position: new THREE.Vector3(-22, -8, 2),
+        lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 100, height: 25, angle: -6.2,
+    }],
     bat2: [],
-    robot: [],
+    robot: [{
+      position: new THREE.Vector3(0, 0, 0),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 40, height: 13, angle: 0,
+    }, {
+        position: new THREE.Vector3(0, 4, 0),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 40, height: 10, angle: -0.5,
+    }, {
+        position: new THREE.Vector3(0, 6, 0),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 30, height: 10, angle: -0.2,
+    }, {
+        position: new THREE.Vector3(0, 2, 0),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 40, height: 10, angle: 1.5,
+      }, {
+        position: new THREE.Vector3(0, 0, 0),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 30, height: 50, angle: 1.5,
+    }, {
+        position: new THREE.Vector3(0, 6, 2),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 30, height: 20, angle: 1.5,
+    }, {
+        position: new THREE.Vector3(0, 6, 2),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 40, height: 20, angle: 1.8,
+    }, {
+        position: new THREE.Vector3(0, 6, 2),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 30, height: 20, angle: 1.5,
+      }, {
+        position: new THREE.Vector3(0, 6, 2),
+        lookAt: new THREE.Vector3(0, 0, 0),
+        distance: 30, height: 20, angle: -1.5,
+      }, {
+        position: new THREE.Vector3(0, 6, 2),
+        lookAt: new THREE.Vector3(0, 6, 0),
+        distance: 40, height: 20, angle: -1.7,
+      }, {
+        position: new THREE.Vector3(4, 6, -2),
+        lookAt: new THREE.Vector3(0, 6, 0),
+        distance: 20, height: 50, angle: -1.7,
+      }, {
+        position: new THREE.Vector3(8, 4, 2),
+        lookAt: new THREE.Vector3(0, 6, 0),
+        distance: 25, height: 25, angle: -1.7,
+      }, {
+        position: new THREE.Vector3(-2, 10, 0),
+        lookAt: new THREE.Vector3(0, 6, 0),
+        distance: 50, height: 25, angle: 0,
+      }, {
+        position: new THREE.Vector3(-3, 7, 0),
+        lookAt: new THREE.Vector3(0, 6, 0),
+        distance: 100, height: 25, angle: 0,
+    }],
     treb: [],
     car: [{
-      position: new THREE.Vector3(-3, 3, 0),
-      lookAt: new THREE.Vector3(10, 0, -10),
-      distance: 40, height: 15, angle: 0,
+      position: new THREE.Vector3(-3, -6, 0),
+      lookAt: new THREE.Vector3(10, 10, -10),
+      distance: 40, height: 25, angle: 0,
     }, {
       position: new THREE.Vector3(-3, 6, 0),
       lookAt: new THREE.Vector3(10, 0, -10),
@@ -88,7 +204,7 @@
       this.camera.lookAt(new THREE.Vector3(0, 3, 0));
       this.camera.fov = 18;
       this.camera.near = 1;
-      this.camera.far = 120;
+      this.camera.far = 150;
       this.camera.updateProjectionMatrix();
 
       this.modelContainer = new THREE.Object3D();
@@ -105,7 +221,7 @@
       this.lookAtHelper = new THREE.Mesh(
         new THREE.BoxGeometry(0.1, 10, 0.1),
         new THREE.MeshBasicMaterial({color: 0xff00ff}));
-      this.scene.add(this.lookAtHelper);
+      //this.scene.add(this.lookAtHelper);
     }
 
     resize() {
@@ -192,26 +308,32 @@
       let positions = this.positions.robot;
       let cameraAngles = CAMERA_ANGLES.car;
       let frameOffset = 2210;
+      let beanOffset = 256;
       if (BEAN < 384) {
         positions = this.positions.car;
         cameraAngles = CAMERA_ANGLES.car;
         frameOffset = 2210;
+        beanOffset = 256;
       } else if (BEAN < 512) {
         positions = this.positions.heli;
         cameraAngles = CAMERA_ANGLES.heli;
-        frameOffset = 3354;
+        frameOffset = 3354 - 35;
+        beanOffset = 384;
       } else if (BEAN < 640) {
         positions = this.positions.robot;
         cameraAngles = CAMERA_ANGLES.robot;
-        frameOffset = 4473;
+        frameOffset = 4473 - 35;
+        beanOffset = 512;
       } else if (BEAN < 1024) {
         positions = this.positions.treb;
         cameraAngles = CAMERA_ANGLES.treb;
         frameOffset = 7828;
+        beanOffset = 896;
       } else if (BEAN < 1152) {
         positions = this.positions.bat2;
         cameraAngles = CAMERA_ANGLES.bat2;
         frameOffset = 8947;
+        beanOffset = 1024;
       }
 
       if (!positions) {
@@ -219,8 +341,8 @@
       }
 
 
-      const step = (((BEAN % 256) / 8) | 0) + 1;
-      const t = F(frame, 256 + (step) * 8 - 1, 1);
+      const step = (((BEAN % 128) / 8) | 0) + 1;
+      const t = F(frame, beanOffset + (step) * 8 - 1, 1);
       const previousCameraAngle = cameraAngles[Math.max(step - 1, 0)];
       const currentCameraAngle = cameraAngles[Math.max(0, Math.min(step, cameraAngles.length - 1))];
       if (previousCameraAngle && currentCameraAngle) {
