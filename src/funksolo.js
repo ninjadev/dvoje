@@ -77,7 +77,6 @@
       m.targetColor = m.color.clone();
       return m;
     }
-    console.log('MATERIAL NOT FOUND', oldMaterial);
     return new THREE.MeshBasicMaterial({
       side: THREE.BackSide,
       color: 0xffff00,
@@ -126,6 +125,12 @@
           emissive: 0xffffff,
           side: THREE.DoubleSide,
         }));
+      this.floor.material.map.minFilter = this.floor.material.map.magFilter = THREE.LinearFilter;
+      this.floor.material.aoMap.minFilter = this.floor.material.map.magFilter = THREE.LinearFilter;
+      this.floor.material.normalMap.minFilter = this.floor.material.normalMap.magFilter = THREE.LinearFilter;
+      this.floor.material.roughnessMap.minFilter = this.floor.material.roughnessMap.magFilter = THREE.LinearFilter;
+      this.floor.material.emissiveMap.minFilter = this.floor.material.emissiveMap.magFilter = THREE.LinearFilter;
+
       this.floor.material.map.wrapS = this.floor.material.map.wrapT = THREE.RepeatWrapping;
       this.floor.material.aoMap.wrapS = this.floor.material.map.wrapT = THREE.RepeatWrapping;
       this.floor.material.normalMap.wrapS = this.floor.material.normalMap.wrapT = THREE.RepeatWrapping;
@@ -235,15 +240,19 @@
         model.scale.set(scale, scale, scale);
         model.position.z = 0;
         model.position.x = -2.5;
-        model.children[0].children.map((child, i) => {
-          if (child.children[0].geometry) {
-            console.log(child.children[0].geometry.name, i);
-          } 
-        });
+        console.log(model.children[0].children.map((o, i) => [o.children[0].geometry.name, i]));
         this.tire1 = model.children[0].children[95].children[0];
         this.tire2 = model.children[0].children[20].children[0];
+        this.tireRing1 = model.children[0].children[10].children[0];
         this.tire1.originalPosition = this.tire1.position.clone();
         this.tire2.originalPosition = this.tire2.position.clone();
+        this.eyeCog1 = model.children[0].children[43].children[0];
+        this.eyeCog2 = model.children[0].children[44].children[0];
+        this.eyeNut1 = model.children[0].children[62].children[0];
+        this.eyeNut2 = model.children[0].children[63].children[0];
+        this.eyeRod1 = model.children[0].children[23].children[0];
+        this.eyeRod2 = model.children[0].children[42].children[0];
+        this.tireRing1.originalPosition = this.tireRing1.position.clone();
         model.traverse(item => {
           if(item.material) {
             if(item.material instanceof Array && item.material.length > 0) {
@@ -281,7 +290,14 @@
 
       if (this.tire1) {
         this.tire1.position.z = this.tire1.originalPosition.z + this.tireThrob * 30 + Math.random() * 1;
-        this.tire2.position.z = this.tire2.originalPosition.z + -this.tireTHrob * 30 + Math.random() * 1;
+        this.tire2.position.z = this.tire2.originalPosition.z + -this.tireThrob * 30 + Math.random() * 1;
+        this.tireRing1.position.z = this.tireRing1.originalPosition.z + this.tireThrob * 30 + Math.random() * 1;
+        this.eyeCog1.rotation.z = frame / 50;
+        this.eyeCog2.rotation.z = frame / 50;
+        this.eyeNut1.rotation.z = frame / 50;
+        this.eyeNut2.rotation.z = frame / 50;
+        //this.eyeRod1.rotation.x = frame / 50;
+        //this.eyeRod2.rotation.x = frame / 50;
       }
 
       this.ctx.globalAlpha = 1;
@@ -318,9 +334,11 @@
       }
 
       if (BEAT && BEAN === 688) {
+        /*
         this.cameraRadius = 8;
         this.cameraAngle = -0.5;
         this.cameraHeight = 10;
+        */
       }
         
 

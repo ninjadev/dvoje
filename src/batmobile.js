@@ -19,7 +19,7 @@
           side: THREE.BackSide,
         }),
         'SOLID-MEDIUM_ORANGE': new THREE.MeshBasicMaterial({
-          color: 0xFFA300,
+          color: 0xFDB200,
           side: THREE.BackSide,
         }),
         'METAL-SILVER': new THREE.MeshBasicMaterial({
@@ -62,7 +62,6 @@
           m.targetColor = m.color.clone();
           return m;
         }
-        console.log('MATERIAL NOT FOUND', oldMaterial);
         return new THREE.MeshBasicMaterial({
           side: THREE.BackSide,
           color: oldMaterial.color,
@@ -84,12 +83,13 @@
       Loader.loadAjax('res/car_animation_data.json', text => {
         this.positions.car = JSON.parse(text);
       });
+      Loader.loadAjax('res/bat_animation_data.json', text => {
+        this.positions.bat = JSON.parse(text);
+      });
       Loader.loadAjax('res/constructmaterials.dae', text => {
         const parsed = loader.parse(text);
-        console.log(parsed);
         parsed.scene.traverse(item => {
           if(item.name && item.name.startsWith('Inner-Node')) {
-            console.log('resetting item.name!', item.name);
             //item.rotation.set(0, 0, 0);
           }
           if(!item.geometry) {

@@ -19,15 +19,15 @@
       "BEAN": 0
     },
     {
-      "name": "Build 1",
+      "name": "Build car",
       "BEAN": 256
     },
     {
-      "name": "Build 2",
+      "name": "Build heli",
       "BEAN": 384
     },
     {
-      "name": "Build 3",
+      "name": "Build robot",
       "BEAN": 512
     },
     {
@@ -39,11 +39,11 @@
       "BEAN": 768
     },
     {
-      "name": "Build 4",
+      "name": "Build trebuchet",
       "BEAN": 896
     },
     {
-      "name": "Build 5",
+      "name": "Build batmobil",
       "BEAN": 1024
     },
     {
