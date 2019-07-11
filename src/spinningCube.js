@@ -181,7 +181,6 @@
       super(id, {
         camera: options.camera,
         partsOnCurrentPage: {},
-        changingPartsStartFrame: 0,
         stepNumber: 0,
         inputs: {
           model: new NIN.Input(),
@@ -192,6 +191,7 @@
           normal: new NIN.TextureOutput(),
           depth: new NIN.TextureOutput(),
           inverter: new NIN.TextureOutput(),
+          partsOnCurrentPage: new NIN.Output(),
         }
       });
 
@@ -345,10 +345,9 @@
       }
 
 
-      const step = (((BEAN % 128) / 8) | 0) + 1;
-      const t = F(frame, beanOffset + (step) * 8 - 1, 1);
-      const previousCameraAngle = cameraAngles[Math.max(step - 1, 0)];
-      const currentCameraAngle = cameraAngles[Math.max(0, Math.min(step, cameraAngles.length - 1))];
+      const t = F(frame, beanOffset + (this.stepNumber) * 8 - 1, 1);
+      const previousCameraAngle = cameraAngles[Math.max(this.stepNumber - 1, 0)];
+      const currentCameraAngle = cameraAngles[Math.max(0, Math.min(this.stepNumber, cameraAngles.length - 1))];
       if (previousCameraAngle && currentCameraAngle) {
         const angle = easeIn(previousCameraAngle.angle, currentCameraAngle.angle, t);
         const lookAtX = easeIn(previousCameraAngle.lookAt.x, currentCameraAngle.lookAt.x, t);
@@ -369,10 +368,6 @@
         this.camera.position.z += positionZ;
       }
 
-
-
-
-
       frame -= frameOffset;
       this.model.traverse(obj => {
         if(obj.material) {
@@ -392,7 +387,8 @@
             }
 
             obj.visible = true;
-            if (this.changingPartsStartFrame >= action.start_frame && this.changingPartsStartFrame+70 < action.end_frame) {
+
+            if (action.start_frame >= ((this.stepNumber-1) * 70) && action.start_frame < (this.stepNumber * 70) ) {
               this.partsOnCurrentPage[obj.name] = obj;
             }
 
@@ -403,7 +399,6 @@
               material.needsUpdate = true;
               material.transparent = true;
             }
-            this.partsOnCurrentPage[obj.name] = obj;
 
           const idx = Math.min(frame - action.start_frame, action.end_frame - action.start_frame);
             obj.position.x = action.positions[0][idx];
@@ -415,15 +410,15 @@
             obj.quaternion.w = action.quaterions[idx].w;
           }
       });
-      console.log('shown pieces: ', Object.keys(this.partsOnCurrentPage).length);
+      console.log(this.partsOnCurrentPage);
+      //this.outputs.partsOnCurrentPage.setValue(this.partsOnCurrentPage);
     }
 
     update(frame) {
       super.update(frame);
-      let currentStepNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
+      let currentStepNumber = (((BEAN % 128) / 8) | 0) + 1
       if (currentStepNumber != this.stepNumber) {
         this.partsOnCurrentPage = {}
-        this.changingPartsStartFrame = frame
       }
       this.stepNumber = currentStepNumber;
       console.log('step', this.stepNumber);

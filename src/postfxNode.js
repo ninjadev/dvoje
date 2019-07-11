@@ -5,6 +5,7 @@
       options.inputs = {
         tDiffuse: new NIN.TextureInput(),
         paperTexture: new NIN.TextureInput(),
+        partsOnCurrentPage: new NIN.Input(),
       };
       super(id, options);
 
@@ -79,7 +80,7 @@
 
       ctx.strokeStyle = 'rgba(171, 199, 211)';
       const stepSize = 16;
-      
+
       ctx.lineWidth = 6;
       for (let i = 0; i < w / stepSize; i = i + 10) {
         ctx.moveTo(i * stepSize, 0);
@@ -102,11 +103,10 @@
       }
       ctx.stroke();
 
-
       ctx.lineWidth = 8;
       ctx.strokeStyle = 'rgba(47, 58, 58)';
       ctx.strokeRect(0, 0, w, h);
-      
+
       ctx.restore();
     }
 
@@ -119,8 +119,14 @@
 
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      
+
       this.renderStepNumberVerticalLineAndBox();
+
+      var partsOnCurrentPage = this.inputs.partsOnCurrentPage.getValue();
+      if(partsOnCurrentPage) {
+        //console.log('shown pieces2: ', Object.keys(partsOnCurrentPage)).length);
+        console.log('shown pieces: ', partsOnCurrentPage);
+      }
 
       this.canvasTexture.needsUpdate = true;
 
@@ -143,7 +149,7 @@
       if (BEAN >= 518) {
         this.uniforms.abberration.value =
           easeOut(0.5, 0, F(frame, 518, 8));
-      } 
+      }
       if (BEAN >= 534) {
         this.uniforms.abberration.value =
           easeOut(0.5, 0, F(frame, 534, 8));

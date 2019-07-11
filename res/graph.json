@@ -64,7 +64,8 @@
     },
     "connected": {
       "tDiffuse": "FXAA.render",
-      "paperTexture": "PaperJPG.out"
+      "paperTexture": "PaperJPG.out",
+      "partsOnCurrentPage": "SpinningCube.partsOnCurrentPage"
     }
   },
   {
@@ -117,8 +118,8 @@
     "id": "BlurAmountController",
     "type": "blurAmountController",
     "connected": {
-        "original": "postfx.render",
-        "blurred": "BlurX.render"
+      "original": "postfx.render",
+      "blurred": "BlurX.render"
     }
   }
 ]
