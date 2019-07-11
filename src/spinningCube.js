@@ -10,8 +10,8 @@
         distance: 30, height: 13, angle: 0,
     }, {
         position: new THREE.Vector3(-20, 10, 8),
-      lookAt: new THREE.Vector3(10, 0, -10),
-        distance: 30, height: 25, angle: 0,
+        lookAt: new THREE.Vector3(10, -4, -10),
+        distance: 40, height: 25, angle: 0,
     }, {
         position: new THREE.Vector3(-20, -8, 5),
         lookAt: new THREE.Vector3(10, 15, -10),
@@ -55,9 +55,9 @@
     }, {
         position: new THREE.Vector3(-16, -5, 2),
         lookAt: new THREE.Vector3(10, 15, -10),
-        distance: 100, height: 45, angle: -6.2,
+        distance: 100, height: 45, angle: -5.5,
     }, {
-        position: new THREE.Vector3(-16, -5, 2),
+        position: new THREE.Vector3(-16, -8, 2),
         lookAt: new THREE.Vector3(10, 15, -10),
         distance: 100, height: 45, angle: -6.2,
     }, {
@@ -65,7 +65,60 @@
         lookAt: new THREE.Vector3(10, 15, -10),
         distance: 100, height: 25, angle: -6.2,
     }],
-    bat: [],
+    bat: [{
+        position: new THREE.Vector3(-2, 4, 0),
+        lookAt: new THREE.Vector3(0, 0, 0),
+      distance: 40, height: 25, angle: 0,
+    }, {
+        position: new THREE.Vector3(3, -5, 0),
+        lookAt: new THREE.Vector3(0, 10, 0),
+      distance: 20, height: 15, angle: 0,
+    }, {
+        position: new THREE.Vector3(-10, -3, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 48, height: -2, angle: 2.,
+    }, {
+        position: new THREE.Vector3(4, -8, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 60, height: 25, angle: 2.5,
+    }, {
+        position: new THREE.Vector3(4, -8, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 30, height: 25, angle: 3.5,
+    }, {
+        position: new THREE.Vector3(4, -8, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 60, height: 25, angle: 3.5,
+    }, {
+        position: new THREE.Vector3(4, -12, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 50, height: 65, angle: 4.0,
+    }, {
+        position: new THREE.Vector3(4, -6, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 80, height: 35, angle: 4.0,
+    }, {
+        position: new THREE.Vector3(2, -8, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 40, height: 45, angle: 3.0,
+    }, {
+        position: new THREE.Vector3(5, -7, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 30, height: 15, angle: 3.0,
+    }, {
+        position: new THREE.Vector3(5, -7, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 70, height: 45, angle: 3.5,
+    }, {
+        position: new THREE.Vector3(5, -7, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 70, height: 45, angle: 3.5,
+    }, {
+        position: new THREE.Vector3(6, -12, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 140, height: 45, angle: 2.1,
+      }
+    ],
     robot: [{
       position: new THREE.Vector3(0, 0, 0),
         lookAt: new THREE.Vector3(0, 0, 0),
@@ -123,7 +176,67 @@
         lookAt: new THREE.Vector3(0, 6, 0),
         distance: 100, height: 25, angle: 0,
     }],
-    treb: [],
+      treb: [{
+        position: new THREE.Vector3(-15, -8, 0),
+        lookAt: new THREE.Vector3(10, 10, -10),
+        distance: 40, height: 25, angle: 0,
+      }, {
+          position: new THREE.Vector3(-15, -9, 0),
+        lookAt: new THREE.Vector3(10, 10, -10),
+        distance: 40, height: 25, angle: 0.5,
+      }, {
+          position: new THREE.Vector3(-15, -9, 0),
+        lookAt: new THREE.Vector3(10, 10, -10),
+        distance: 40, height: 25, angle: 0.5,
+      }, {
+          position: new THREE.Vector3(-13, -8, 0),
+        lookAt: new THREE.Vector3(10, 10, -10),
+        distance: 30, height: 0, angle: -0.5,
+      }, {
+          position: new THREE.Vector3(-13, -8, 0),
+          lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 20, height: 30, angle: -0.5,
+      }, {
+          position: new THREE.Vector3(-13, -8, 0),
+          lookAt: new THREE.Vector3(10, 15, -10),
+        distance: 40, height: 30, angle: 1.5,
+      }, {
+          position: new THREE.Vector3(-8, -2, 0),
+          lookAt: new THREE.Vector3(10, 10, -10),
+        distance: 50, height: 15, angle: 2.5,
+      }, {
+          position: new THREE.Vector3(-14, 0, 0),
+          lookAt: new THREE.Vector3(10, 10, -10),
+        distance: 50, height: 25, angle: 3.5,
+      }, {
+          position: new THREE.Vector3(10, -10, 0),
+          lookAt: new THREE.Vector3(0, 10, 0),
+          distance: 100, height: 55, angle: 3.5,
+      }, {
+          position: new THREE.Vector3(-10, 7, -20),
+          lookAt: new THREE.Vector3(0, 10, 0),
+        distance: 30, height: 15, angle: 5.0,
+      }, {
+          position: new THREE.Vector3(-10, 7, -20),
+          lookAt: new THREE.Vector3(0, 10, 0),
+        distance: 30, height: 15, angle: 5.0,
+      }, {
+          position: new THREE.Vector3(-10, 7, -20),
+          lookAt: new THREE.Vector3(0, 10, 0),
+        distance: 30, height: 15, angle: 5.0,
+      }, {
+          position: new THREE.Vector3(8, -2, -0),
+          lookAt: new THREE.Vector3(0, 10, 0),
+        distance: 120, height: 25, angle: 3.5,
+      }, {
+          position: new THREE.Vector3(8, -2, -0),
+          lookAt: new THREE.Vector3(0, 10, 0),
+        distance: 120, height: 25, angle: 3.5,
+      }, {
+          position: new THREE.Vector3(-8, 2, -0),
+          lookAt: new THREE.Vector3(0, 10, 0),
+        distance: 120, height: 25, angle: 3.5,
+    }],
     car: [{
       position: new THREE.Vector3(-3, -6, 0),
       lookAt: new THREE.Vector3(10, 10, -10),
@@ -344,7 +457,7 @@
       } else if (BEAN < 1152) {
         positions = this.positions.bat;
         cameraAngles = CAMERA_ANGLES.bat;
-        frameOffset = 8947;
+        frameOffset = 8947 - 35;
         beanOffset = 1024;
       }
 

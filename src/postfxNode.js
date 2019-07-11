@@ -23,6 +23,8 @@
         }
       }
 
+      this.equalizerThrob = 0;
+
       this.canvas = document.createElement('canvas');
       this.ctx = this.canvas.getContext('2d');
       this.canvas.width = 1920;
@@ -67,6 +69,10 @@
     }
 
     update(frame) {
+      this.equalizerThrob *= 0.95;
+      if (BEAT && BEAN % 4 == 0) {
+        this.equalizerThrob = 1;
+      } 
       this.uniforms.frame.value = frame;
       this.uniforms.tDiffuse.value = this.inputs.tDiffuse.getValue();
       this.uniforms.paperTexture.value = this.inputs.paperTexture.getValue();
@@ -77,8 +83,11 @@
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.renderStepNumberVerticalLineAndBox();
 
-      this.ctx.font = 'bold 200px SchmelviticoBoulder';
-      this.ctx.strokeStyle = 'black';
+      this.ctx.fillStyle = '#444';
+      const bottomHeight = 100;
+      this.ctx.fillRect(0, 1080 - bottomHeight, 1920, bottomHeight);
+      this.ctx.font = 'bold 200px SchmelviticoBold';
+      this.ctx.strokeStyle = 'white';
       this.ctx.lineWidth = 8;
       this.ctx.textAlign = 'right';
       const count = 35;
@@ -93,11 +102,27 @@
       this.ctx.drawImage(this.box, 1820 - 500, 100);
 
       this.ctx.save();
-      this.ctx.fillStyle = '#444';
-      this.ctx.font = '24px SchmelviticoBoulder';
+      this.ctx.fillStyle = '#aaa';
+      this.ctx.font = '24px SchmelviticoLight';
       this.ctx.textAlign = 'right';
       this.ctx.fillText(`Ninjadev Multi Construction Kit 8032 Instruction Manual --  P. ${stepNumber}`, 1860, 1040);
+
+      this.ctx.textAlign = 'left';
+      this.ctx.font = '24px SchmelviticoLight';
+      this.ctx.fillText('MODEL', 50, 1040);
+
+      this.ctx.font = '24px SchmelviticoBold';
+      this.ctx.fillText('CAR', 140, 1040);
+
+      this.ctx.font = 'bold 24px SchmelviticoBold';
+      this.ctx.fillText('BUILD-O-METER', 450, 1040);
       this.ctx.restore();
+
+      this.ctx.fillStyle = '#aaa';
+      for (let i = 0; i < this.equalizerThrob * 8; i++) {
+        this.ctx.fillRect(680 + i * 24, 1019, 16, 24);
+      }
+
 
       this.canvasTexture.needsUpdate = true;
 
