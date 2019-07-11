@@ -25,44 +25,6 @@
       this.camera.position.z = 30;
       this.camera.up = new THREE.Vector3(0,0,1);
 
-      var loadObject = function (objPath, material, three_scene, clone_array) {
-        var objLoader = new THREE.OBJLoader();
-        Loader.loadAjax(objPath, function(text) {
-          var object = objLoader.parse(text);
-          var test;
-          object.traverse(function(child) {
-            if (child instanceof THREE.Mesh) {
-              child.material = new THREE.MeshStandardMaterial({color: 'white'});
-              child.material.side = THREE.DoubleSide;
-            }
-
-          });
-          //three_scene.add(object);
-          var object2 = object.clone();
-          object2.position.x = 1;
-          //three_scene.add(object2);
-
-          //three_object.add(object);
-          // 2600 is the exact number of bricks in a mega brick!
-          for(var i = 0; i < 2600; i++) {
-            //this.bricks.push(object.clone());
-            //three_scene.add(this.bricks[i]);
-            clone_array.push(object.clone());
-            clone_array[i].position.x = -20 + i* 0.02;
-            clone_array[i].rotation.x = Math.PI / 2;
-            three_scene.add(clone_array[i]);
-          }
-        });
-      };
-
-      this.proto_brick = new THREE.Object3D();
-      this.scene.add(this.proto_brick);
-      this.proto_brick2 = new THREE.Object3D();
-      this.scene.add(this.proto_brick2);
-      var brick_material = new THREE.MeshStandardMaterial({color: 'red'});
-      loadObject('res/32000.obj', brick_material, this.proto_brick, this.bricks);
-      loadObject('res/32000.obj', brick_material, this.proto_brick2, this.bricks2);
-
       this.brick_placements = [];
       this.brick_placements.push([[1,1,1,1,1,1,1,1,1,1],
                                   [1,0,0,0,0,0,0,0,0,0],
@@ -321,18 +283,86 @@
                                   [0,0,0,0,0,0,0,0,0,0]]);
 
 
+
+      var loadObject = function (objPath, material, three_scene, clone_array) {
+        var objLoader = new THREE.OBJLoader();
+        Loader.loadAjax(objPath, function(text) {
+          var object = objLoader.parse(text);
+          var test;
+          object.traverse(function(child) {
+            if (child instanceof THREE.Mesh) {
+              child.material = new THREE.MeshStandardMaterial({color: 'white'});
+              child.material.side = THREE.DoubleSide;
+            }
+
+          });
+          //three_scene.add(object);
+          var object2 = object.clone();
+          object2.position.x = 1;
+          //three_scene.add(object2);
+
+          //three_object.add(object);
+          // 2600 is the exact number of bricks in a mega brick!
+          for(var i = 0; i < 2600; i++) {
+            //this.bricks.push(object.clone());
+            //three_scene.add(this.bricks[i]);
+            clone_array.push(object.clone());
+            //clone_array[i].position.x = -20 + i* 0.02;
+            clone_array[i].rotation.x = Math.PI / 2;
+            three_scene.add(clone_array[i]);
+          }
+          var bc = 0;
+          for(var x = 0; x < 10; x++) {
+            for(var y = 0; y < 10; y++) {
+              for(var z = 0; z < this.brick_placements.length; z++) {
+                if (this.brick_placements[z][x][y] == 1 && bc + 4 <= clone_array.length) {
+                  
+                  // Place one brick and mirror that operation on the xz and yz plane
+                  clone_array[bc].position.x = -9.5 + x;
+                  clone_array[bc].position.y = -4.5 + y * 0.5;
+                  clone_array[bc].position.z = z * 0.6;
+
+                  clone_array[bc+1].position.x = +9.5 - x;
+                  clone_array[bc+1].position.y = -4.5 + y * 0.5;
+                  clone_array[bc+1].position.z = z * 0.6;
+
+                  clone_array[bc+2].position.x = -9.5 + x;
+                  clone_array[bc+2].position.y = +4.5 - y * 0.5;
+                  clone_array[bc+2].position.z = z * 0.6;
+
+                  clone_array[bc+3].position.x = +9.5 - x;
+                  clone_array[bc+3].position.y = +4.5 - y * 0.5;
+                  clone_array[bc+3].position.z = z * 0.6;
+                  bc += 4;  
+                }
+              }
+            }
+          }
+        });
+      };
+
+      this.proto_brick = new THREE.Object3D();
+      this.scene.add(this.proto_brick);
+      this.proto_brick2 = new THREE.Object3D();
+      this.scene.add(this.proto_brick2);
+      var brick_material = new THREE.MeshStandardMaterial({color: 'red'});
+      loadObject('res/32000.obj', brick_material, this.proto_brick, this.bricks);
+      //loadObject('res/32000.obj', brick_material, this.proto_brick2, this.bricks2);
+
+      
+
     }
 
     update(frame) {
       super.update(frame);
 
 
-      var bc2 = 0;
-      for(var x = 0; x < 10; x++) {
+      /*var bc2 = 0;
+      for(var x = 0; x < 10; x++) { 
         for(var y = 0; y < 10; y++) {
           for(var z = 0; z < this.brick_placements.length; z++) {
-            if (this.brick_placements[z][x][y] == 1 && bc + 4 <= this.bricks2.length) {
-              console.log("hit");
+            if (this.brick_placements[z][x][y] == 1 && bc2 + 4 <= this.bricks2.length) {
+              
               // Place one brick and mirror that operation on the xz and yz plane
               this.bricks2[bc2].position.x = -9.5 + x;
               this.bricks2[bc2].position.y = -4.5 + y * 0.5;
@@ -353,7 +383,8 @@
             }
           }
         }
-      }
+      }*/
+      
 
 
 
@@ -396,7 +427,7 @@
       }
 
       if (this.bricks.length > 0) {
-        if (BEAN < 788) {
+        if (BEAN < 788 || true) {
           this.bricks[0].position.x = -9.5;
           this.bricks[0].position.y = -4.5;
           this.bricks[0].position.z = 0;
@@ -407,7 +438,9 @@
           this.proto_brick2.position.y = -4.5;
           this.proto_brick2.position.z = 0;
         }
-      
+      this.proto_brick2.position.x = -9.5;
+          this.proto_brick2.position.y = -4.5;
+          this.proto_brick2.position.z = 0;
         var poi_motion = sp;
         var poi_x = (1 - poi_motion) * this.bricks[0].position.x;
         var poi_y = (1 - poi_motion) * this.bricks[0].position.y;
@@ -425,7 +458,6 @@
 
       for(var i = bc; i < this.bricks.length; i++) {
         this.bricks[i].position.z = 100;
-        this.bricks2[i].position.z = 100;
       }
     }
   }
