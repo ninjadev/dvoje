@@ -19,7 +19,7 @@
           side: THREE.BackSide,
         }),
         'SOLID-MEDIUM_ORANGE': new THREE.MeshBasicMaterial({
-          color: 0xFFA300,
+          color: 0xFDB200,
           side: THREE.BackSide,
         }),
         'METAL-SILVER': new THREE.MeshBasicMaterial({
