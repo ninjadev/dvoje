@@ -77,9 +77,6 @@
       
       this.renderStepNumber(frame);
 
-      this.ctx.fillStyle = 'black';
-      this.ctx.fillRect(150, 400, 8, 600);
-
       this.ctx.drawImage(this.box, 1820 - 500, 100);
 
 
@@ -208,6 +205,9 @@
         this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
         this.ctx.fillText(stepNumber, 400 - i, 350 - i);
       }
+
+      this.ctx.fillStyle = 'black';
+      this.ctx.fillRect(150, 400, 8, 600);
     }
   }
 
