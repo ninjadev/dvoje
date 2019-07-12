@@ -125,5 +125,9 @@
   {
     "id": "outtro",
     "type": "outtro"
+  },
+  {
+    "id": "canvasLayer0",
+    "type": "canvasLayer0"
   }
 ]
