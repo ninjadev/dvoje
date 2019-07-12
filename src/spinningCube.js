@@ -486,7 +486,7 @@
         this.camera.position.set(x, y, z);
         this.camera.lookAt(new THREE.Vector3(lookAtX, lookAtY, lookAtZ));
         this.camera.position.x += positionX;
-        this.camera.position.y += positionY;
+        this.camera.position.y += positionY - 1;
         this.camera.position.z += positionZ;
       }
 

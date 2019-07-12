@@ -33,6 +33,18 @@
       } else if(BEAN >= 704 && BEAN < 708) {
         this.outputs.out.setValue(this.inputs.blurred.getValue());
       }
+      if (BEAN >= 512 + 518 && BEAN < 512 + 518 + 2) {
+        this.outputs.out.setValue(this.inputs.blurred.getValue());
+      }
+      if (BEAN >= 512 + 534 && BEAN < 512 + 534 + 2) {
+        this.outputs.out.setValue(this.inputs.blurred.getValue());
+      }
+      if (BEAN >= 512 + 550 && BEAN < 512 + 550 + 2) {
+        this.outputs.out.setValue(this.inputs.blurred.getValue());
+      }
+      if (BEAN >= 512 + 566 && BEAN < 512 + 566 + 2) {
+        this.outputs.out.setValue(this.inputs.blurred.getValue());
+      }
     }
   }
 
