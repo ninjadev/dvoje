@@ -3,6 +3,14 @@
   const COLOR1 = 0xff66ff;
   const COLOR2 = 0xffff66;
 
+    function rotateAroundWorldAxis(obj, axis, radians) {
+         let rotWorldMatrix = new THREE.Matrix4();
+            rotWorldMatrix.makeRotationAxis(axis.normalize(), radians);
+               rotWorldMatrix.multiply(obj.matrix);
+         obj.matrix = rotWorldMatrix;
+         obj.setRotationFromMatrix(obj.matrix);
+    }
+
   const materials = {
     black: new THREE.MeshStandardMaterial({
       color: 0,
@@ -253,6 +261,35 @@
         this.eyeRod1 = model.children[0].children[23].children[0];
         this.eyeRod2 = model.children[0].children[42].children[0];
         this.tireRing1.originalPosition = this.tireRing1.position.clone();
+        this.rightLowerArm = model.children[0].children[71].children[0];
+        this.leftLowerArm = model.children[0].children[78].children[0];
+        this.rightUpperArm = model.children[0].children[72].children[0];
+        this.leftUpperArm = model.children[0].children[73].children[0];
+        this.leftArmContainer = new THREE.Object3D();
+        this.rightArmContainer = new THREE.Object3D();
+        const xPos = 18;
+        const yPos = -186;
+        this.leftArmContainer.position.x -= xPos;
+        this.leftArmContainer.position.y -= yPos;
+        this.rightArmContainer.position.x -= xPos;
+        this.rightArmContainer.position.y -= yPos;
+        this.leftLowerArm.position.set(-60, 0, this.leftLowerArm.position.z);
+        this.rightLowerArm.position.set(-60, 0, this.rightLowerArm.position.z);
+        this.leftUpperArm.position.set(-170, 25, this.leftUpperArm.position.z);
+        this.rightUpperArm.position.set(-170, -35, this.rightUpperArm.position.z);
+        this.axisHelper = new THREE.Mesh(
+          new THREE.BoxGeometry(10, 10, 1000),
+          new THREE.MeshBasicMaterial({
+            color: 0xffffff,
+            side: THREE.DoubleSide,
+          }));
+        //this.leftArmContainer.add(this.axisHelper);
+        this.leftArmContainer.add(this.leftLowerArm);
+        this.leftArmContainer.add(this.leftUpperArm);
+        this.rightArmContainer.add(this.rightLowerArm);
+        this.rightArmContainer.add(this.rightUpperArm);
+        model.add(this.leftArmContainer);
+        model.add(this.rightArmContainer);
         model.traverse(item => {
           if(item.material) {
             if(item.material instanceof Array && item.material.length > 0) {
@@ -278,6 +315,13 @@
 
     update(frame) {
       super.update(frame);
+
+
+      if (this.leftLowerArm) {
+        this.leftArmContainer.rotation.z = Math.PI / 8 + Math.PI + 0.25 * Math.sin(frame / 60 / 60 * 103 * Math.PI * 2 / 2 + Math.PI);
+      this.rightArmContainer.rotation.z = Math.PI / 8 + Math.PI + 0.25 * Math.sin(frame / 60 / 60 * 103 * Math.PI * 2 / 2);
+      }
+
 
       this.tireThrob *= 0.9;
       if (BEAT && BEAN % 8 === 5) {
@@ -334,11 +378,15 @@
       }
 
       if (BEAT && BEAN === 688) {
-        /*
         this.cameraRadius = 8;
         this.cameraAngle = -0.5;
         this.cameraHeight = 10;
-        */
+      }
+
+        if (BEAT && BEAN === 704) {
+          this.cameraRadius = 60;
+          this.cameraAngle = -1;
+        this.cameraHeight = 50;
       }
         
 
@@ -364,9 +412,10 @@
       this.camera.position.y = this.cameraHeight;
       this.camera.lookAt(new THREE.Vector3(0, 8, 0));
 
-      this.discolight1.intensity = this.lightThrob1 * 50;
-      this.discolight2.intensity = this.lightThrob2 * 50;
-      this.discolight3.intensity = this.lightThrob3 * 50;
+  const multiplier = BEAN >= 704 ? 100 : 1;
+      this.discolight1.intensity = this.lightThrob1 * 50 * multiplier;
+  this.discolight1.intensity = this.lightThrob1 * 50 * multiplier;
+  this.discolight3.intensity = this.lightThrob3 * 50 * multiplier;
 
       const intensity = 5;
       const baseColor = 0.1;

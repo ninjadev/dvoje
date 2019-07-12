@@ -10,7 +10,7 @@
       super(id, options);
 
       this.videos = {};
-      for (const filename of ['res/output-robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4']) {
+      for (const filename of ['res/output-robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4', 'res/car.mp4']) {
         const video = document.createElement('video');
         const videoTexture = new THREE.VideoTexture(video);
         videoTexture.minFilter = THREE.LinearFilter;
@@ -23,6 +23,8 @@
           videoTexture,
         }
       }
+
+      this.equalizerThrob = 0;
 
       this.canvas = document.createElement('canvas');
       this.ctx = this.canvas.getContext('2d');
@@ -111,15 +113,38 @@
     }
 
     update(frame) {
+      this.equalizerThrob *= 0.95;
+      if (BEAT && BEAN % 4 == 0) {
+        this.equalizerThrob = 1;
+      }
       this.uniforms.frame.value = frame;
       this.uniforms.tDiffuse.value = this.inputs.tDiffuse.getValue();
       this.uniforms.paperTexture.value = this.inputs.paperTexture.getValue();
       this.uniforms.overlayTexture.value = this.canvasTexture;
       let currentVideo;
 
+      let currentText = '';
+      if (BEAN < 384) {
+        currentVideo = this.videos['res/car.mp4'];
+        currentText = 'CAR';
+      } else if (BEAN < 512) {
+        currentVideo = this.videos['res/heli.mp4'];
+        currentText = 'HELICOPTER';
+      } else if (BEAN < 640) {
+        currentVideo = this.videos['res/robot.mp4'];
+        currentText = 'ROBOT';
+      } else if (BEAN < 896) {
+        /* do nothing */
+      } else if (BEAN < 1024) {
+        currentVideo = this.videos['res/Trebuchet.mp4'];
+        currentText = 'TREBUCHET';
+      } else if (BEAN < 1152) {
+        currentVideo = this.videos['res/bat2.mp4'];
+        currentText = 'BATMOBILE';
+      }
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+      this.ctx.font = 'bold 200px SchmelviticoBold';
       this.renderStepNumberVerticalLineAndBox();
 
       var partsOnCurrentPage = this.inputs.partsOnCurrentPage.getValue();
@@ -128,19 +153,67 @@
         console.log('shown pieces: ', partsOnCurrentPage);
       }
 
+      if (currentText) {
+        this.ctx.save();
+        this.ctx.fillStyle = '#444';
+        const bottomHeight = easeIn(1080, 100, F(frame, 254, 2));
+        this.ctx.fillRect(0, 1080 - bottomHeight, 1920, bottomHeight);
+        this.ctx.globalAlpha = easeIn(0, 1, F(frame, 255, 1));
+        this.ctx.font = 'bold 200px SchmelviticoBold';
+        this.ctx.strokeStyle = 'white';
+        this.ctx.lineWidth = 8;
+        this.ctx.textAlign = 'right';
+        const count = 35;
+        const pageNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
+        this.ctx.save();
+        this.ctx.fillStyle = '#aaa';
+        this.ctx.font = '24px SchmelviticoLight';
+        this.ctx.textAlign = 'right';
+        this.ctx.fillText(`Ninjadev Multi Construction Kit 1 Instruction Manual --  P. ${pageNumber}`, 1860, 1040);
+
+        this.ctx.textAlign = 'left';
+        this.ctx.font = '24px SchmelviticoLight';
+        this.ctx.fillText('MODEL', 50, 1040);
+
+        this.ctx.font = '24px SchmelviticoBold';
+        this.ctx.fillText(currentText, 140, 1040);
+
+        this.ctx.font = 'bold 24px SchmelviticoBold';
+        this.ctx.fillText('BUILD-O-METER', 450, 1040);
+        this.ctx.restore();
+
+        this.ctx.fillStyle = '#aaa';
+        for (let i = 0; i < this.equalizerThrob * 8; i++) {
+          this.ctx.fillRect(680 + i * 24, 1019, 16, 24);
+        }
+        this.ctx.restore();
+      }
+
+      if (BEAN < 256) {
+        let value = smoothstep(0, 1, F(frame, 64, 16));
+        value = smoothstep(value, 0, F(frame, 64 + 48, 16));
+        value = smoothstep(value, 1, F(frame, 128, 16));
+        value = smoothstep(value, 0, F(frame, 128 + 48, 16));
+        const ctx = this.ctx;
+        ctx.save();
+        ctx.globalAlpha = value;
+        ctx.translate(1920 / 2, 1080 / 2);
+        const scaler = 1 + F(frame, (BEAN / 64 | 0) * 64, 64) * 0.25;
+        ctx.scale(scaler, scaler);
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'black';
+        ctx.font = '80px SchmelviticoThin';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const text = BEAN < 128 ? 'N  I  N  J  A  D  E  V' : 'C  O  N  S  T  R  U  C  T';
+        ctx.fillText(text, 0, 0);
+        ctx.restore();
+      }
+
+
+
       this.canvasTexture.needsUpdate = true;
 
-      if (BEAN < 384) {
-        currentVideo = this.videos['res/car.mp4'];
-      } else if (BEAN < 512) {
-        currentVideo = this.videos['res/heli.mp4'];
-      } else if (BEAN < 640) {
-        currentVideo = this.videos['res/output-robot.mp4'];
-      } else if (BEAN < 1024) {
-        currentVideo = this.videos['res/Trebuchet.mp4'];
-      } else {
-        currentVideo = this.videos['res/bat2.mp4'];
-      }
       if (currentVideo) {
         this.uniforms.videoTexture.value = currentVideo.videoTexture;
       }
@@ -173,9 +246,26 @@
         this.uniforms.abberration.value =
           easeOut(this.uniforms.abberration.value, 0, F(frame, 708, 2));
       }
+      if (BEAN >= 512 + 518) {
+        this.uniforms.abberration.value =
+          easeOut(0.5, 0, F(frame, 512 + 518, 8));
+      }
+      if (BEAN >= 512 + 534) {
+        this.uniforms.abberration.value =
+          easeOut(0.5, 0, F(frame, 512 + 534, 8));
+      }
+      if (BEAN >= 512+ 550) {
+        this.uniforms.abberration.value =
+          easeOut(0.5, 0, F(frame, 512 + 550, 8));
+      }
+      if (BEAN >= 512 + 566) {
+        this.uniforms.abberration.value =
+          easeOut(0.5, 0, F(frame, 512 + 566, 8));
+      }
+      this.uniforms.abberration.value += 0.03;
       if (BEAT && BEAN === 366) {
         if (currentVideo) {
-          currentVideo.video.currentTime = 0.4;
+          currentVideo.video.currentTime = 0.2;
           currentVideo.video.playbackRate = 1;
           currentVideo.video.play();
         }
@@ -245,17 +335,17 @@
         return;
       }
 
-      this.ctx.font = 'bold 200px SchmelviticoBoulder';
+      this.ctx.font = 'bold 200px SchmelviticoBold';
       this.ctx.strokeStyle = 'black';
       this.ctx.lineWidth = 8;
       const count = 35;
       for (let i = 0; i < count; i++) {
         this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
-        this.ctx.fillText(stepNumber, 520 - i, 300 - i);
+        this.ctx.fillText(stepNumber, 300 - i, 300 - i);
       }
 
       this.ctx.fillStyle = 'black';
-      this.ctx.fillRect(150, 400, 8, 600);
+      this.ctx.fillRect(100, 100, 8, 1080 - 300);
 
       this.ctx.drawImage(this.inventoryBox, 50, 50);
 
