@@ -50,18 +50,6 @@
 
       const ctx = this.canvas.getContext('2d');
       ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-      ctx.save();
-      ctx.translate(1920 / 2, 1080 / 2);
-      const scaler = 1 + F(frame, (BEAN / 64 | 0) * 64, 64) * 0.25;
-      ctx.scale(scaler, scaler);
-      ctx.fillStyle = 'white';
-      ctx.strokeStyle = 'black';
-      ctx.font = '80px SchmelviticoThin';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      const text = BEAN < 128 ? 'N  I  N  J  A  D  E  V' : 'C  O  N  S  T  R  U  C  T';
-      ctx.fillText(text, 0, 0);
-      ctx.restore();
       this.plane.material.map.needsUpdate = true;
 
       this.plane.material.color.setScalar(value);
