@@ -10,8 +10,9 @@
 
       const sideTexture = Loader.loadTexture('res/box_Side.png');
       const topTexture = Loader.loadTexture('res/box_Side.png');
-      // TODO: DAFUQ - må roteres riktig
-      topTexture.rotation = -0.7;
+      topTexture.rotation = -Math.PI/2;
+      topTexture.wrapS = THREE.RepeatWrapping;
+      topTexture.wrapT = THREE.RepeatWrapping;
       const frontTexture = Loader.loadTexture('res/box_Front.png');
 
       this.cube = new THREE.Mesh(new THREE.BoxGeometry(250, 150, 50),
