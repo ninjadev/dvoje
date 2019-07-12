@@ -10,24 +10,58 @@
 
       const sideTexture = Loader.loadTexture('res/box_Side.png');
       const topTexture = Loader.loadTexture('res/box_Side.png');
-      topTexture.rotation = -Math.PI/2;
+      topTexture.rotation = Math.PI/2;
       topTexture.wrapS = THREE.RepeatWrapping;
       topTexture.wrapT = THREE.RepeatWrapping;
       const frontTexture = Loader.loadTexture('res/box_Front.png');
 
-      this.cube = new THREE.Mesh(new THREE.BoxGeometry(250, 150, 50),
-        new THREE.MeshFaceMaterial([
+      this.box = new THREE.Mesh(new THREE.BoxGeometry(250, 150, 50),
+        [
           new THREE.MeshBasicMaterial({map: sideTexture}),
           new THREE.MeshBasicMaterial({map: sideTexture}),
-          new THREE.MeshBasicMaterial({map: topTexture}),
+          new THREE.MeshBasicMaterial({color: 'gray'}),
           new THREE.MeshBasicMaterial({map: sideTexture}),
           new THREE.MeshBasicMaterial({map: frontTexture}),
           new THREE.MeshBasicMaterial({map: frontTexture}),
-        ])
+        ]
       );
-      this.cube.rotation.y = 0.8;
-      this.cube.rotation.x = 0.6;
-      this.scene.add(this.cube);
+      this.scene.add(this.box);
+
+      this.boxTopLeft = new THREE.Mesh(
+        new THREE.PlaneGeometry(250, 50),
+        [
+          new THREE.MeshBasicMaterial({map: topTexture}),
+          new THREE.MeshBasicMaterial({color: 'gray'})
+        ]
+      );
+      this.boxTopLeft.position.x = 0;
+      this.boxTopLeft.position.y = 100;
+      this.boxTopLeft.position.z = 25;
+      rotateAboutPoint(
+        this.boxTopLeft,
+        new THREE.Vector3(250/2, 150/2, 50/2),
+        new THREE.Vector3(1, 0, 0),
+        Math.PI/4
+      );
+      this.scene.add(this.boxTopLeft);
+
+      this.boxTopRight = new THREE.Mesh(
+        new THREE.PlaneGeometry(250, 50),
+        [
+          new THREE.MeshBasicMaterial({color: 'gray'}),
+          new THREE.MeshBasicMaterial({map: topTexture})
+        ]
+      );
+      this.boxTopRight.position.x = 0;
+      this.boxTopRight.position.y = 100;
+      this.boxTopRight.position.z = -25;
+      rotateAboutPoint(
+        this.boxTopRight,
+        new THREE.Vector3(250/2, 150/2, -50/2),
+        new THREE.Vector3(1, 0, 0),
+        -Math.PI/4
+      );
+      this.scene.add(this.boxTopRight);
 
       let light = new THREE.DirectionalLight(0xffffff, 1, 1000);
       light.position.set(50, 50, 50);
@@ -35,9 +69,6 @@
 
       let ambientLight = new THREE.AmbientLight(0x404040, 1.5);
       this.scene.add(ambientLight);
-
-      this.camera.position.z = 300;
-      this.camera.position.y = -20;
 
       this.canvas = document.createElement('canvas');
       this.tex = new THREE.Texture(this.canvas);
@@ -53,6 +84,8 @@
       this.colorNIN = 'rgba(0,0,0,0)';
       this.colorJA = 'rgba(0,0,0,0)';
       this.colorDEV = 'rgba(0,0,0,0)';
+      this.camera.position.z = 300;
+      this.camera.position.y = -20;
     }
 
     update(frame) {
