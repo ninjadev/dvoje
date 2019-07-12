@@ -8,12 +8,12 @@
         }
       });
 
-      const sideTexture = Loader.loadTexture('res/box_Side.png');
-      const topTexture = Loader.loadTexture('res/box_Side.png');
+      const sideTexture = Loader.loadTexture('res/construct_box_side.png');
+      const topTexture = Loader.loadTexture('res/construct_box_side.png');
       topTexture.rotation = Math.PI/2;
       topTexture.wrapS = THREE.RepeatWrapping;
       topTexture.wrapT = THREE.RepeatWrapping;
-      const frontTexture = Loader.loadTexture('res/box_Front.png');
+      const frontTexture = Loader.loadTexture('res/construct_box.png');
 
       this.box = new THREE.Mesh(new THREE.BoxGeometry(250, 150, 50),
         [
