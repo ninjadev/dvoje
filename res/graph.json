@@ -30,7 +30,7 @@
     "id": "greets",
     "type": "greets",
     "connected": {
-      "background": "canvasLayer0.render"
+      "background": "greetsBackgroundCanvas.render"
     }
   },
   {
@@ -130,7 +130,7 @@
     "type": "outtro"
   },
   {
-    "id": "canvasLayer0",
-    "type": "canvasLayer0"
+    "id": "greetsBackgroundCanvas",
+    "type": "greetsBackgroundCanvas"
   }
 ]

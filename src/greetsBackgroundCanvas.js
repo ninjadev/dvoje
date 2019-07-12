@@ -3,7 +3,7 @@
     frame - FRAME_FOR_BEAN(from)) / (FRAME_FOR_BEAN(from + delta) - FRAME_FOR_BEAN(from)
   );
 
-  class canvasLayer0 extends NIN.THREENode {
+  class greetsBackgroundCanvas extends NIN.THREENode {
     constructor(id) {
       super(id, {
         outputs: {
@@ -40,7 +40,7 @@
 
       this.ctx.fillStyle = '#6c79ae';
       this.ctx.fillRect((canvas_size - size) / 2,
-                        (canvas_size - size) / 2, 
+                        (canvas_size - size) / 2,
                         size,
                         size);
       this.ctx.clearRect((canvas_size - size) / 2 + width_small,
@@ -77,5 +77,5 @@
     }
   }
 
-  global.canvasLayer0 = canvasLayer0;
+  global.greetsBackgroundCanvas = greetsBackgroundCanvas;
 })(this);
