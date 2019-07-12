@@ -28,7 +28,10 @@
   },
   {
     "id": "greets",
-    "type": "greets"
+    "type": "greets",
+    "connected": {
+      "background": "canvasLayer0.render"
+    }
   },
   {
     "id": "Batmobile",

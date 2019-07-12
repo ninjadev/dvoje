@@ -26,6 +26,7 @@
     }
 
     update(frame) {
+      // begin canvas content
       super.update(frame);
 
       this.ctx.save();
@@ -66,6 +67,8 @@
                           size - 6 * width_small - 2 * width_large);
 
       this.ctx.restore();
+
+      //end canvas content
     }
 
     render() {

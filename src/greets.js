@@ -5,8 +5,14 @@
         camera: options.camera,
         outputs: {
           render: new NIN.TextureOutput()
+        },
+        inputs: {
+          background: new NIN.TextureInput()
         }
       });
+
+      this.background = new THREE.Mesh( new THREE.BoxGeometry(100,100,100), new THREE.MeshBasicMaterial( {color: 0xffffff, side: THREE.DoubleSide } ));
+      this.scene.add(this.background);
 
       var light = new THREE.PointLight(0xffffff, 1, 2000);
       light.position.set(50, 50, 50);
@@ -14,7 +20,7 @@
       var light2 = new THREE.PointLight(0xffffff, 1, 2000);
       light2.position.set(-50, -50, 50);
       this.scene.add(light2);
-      
+
       this.bricks = [];
       this.bricks2 = [];
       this.camera.far = 2000;
@@ -338,6 +344,7 @@
 
     update(frame) {
       super.update(frame);
+      this.background.material.map = this.inputs.background.getValue();
 
       // brick count
       var bc = 0;
