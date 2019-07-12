@@ -9,7 +9,7 @@
       super(id, options);
 
       this.videos = {};
-      for (const filename of ['res/car.mp4', 'res/heli.mp4', 'res/robot.mp4', 'res/trebuchet.mp4', 'res/bat2.mp4']) {
+      for (const filename of ['res/output-robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4', 'res/car.mp4']) {
         const video = document.createElement('video');
         const videoTexture = new THREE.VideoTexture(video);
         videoTexture.minFilter = THREE.LinearFilter;
@@ -22,6 +22,8 @@
           videoTexture,
         }
       }
+
+      this.equalizerThrob = 0;
 
       this.canvas = document.createElement('canvas');
       this.ctx = this.canvas.getContext('2d');
@@ -38,6 +40,7 @@
     }
 
     drawBox(ctx, x, y, w, h) {
+      return;
       ctx.save();
       ctx.translate(x, y);
       ctx.fillStyle = '#faecbf';
@@ -66,16 +69,55 @@
     }
 
     update(frame) {
+      this.equalizerThrob *= 0.95;
+      if (BEAT && BEAN % 4 == 0) {
+        this.equalizerThrob = 1;
+      } 
       this.uniforms.frame.value = frame;
       this.uniforms.tDiffuse.value = this.inputs.tDiffuse.getValue();
       this.uniforms.paperTexture.value = this.inputs.paperTexture.getValue();
       this.uniforms.overlayTexture.value = this.canvasTexture;
       let currentVideo;
 
+      if (BEAN < 256) {
+        return;
+      }
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
-
+      this.ctx.font = 'bold 200px SchmelviticoBold';
       this.renderStepNumberVerticalLineAndBox();
+
+      this.ctx.fillStyle = '#444';
+      const bottomHeight = 100;
+      this.ctx.fillRect(0, 1080 - bottomHeight, 1920, bottomHeight);
+      this.ctx.font = 'bold 200px SchmelviticoBold';
+      this.ctx.strokeStyle = 'white';
+      this.ctx.lineWidth = 8;
+      this.ctx.textAlign = 'right';
+      const count = 35;
+      const pageNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
+      this.ctx.save();
+      this.ctx.fillStyle = '#aaa';
+      this.ctx.font = '24px SchmelviticoLight';
+      this.ctx.textAlign = 'right';
+      this.ctx.fillText(`Ninjadev Multi Construction Kit 8032 Instruction Manual --  P. ${pageNumber}`, 1860, 1040);
+
+      this.ctx.textAlign = 'left';
+      this.ctx.font = '24px SchmelviticoLight';
+      this.ctx.fillText('MODEL', 50, 1040);
+
+      this.ctx.font = '24px SchmelviticoBold';
+      this.ctx.fillText('CAR', 140, 1040);
+
+      this.ctx.font = 'bold 24px SchmelviticoBold';
+      this.ctx.fillText('BUILD-O-METER', 450, 1040);
+      this.ctx.restore();
+
+      this.ctx.fillStyle = '#aaa';
+      for (let i = 0; i < this.equalizerThrob * 8; i++) {
+        this.ctx.fillRect(680 + i * 24, 1019, 16, 24);
+      }
+
 
       this.canvasTexture.needsUpdate = true;
 
@@ -86,7 +128,7 @@
       } else if (BEAN < 640) {
         currentVideo = this.videos['res/robot.mp4'];
       } else if (BEAN < 1024) {
-        currentVideo = this.videos['res/trebuchet.mp4'];
+        currentVideo = this.videos['res/Trebuchet.mp4'];
       } else {
         currentVideo = this.videos['res/bat2.mp4'];
       }
@@ -124,7 +166,7 @@
       }
       if (BEAT && BEAN === 366) {
         if (currentVideo) {
-          currentVideo.video.currentTime = 0.4;
+          currentVideo.video.currentTime = 0.2;
           currentVideo.video.playbackRate = 1;
           currentVideo.video.play();
         }
@@ -194,7 +236,7 @@
         return;
       }
 
-      this.ctx.font = 'bold 200px SchmelviticoBoulder';
+      this.ctx.font = 'bold 200px SchmelviticoBold';
       this.ctx.strokeStyle = 'black';
       this.ctx.lineWidth = 8;
       const count = 35;
