@@ -79,6 +79,9 @@
       this.uniforms.overlayTexture.value = this.canvasTexture;
       let currentVideo;
 
+      if (BEAN < 256) {
+        return;
+      }
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.font = 'bold 200px SchmelviticoBold';

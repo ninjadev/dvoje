@@ -26,7 +26,7 @@
 
       let selectedScene;
       if (BEAN < 50) {
-        selectedScene = this.inputs.C;
+        selectedScene = this.inputs.D;
       } else if (BEAN < 253) {
         selectedScene = this.inputs.D;
       } else if (BEAN < 640) {
