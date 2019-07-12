@@ -145,8 +145,8 @@
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.font = 'bold 200px SchmelviticoBold';
-      this.renderStepNumberVerticalLineAndBox();
 
+      this.renderStepNumberVerticalLineAndBox();
       this.renderPartsInventoryBox();
 
       if (currentText) {
@@ -332,8 +332,12 @@
           }
         }
 
-        console.log('Used bricks', mapParts)
+        if (Object.keys(mapParts).length > 0) {
+          console.log('Used bricks', mapParts)
+          this.ctx.drawImage(this.inventoryBox, 50, 50);
 
+          // render models
+        }
       }
     }
 
@@ -368,8 +372,6 @@
 
       this.ctx.fillStyle = 'black';
       this.ctx.fillRect(100, 420 , 8, 1080 - 580);
-
-      this.ctx.drawImage(this.inventoryBox, 50, 50);
 
       // Will move based on interesting building
       //this.ctx.drawImage(this.detailedBox, 1920-600, 400);
