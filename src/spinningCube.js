@@ -535,8 +535,7 @@
             obj.quaternion.w = action.quaterions[idx].w;
           }
       });
-      console.log(this.partsOnCurrentPage);
-      //this.outputs.partsOnCurrentPage.setValue(this.partsOnCurrentPage);
+      this.outputs.partsOnCurrentPage.setValue(this.partsOnCurrentPage);
     }
 
     update(frame) {
@@ -546,8 +545,7 @@
         this.partsOnCurrentPage = {}
       }
       this.stepNumber = currentStepNumber;
-      console.log('step', this.stepNumber);
-      this.positions = this.inputs.positions.getValue();
+       this.positions = this.inputs.positions.getValue();
 
       const model = this.inputs.model.getValue();
       if(model !== this.model) {

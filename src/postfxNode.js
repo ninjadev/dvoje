@@ -147,11 +147,7 @@
       this.ctx.font = 'bold 200px SchmelviticoBold';
       this.renderStepNumberVerticalLineAndBox();
 
-      var partsOnCurrentPage = this.inputs.partsOnCurrentPage.getValue();
-      if(partsOnCurrentPage) {
-        //console.log('shown pieces2: ', Object.keys(partsOnCurrentPage)).length);
-        console.log('shown pieces: ', partsOnCurrentPage);
-      }
+      this.renderPartsInventoryBox();
 
       if (currentText) {
         this.ctx.save();
@@ -209,8 +205,6 @@
         ctx.fillText(text, 0, 0);
         ctx.restore();
       }
-
-
 
       this.canvasTexture.needsUpdate = true;
 
@@ -315,6 +309,34 @@
       }
     }
 
+    renderPartsInventoryBox() {
+      var partsOnCurrentPage = this.inputs.partsOnCurrentPage.getValue();
+      if(partsOnCurrentPage) {
+        var mapParts = {};
+
+        for(var partKey of Object.keys(partsOnCurrentPage)) {
+          var part = partsOnCurrentPage[partKey];
+          var material = part.material;
+          if (Array.isArray(material)) {
+            material = part.material[0];
+          }
+          var key = part.geometry.name + "_" + material.name;
+          if (mapParts[key]) {
+            mapParts[key].count += 1;
+          } else {
+            mapParts[key] = {
+              material: material,
+              geometry: part.geometry,
+              count: 1
+            }
+          }
+        }
+
+        console.log('Used bricks', mapParts)
+
+      }
+    }
+
     renderStepNumberVerticalLineAndBox() {
 
       let stepNumber = 0
@@ -341,11 +363,11 @@
       const count = 35;
       for (let i = 0; i < count; i++) {
         this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
-        this.ctx.fillText(stepNumber, 300 - i, 300 - i);
+        this.ctx.fillText(stepNumber, 530 - i, 300 - i);
       }
 
       this.ctx.fillStyle = 'black';
-      this.ctx.fillRect(100, 100, 8, 1080 - 300);
+      this.ctx.fillRect(100, 420 , 8, 1080 - 580);
 
       this.ctx.drawImage(this.inventoryBox, 50, 50);
 
