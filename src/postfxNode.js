@@ -25,6 +25,7 @@
 
       this.equalizerThrob = 0;
 
+
       this.canvas = document.createElement('canvas');
       this.ctx = this.canvas.getContext('2d');
       this.canvas.width = 1920;
@@ -33,6 +34,10 @@
       this.canvasTexture.minFilter = THREE.LinearFilter;
       this.canvasTexture.magFilter = THREE.LinearFilter;
 
+      this.brickImage = document.createElement('img');
+      Loader.load('res/brick_frame.png', this.brickImage);
+      this.brickLongImage = document.createElement('img');
+      Loader.load('res/brick_frame_long.png', this.brickLongImage);
       this.box = document.createElement('canvas');
       this.box.width = 500;
       this.box.height = 400;
@@ -142,13 +147,13 @@
       if (BEAN < 256) {
         let value = smoothstep(0, 1, F(frame, 64, 16));
         value = smoothstep(value, 0, F(frame, 64 + 48, 16));
-        value = smoothstep(value, 1, F(frame, 128 + 64, 16));
+        value = smoothstep(value, 1, F(frame, 128 + 32, 16));
         value = smoothstep(value, 0, F(frame, 128 + 48 + 64, 16));
         const ctx = this.ctx;
         ctx.save();
         ctx.globalAlpha = value;
         ctx.translate(1920 / 2, 1080 / 2);
-        const scaler = 1 + F(frame, (BEAN / 64 | 0) * 64, 64) * 0.25;
+        const scaler = 1 + F(frame, 64, 256);
         ctx.scale(scaler, scaler);
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'black';
@@ -157,6 +162,41 @@
         ctx.textBaseline = 'middle';
         const text = BEAN < 128 ? 'N  I  N  J  A  D  E  V' : 'C  O  N  S  T  R  U  C  T';
         ctx.fillText(text, 0, 0);
+        ctx.restore();
+
+
+        let legoGlitch = 0;
+        switch (BEAN){
+          case 99:
+          case 130:
+          case 146:
+          case 160:
+          case 169:
+          case 178:
+          case 189:
+          case 200:
+          case 208:
+          case 212:
+          case 219:
+          case 222:
+          case 225:
+          case 228:
+          case 232:
+          case 236:
+          case 238:
+          case 242:
+          case 244:
+          case 245:
+          case 248:
+          case 250:
+          case 253:
+            legoGlitch = 1;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.5 * legoGlitch;
+        this.uniforms.legoGlitch.value = legoGlitch;
+        ctx.drawImage(this.brickImage, Math.random()*1920, Math.random()*1080);
+        ctx.drawImage(this.brickLongImage, Math.random()*1920, Math.random()*1080);
         ctx.restore();
       }
 
