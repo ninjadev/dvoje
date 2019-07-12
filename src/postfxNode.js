@@ -81,6 +81,7 @@
 
       this.ctx.fillStyle = 'white';
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+      this.ctx.font = 'bold 200px SchmelviticoBold';
       this.renderStepNumberVerticalLineAndBox();
 
       this.ctx.fillStyle = '#444';
@@ -91,21 +92,12 @@
       this.ctx.lineWidth = 8;
       this.ctx.textAlign = 'right';
       const count = 35;
-      const stepNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
-      for (let i = 0; i < count; i++) {
-        this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
-        this.ctx.fillText(stepNumber, 450 - i, 330 - i);
-      }
-      this.ctx.fillStyle = 'black';
-      this.ctx.fillRect(150, 100, 8, 1080 - 200);
-
-      this.ctx.drawImage(this.box, 1820 - 500, 100);
-
+      const pageNumber = ((BEAN_FOR_FRAME(frame + 7) - 256) / 8 | 0) + 1;
       this.ctx.save();
       this.ctx.fillStyle = '#aaa';
       this.ctx.font = '24px SchmelviticoLight';
       this.ctx.textAlign = 'right';
-      this.ctx.fillText(`Ninjadev Multi Construction Kit 8032 Instruction Manual --  P. ${stepNumber}`, 1860, 1040);
+      this.ctx.fillText(`Ninjadev Multi Construction Kit 8032 Instruction Manual --  P. ${pageNumber}`, 1860, 1040);
 
       this.ctx.textAlign = 'left';
       this.ctx.font = '24px SchmelviticoLight';
@@ -133,7 +125,7 @@
       } else if (BEAN < 640) {
         currentVideo = this.videos['res/robot.mp4'];
       } else if (BEAN < 1024) {
-        currentVideo = this.videos['res/trebuchet.mp4'];
+        currentVideo = this.videos['res/Trebuchet.mp4'];
       } else {
         currentVideo = this.videos['res/bat2.mp4'];
       }
@@ -241,7 +233,7 @@
         return;
       }
 
-      this.ctx.font = 'bold 200px SchmelviticoBoulder';
+      this.ctx.font = 'bold 200px SchmelviticoBold';
       this.ctx.strokeStyle = 'black';
       this.ctx.lineWidth = 8;
       const count = 35;
