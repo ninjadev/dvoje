@@ -142,8 +142,8 @@
       if (BEAN < 256) {
         let value = smoothstep(0, 1, F(frame, 64, 16));
         value = smoothstep(value, 0, F(frame, 64 + 48, 16));
-        value = smoothstep(value, 1, F(frame, 128, 16));
-        value = smoothstep(value, 0, F(frame, 128 + 48, 16));
+        value = smoothstep(value, 1, F(frame, 128 + 64, 16));
+        value = smoothstep(value, 0, F(frame, 128 + 48 + 64, 16));
         const ctx = this.ctx;
         ctx.save();
         ctx.globalAlpha = value;
