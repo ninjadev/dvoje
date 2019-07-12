@@ -35,7 +35,7 @@
         selectedScene = this.inputs.FUNK;
       } else if (BEAN < 896) {
         selectedScene = this.inputs.B;
-      } else if (BEAN < 1157) {
+      } else if (BEAN < 1152) {
         selectedScene = this.inputs.A;
       } else {
         selectedScene = this.inputs.OUTTRO;
