@@ -441,11 +441,13 @@
           inventoryPosition = "bottom-right";
         }
       } else if (BEAN >= 896 && BEAN < 1008) { // treb
-        if(BEAN >= 896 && BEAN < 904) {
+        if(BEAN >= 896 && BEAN < 920) {
           inventoryPosition = "bottom-left";
-        } else if(BEAN >= 904 && BEAN < 912) {
-          inventoryPosition = "top-right";
-        } else if(BEAN >= 928 && BEAN < 936) {
+        } else if(BEAN >= 920 && BEAN < 928) {
+          inventoryPosition = "bottom-right";
+        } else if(BEAN >= 928 && BEAN < 954) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 960 && BEAN < 976) {
           inventoryPosition = "bottom-left";
         }
       } else if (BEAN >= 1024 && BEAN < 1136) { // bat

@@ -112,11 +112,11 @@
     }, {
         position: new THREE.Vector3(5, -7, 0),
         lookAt: new THREE.Vector3(0, 10, 0), 
-        distance: 70, height: 20, angle: 3.5,
+        distance: 70, height: 30, angle: 3.5,
     }, {
-      position: new THREE.Vector3(6, -12, 0),
-      lookAt: new THREE.Vector3(0, 10, 0), 
-      distance: 140, height: 45, angle: 2.1,
+        position: new THREE.Vector3(6, -12, 0),
+        lookAt: new THREE.Vector3(0, 10, 0), 
+        distance: 140, height: 45, angle: 2.1,
     }
     ],
     robot: [{
@@ -494,8 +494,25 @@
       }
 
       frame -= frameOffset;
-      let startFrameForInventory = ((this.stepNumber) * 70)-44
-      let endFrameForInventory = ((this.stepNumber+1) * 70)-44
+
+      let localStepNumber = this.stepNumber;
+
+      if (BEAN >= 912 && BEAN < 928) {
+        localStepNumber--;
+      } else if (BEAN >= 944 && BEAN < 984) {
+        localStepNumber--;
+      }
+
+      let startFrameForInventory = (localStepNumber * 70)-44
+      let endFrameForInventory = ((localStepNumber+1) * 70)-44
+      
+      if (BEAN >= 928  && BEAN < 944) {
+        startFrameForInventory = (5 * 70)-44
+        endFrameForInventory = (6 * 70)-44
+      } else if (BEAN >= 944 && BEAN < 952) {
+        startFrameForInventory = (localStepNumber * 70)-44
+        endFrameForInventory = ((localStepNumber+1) * 70)-44
+      }
       
       this.model.traverse(obj => {
         if(obj.material) {
