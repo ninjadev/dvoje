@@ -6,10 +6,6 @@
 // theta - radian value of rotation
 // pointIsWorld - boolean indicating the point is in world coordinates (default = false)
 function rotateAboutPoint(obj, point, axis, theta, pointIsWorld){
-  console.log(obj);
-  console.log(point);
-  console.log(axis);
-  console.log(theta);
   pointIsWorld = (pointIsWorld === undefined) ? false : pointIsWorld;
 
   if(pointIsWorld){
