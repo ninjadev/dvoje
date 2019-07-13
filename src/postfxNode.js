@@ -275,6 +275,10 @@
           case 1162:
           case 1167:
           case 1173:
+          case 1216:
+          case 1220:
+          case 1222:
+          case 1227:
           case 1229:
           case 1231:
           case 1234:
