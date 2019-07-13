@@ -93,7 +93,7 @@
     drawInventoryBox(ctx, x, y, w, h) {
       ctx.save();
       ctx.translate(x, y);
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+      ctx.fillStyle = 'rgb(202, 221, 230)';
       ctx.fillRect(0, 0, w, h);
 
       ctx.strokeStyle = 'rgba(171, 199, 211)';
@@ -444,7 +444,7 @@
           var offsetY = 0;
           let maxHeight = 0;
           let imagesToBeDrawn = [];
-          let invW = 600, invH = 300;
+          let invW = 0, invH = 300;
 
           for(var key of Object.keys(mapParts)) {
             let file = this.inventoryImages["res/bricks/" + key];
@@ -474,21 +474,24 @@
               w: width,
               h: height
             })
-            invW = Math.max(invW, offsetX)
+            invW = Math.max(invW, offsetX);
             invH = offsetY + maxHeight;
           }
 
-          let fullWidth = invW + 20;
-          let fullHeight = invH+30;
+          let fullWidth = invW + 30;
+          let fullHeight = invH + 35;
 
+          //this.ctx.drawImage(this.inventoryBox, 0, 0, fullWidth, fullHeight, startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
           this.ctx.drawImage(this.inventoryBox, 0, 0, fullWidth, fullHeight, startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
-
+          // this.canvas.width
           this.ctx.lineWidth = 8;
           this.ctx.strokeStyle = 'rgba(47, 58, 58)';
+          //this.ctx.strokeRect(startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
           this.ctx.strokeRect(startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
 
           for(var file of imagesToBeDrawn) {
-            this.ctx.drawImage(file.img, file.x, file.y, file.w, file.h);
+            let heightDiff = maxHeight - file.h;
+            this.ctx.drawImage(file.img, file.x, file.y + (heightDiff/2), file.w, file.h);
           }
         }
       }
@@ -498,15 +501,15 @@
 
       this.stepNumber = 0
 
-      if (BEAN >= 256 && BEAN < 368) { //car
+      if (BEAN >= 256 && BEAN < 336) { //car
         this.stepNumber = ((BEAN - 256) / 8 | 0) + 1;
-      } else if (BEAN >= 384 && BEAN < 496) { // heli
+      } else if (BEAN >= 384 && BEAN < 486) { // heli
         this.stepNumber = ((BEAN - 384) / 8 | 0) + 1;
-      } else if (BEAN >= 512 && BEAN < 624) { // robot
+      } else if (BEAN >= 512 && BEAN < 616) { // robot
         this.stepNumber = ((BEAN - 512) / 8 | 0) + 1;
-      } else if (BEAN >= 896 && BEAN < 1008) { // treb
+      } else if (BEAN >= 896 && BEAN < 984) { // treb
         this.stepNumber = ((BEAN - 896) / 8 | 0) + 1;
-      } else if (BEAN >= 1024 && BEAN < 1136) { // bat
+      } else if (BEAN >= 1024 && BEAN < 1120) { // bat
         this.stepNumber = ((BEAN - 1024) / 8 | 0) + 1;
       }
 
