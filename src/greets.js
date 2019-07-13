@@ -239,7 +239,7 @@
                                   [1,0,0,0,0,0,0,0,0,0],
                                   [1,0,0,0,0,0,0,0,0,0],
                                   [1,0,0,0,0,0,0,0,0,0]]);
-      
+
       this.brick_placements.push([[1,1,1,1,1,1,1,1,1,1],
                                   [1,1,1,1,1,1,1,1,1,1],
                                   [1,1,1,1,1,1,1,1,1,1],
@@ -429,11 +429,10 @@
       }
       if (!this.brick2_built) {
         var bc2 = 0;
-        for(var x = 0; x < 10; x++) { 
+        for(var x = 0; x < 10; x++) {
           for(var y = 0; y < 10; y++) {
             for(var z = 0; z < this.brick_placements.length; z++) {
               if (this.brick_placements[z][x][y] == 1 && bc2 + 4 <= this.bricks2.length) {
-                
                 // Place one brick and mirror that operation on the xz and yz plane
                 this.bricks2[bc2].position.x = -9.5 + x;
                 this.bricks2[bc2].position.y = -4.5 + y * 0.5;
@@ -451,8 +450,6 @@
                 this.bricks2[bc2+3].position.y = +4.5 - y * 0.5;
                 this.bricks2[bc2+3].position.z = z * 0.6;
                 bc2 += 4;
-
-
               }
             }
           }
@@ -480,7 +477,7 @@
           this.proto_brick2.position.x = -9.5;
           this.proto_brick2.position.y = -4.5;
           this.proto_brick2.position.z = 0;
-          
+
         }
         var poi_motion = sp;
         var poi_x = (1 - poi_motion) * this.bricks[0].position.x;
