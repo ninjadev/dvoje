@@ -34,29 +34,23 @@
       // debugger;
       // this.ctx.translate(this.halfWidth, this.halfHeight);
 
-      this.ctx.fillStyle = '#000000';
-      this.ctx.fillRect(0,
-                        0,
-                        1024,
-                        1024);
-
-
-      // var canvas_size = 1024;
-      // var size = 800;
-      // var width_small = 15;
-      // var width_large = 50;
+      // this.ctx.fillStyle = '#000000';
+      // this.ctx.fillRect(256,
+      //                   256,
+      //                   790,
+      //                   790);
 
       // this.ctx.fillStyle = '#6c79ae';
       // this.ctx.fillRect
 
       // Use random color for drawing>
-      // this.ctx.fillStyle = `#${(Math.random() * 0x1000000 | 0).toString(16).padStart(6, '0')}`;
-      // this.ctx.beginPath();
-      // var x = Math.random() * size | 0;
-      // var y = Math.random() * size | 0;
-      // // var radius = (Math.random() * (canvas_size - (canvas_size / 5)) + (canvas_size / 5) | 0);
-      // // this.ctx.arc(x, y, radius, 0, Math.PI * 2);
-      // // this.ctx.fill();
+      this.ctx.fillStyle = `#${(Math.random() * 0x1000000 | 0).toString(16).padStart(6, '0')}`;
+      this.ctx.beginPath();
+      var x = Math.random() * 800 | 0;
+      var y = Math.random() * 800 | 0;
+      var radius = (Math.random() * (1024 - (1024 / 5)) + (1024 / 5) | 0);
+      this.ctx.arc(x, y, radius, 0, Math.PI * 2);
+      this.ctx.fill();
 
       // this.ctx.fillRect(
       //   x, // x
@@ -74,6 +68,10 @@
       // this.ctx.lineTo(15, 15);
       // this.ctx.stroke();
 
+      // var canvas_size = 1024;
+      // var size = 800;
+      // var width_small = 15;
+      // var width_large = 50;
       // this.ctx.fillStyle = '#6c79ae';
       // this.ctx.fillRect((canvas_size - size) / 2,
       //                   (canvas_size - size) / 2,
