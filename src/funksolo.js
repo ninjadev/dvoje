@@ -242,13 +242,11 @@
       this.tireThrob = 0;
       Loader.loadAjax('res/robot.dae', text => {
         const model = loader.parse(text).scene;
-        console.log(model);
         this.robot = model;
         const scale = 0.02;
         model.scale.set(scale, scale, scale);
         model.position.z = 0;
         model.position.x = -2.5;
-        console.log(model.children[0].children.map((o, i) => [o.children[0].geometry.name, i]));
         this.tire1 = model.children[0].children[95].children[0];
         this.tire2 = model.children[0].children[20].children[0];
         this.tireRing1 = model.children[0].children[10].children[0];
