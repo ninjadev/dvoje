@@ -76,6 +76,25 @@
           topHeadBumpHeight,
         );
 
+        // Eyes
+        this.ctx.fillStyle = '#000000';
+        var eyeRadius = radius * 0.2;
+        var eyeXoffset = radius * 0.4;
+        var eyeYoffset = radius * 0.30;
+
+        // Draw left eye
+        this.ctx.beginPath();
+        var leftEyeX = x - eyeXoffset;
+        var leftEyeY = y - eyeYoffset;
+        this.ctx.arc(leftEyeX, leftEyeY, eyeRadius, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Draw right eye
+        this.ctx.beginPath();
+        var rightEyeX = x + eyeXoffset;
+        var rightEyeY = y - eyeYoffset;
+        this.ctx.arc(rightEyeX, rightEyeY, eyeRadius, 0, Math.PI * 2);
+        this.ctx.fill();
 
         this.ctx.restore();
       }
