@@ -497,6 +497,7 @@
     update(frame) {
       super.update(frame);
       this.background.material.map = this.inputs.background.getValue();
+      this.background.material.needsUpdate = true;
 
       // brick count
       var bc = 0;
