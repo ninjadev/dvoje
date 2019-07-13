@@ -192,6 +192,7 @@
           case 253:
             legoGlitch = 1;
         }
+        legoGlitch =1;
         ctx.save();
         ctx.globalAlpha = 0.5 * legoGlitch;
         this.uniforms.legoGlitch.value = legoGlitch;
@@ -206,6 +207,29 @@
           this.ctx.fillRect(0,0,1920,1080);
         }
       }
+
+      let legoGlitch = 0;
+      if (BEAN > 706 && BEAN < 768){
+
+        const ctx = this.ctx;
+
+        // snare drum
+        if (BEAN % 8 == 4 && BEAN < 752){
+            legoGlitch = 1;
+        }
+
+        // craaaaaaazy!
+        if (BEAN > 751 && BEAN < 768){
+            legoGlitch = Math.random() * 16;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.5 * legoGlitch;
+        ctx.drawImage(this.brickImage, Math.random()*1920, Math.random()*1080);
+        ctx.drawImage(this.brickLongImage, Math.random()*1920, Math.random()*1080);
+        ctx.restore();
+
+      }
+      this.uniforms.legoGlitch.value = legoGlitch;
 
 
 
