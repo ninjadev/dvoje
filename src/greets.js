@@ -11,7 +11,7 @@
         }
       });
 
-      this.background = new THREE.Mesh(new THREE.BoxGeometry(50,50,50), new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.DoubleSide }));
+      this.background = new THREE.Mesh(new THREE.BoxGeometry(50,50,50), new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide}));
       this.scene.add(this.background);
 
       var light = new THREE.PointLight(0xffffff, 1, 2000);
