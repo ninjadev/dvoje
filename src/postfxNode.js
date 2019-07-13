@@ -198,6 +198,13 @@
         ctx.drawImage(this.brickImage, Math.random()*1920, Math.random()*1080);
         ctx.drawImage(this.brickLongImage, Math.random()*1920, Math.random()*1080);
         ctx.restore();
+
+
+        const fadeInDoneBean = 40;
+        if (BEAN < fadeInDoneBean){
+          this.ctx.fillStyle = 'rgba(0,0,0,' + smoothstep(0, 1, (1 - F(frame, 0, fadeInDoneBean))) + ')';
+          this.ctx.fillRect(0,0,1920,1080);
+        }
       }
 
 
