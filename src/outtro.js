@@ -73,7 +73,7 @@
       light.position.set(-100, 50, 50);
       this.scene.add(light);
 
-      let ambientLight = new THREE.AmbientLight(0x404040, 1.5);
+      let ambientLight = new THREE.AmbientLight(0x404040, 4.5);
       this.scene.add(ambientLight);
 
       this.canvas = document.createElement('canvas');
