@@ -355,12 +355,13 @@
       this.proto_brick = new THREE.Object3D();
       this.scene.add(this.proto_brick);
       this.proto_brick2 = new THREE.Object3D();
+      this.proto_brick2.rotation.z = Math.PI;
       this.scene.add(this.proto_brick2);
       var brick_material = new THREE.MeshStandardMaterial({color: 'red'});
       loadObject('res/32000.obj', brick_material, this.proto_brick, this.bricks);
       loadObject('res/32000.obj', brick_material, this.proto_brick2, this.bricks2);
 
-      this.brick2_built = false;
+      this.brick2_state;
     }
 
     update(frame) {
@@ -380,6 +381,21 @@
       if (BEAN < 796) {
         logo = this.greet_merqury;
       }
+      else if (BEAN < 796) {
+        logo = this.greet_panda;
+      }
+      else if (BEAN < 820) {
+        logo = this.greet_merqury;
+      }
+      else if (BEAN < 844) {
+        logo = this.greet_panda;
+      }
+      else if (BEAN < 868) {
+        logo = this.greet_merqury;
+      }
+      else if (BEAN < 892) {
+        logo = this.greet_panda;
+      }
       else
       {
         logo = this.greet_panda;
@@ -390,7 +406,8 @@
                     new THREE.MeshStandardMaterial({color: 'gray'}),
                     new THREE.MeshStandardMaterial({color: 'red'}),
                     new THREE.MeshStandardMaterial({color: 'blue'}),
-                    new THREE.MeshStandardMaterial({color: 'light gray'})];
+                    new THREE.MeshStandardMaterial({color: 'light gray'}),
+                    new THREE.MeshStandardMaterial({color: 'yellow'})];
 
       for(var x = 0; x < 10; x++) {
         for(var y = 0; y < 10; y++) {
@@ -439,7 +456,7 @@
           }
         }
       }
-      if (!this.brick2_built) {
+      if (this.brick2_state != logo) {
         var bc2 = 0;
         for(var x = 0; x < 10; x++) {
           for(var y = 0; y < 10; y++) {
@@ -462,11 +479,30 @@
                 this.bricks2[bc2+3].position.y = +4.5 - y * 0.5;
                 this.bricks2[bc2+3].position.z = z * 0.6;
                 bc2 += 4;
+
+                if (x == 0 && z < 20) {
+                  if (this.bricks2[bc2] != undefined) {
+                    this.bricks2[bc2].traverse(function(child) {
+                      if (child instanceof THREE.Mesh) {
+                        child.material = colors[logo[19-z][19 -y]];
+                      }
+                    });
+                  }
+                }
+                if (x == 0 && z < 20) {
+                  if (this.bricks2[bc2+2] != undefined) {
+                    this.bricks2[bc2+2].traverse(function(child) {
+                      if (child instanceof THREE.Mesh) {
+                        child.material = colors[logo[19-z][19 -y]];
+                      }
+                    });
+                  }
+                }
               }
             }
           }
         }
-        this.brick2_built = true;
+        this.brick2_state = logo;
       }
       this.proto_brick2.scale.x = 0.05;
       this.proto_brick2.scale.y = 0.05;
@@ -489,7 +525,6 @@
           this.proto_brick2.position.x = -9.5;
           this.proto_brick2.position.y = -4.5;
           this.proto_brick2.position.z = 0;
-
         }
         var poi_motion = sp;
         var poi_x = (1 - poi_motion) * this.bricks[0].position.x;
