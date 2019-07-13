@@ -37,9 +37,12 @@
       this.ctx.fillStyle = randomColor;
       this.ctx.beginPath();
       // Random x/y centerpoint that is within scene:
-      var x = Math.floor(this.random() * 800);
-      var y = this.random() * 800 | 0;
-      var radius = (this.random() * (1024 - (1024 / 5)) + (1024 / 5) | 0);
+      var x = Math.floor(this.random() * 900);
+      var y = Math.floor(this.random() * 900);
+      // Random size of circle, but within reasonable bounds:
+      var maxCircleRadius = this.canvas.width / 5;
+      var minCircleRadius = this.canvas.width / 15;
+      var radius = Math.floor(this.random() * (maxCircleRadius - minCircleRadius) + minCircleRadius);
       this.ctx.arc(x, y, radius, 0, Math.PI * 2);
       this.ctx.fill();
 
