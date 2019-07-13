@@ -307,6 +307,28 @@
                             [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
                             [2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2]];
 
+
+       this.greet_panda =   [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                            [1,0,1,1,1,0,0,0,0,0,0,0,0,0,0,1,1,1,0,1],
+                            [1,0,1,1,1,0,1,1,1,1,1,1,1,1,0,1,1,1,0,1],
+                            [1,0,1,1,1,1,1,5,0,0,0,0,5,1,1,1,1,1,0,1],
+                            [1,0,0,1,1,5,0,0,0,0,0,0,0,0,5,1,1,0,0,1],
+                            [1,0,0,1,5,0,1,1,1,0,0,1,1,1,0,5,1,0,0,1],
+                            [1,0,1,5,0,1,1,1,1,0,0,1,1,1,1,0,5,1,0,1],
+                            [1,0,1,5,0,1,1,1,1,0,0,1,0,1,1,0,5,1,0,1],
+                            [1,0,1,5,0,1,1,0,1,0,0,1,1,1,1,0,5,1,0,1],
+                            [1,0,1,5,0,1,1,1,0,0,0,0,1,1,1,0,5,1,0,1],
+                            [1,0,1,5,0,0,0,0,0,0,0,0,0,0,0,0,5,1,0,1],
+                            [1,0,1,5,0,0,0,0,1,1,1,1,0,0,0,0,5,1,0,1],
+                            [1,0,0,1,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,1],
+                            [1,0,0,1,5,0,0,0,1,0,0,0,0,1,0,5,1,0,0,1],
+                            [1,0,0,0,1,5,0,0,0,1,1,1,1,0,5,1,0,0,0,1],
+                            [1,0,0,0,0,1,1,5,5,5,5,5,5,1,1,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,1,1,1,1,1,1,0,0,0,0,0,0,1],
+                            [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
+                            [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1]];
+
       var loadObject = function (objPath, material, three_scene, clone_array) {
         var objLoader = new THREE.OBJLoader();
         Loader.loadAjax(objPath, function(text) {
@@ -354,6 +376,22 @@
       var shrink_duration = FRAME_FOR_BEAN(16)
       var sp = Math.min(1, Math.max(0, (frame - start_shrink) / shrink_duration)); // zoom progress
 
+      var logo;
+      if (BEAN < 796) {
+        logo = this.greet_merqury;
+      }
+      else
+      {
+        logo = this.greet_panda;
+      }
+
+      var colors = [new THREE.MeshStandardMaterial({color: 'white'}),
+                    new THREE.MeshStandardMaterial({color: 'black'}),
+                    new THREE.MeshStandardMaterial({color: 'gray'}),
+                    new THREE.MeshStandardMaterial({color: 'red'}),
+                    new THREE.MeshStandardMaterial({color: 'blue'}),
+                    new THREE.MeshStandardMaterial({color: 'light gray'})];
+
       for(var x = 0; x < 10; x++) {
         for(var y = 0; y < 10; y++) {
           for(var z = 0; z < this.brick_placements.length; z++) {
@@ -379,49 +417,24 @@
               this.bricks[bc+3].position.z = z * 0.6 + brick_fall;
               bc += 4;
 
-              if (x == 0 && z < 20 && this.greet_merqury[19-z][y] == 3) {
+              if (x == 0 && z < 20) {
                 if (this.bricks[bc] != undefined) {
                   this.bricks[bc].traverse(function(child) {
                     if (child instanceof THREE.Mesh) {
-                      child.material = new THREE.MeshStandardMaterial({color: 'red'});
-                      child.material.side = THREE.DoubleSide;
+                      child.material = colors[logo[19-z][19 -y]];
                     }
                   });
                 }
               }
-              if (x == 0 && z < 20 && this.greet_merqury[19-z][19 -y] == 3) {
+              if (x == 0 && z < 20) {
                 if (this.bricks[bc+2] != undefined) {
                   this.bricks[bc+2].traverse(function(child) {
                     if (child instanceof THREE.Mesh) {
-                      child.material = new THREE.MeshStandardMaterial({color: 'red'});
-                      child.material.side = THREE.DoubleSide;
+                      child.material = colors[logo[19-z][19 -y]];
                     }
                   });
                 }
               }
-              if (x == 0 && z < 20 && this.greet_merqury[19-z][y] == 2) {
-                if (this.bricks[bc] != undefined) {
-                  this.bricks[bc].traverse(function(child) {
-                    if (child instanceof THREE.Mesh) {
-                      child.material = new THREE.MeshStandardMaterial({color: 'black'});
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                }
-              }
-              if (x == 0 && z < 20 && this.greet_merqury[19-z][19 -y] == 2) {
-                if (this.bricks[bc+2] != undefined) {
-                  this.bricks[bc+2].traverse(function(child) {
-                    if (child instanceof THREE.Mesh) {
-                      child.material = new THREE.MeshStandardMaterial({color: 'black'});
-                      child.material.side = THREE.DoubleSide;
-                    }
-                  });
-                }
-              }
-              //this.bricks[bc].children[0].material
-
-              //this.greet_merqury
             }
           }
         }
