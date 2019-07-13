@@ -47,17 +47,6 @@
       this.inventoryBoxCtx = this.inventoryBox.getContext('2d');
       this.drawInventoryBox(this.inventoryBoxCtx, 0, 0, this.inventoryBox.width, this.inventoryBox.height);
 
-      /*
-      this.inventoryBoxCrop = document.createElement('canvas');
-      this.inventoryBoxCrop.width = 600;
-      this.inventoryBoxCrop.height = 600;
-      */
-
-      this.detailedBox = document.createElement('canvas');
-      this.detailedBox.width = 500;
-      this.detailedBox.height = 400;
-      this.drawDetailsBox(this.detailedBox.getContext('2d'), 0, 0, 500, 400);
-
       this.loadInventoryImages()
     }
 
@@ -454,7 +443,7 @@
           inventoryPosition = "bottom-left";
         } else if(BEAN >= 920 && BEAN < 928) {
           inventoryPosition = "bottom-right";
-        } else if(BEAN >= 928 && BEAN < 954) {
+        } else if(BEAN >= 928 && BEAN < 952) {
           inventoryPosition = "bottom-left";
         } else if(BEAN >= 960 && BEAN < 976) {
           inventoryPosition = "bottom-left";
@@ -587,7 +576,7 @@
             invY = this.canvas.height-fullHeight-startOffsetY-10;
 
             if(pos[1] == "right") {
-              invX = this.canvas.width - fullWidth;
+              invX = this.canvas.width - fullWidth + 20;
             }
           }
 
@@ -636,9 +625,6 @@
 
       this.ctx.fillStyle = 'black';
       this.ctx.fillRect(100, 320 , 8, 1080 - 480);
-
-      // Will move based on interesting building
-      //this.ctx.drawImage(this.detailedBox, 1920-600, 400);
     }
 
     loadInventoryImages() {
