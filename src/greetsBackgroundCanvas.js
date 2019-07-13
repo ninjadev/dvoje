@@ -11,6 +11,8 @@
         }
       });
 
+      this.random = new Random('greetsbg');
+
       this.canvas = document.createElement('canvas');
       this.ctx = this.canvas.getContext('2d');
 
@@ -29,26 +31,15 @@
       super.update(frame);
       this.ctx.save();
 
-      // var randomColor = `#${(Math.random() * 0x1000000 | 0).toString(16).padStart(6, '0')}`;
-
-      // debugger;
-      // this.ctx.translate(this.halfWidth, this.halfHeight);
-
-      // this.ctx.fillStyle = '#000000';
-      // this.ctx.fillRect(256,
-      //                   256,
-      //                   790,
-      //                   790);
-
-      // this.ctx.fillStyle = '#6c79ae';
-      // this.ctx.fillRect
+      var randomColor = `#${Math.floor(this.random() * 0x1000000).toString(16).padStart(6, '0')}`;
 
       // Use random color for drawing>
-      this.ctx.fillStyle = `#${(Math.random() * 0x1000000 | 0).toString(16).padStart(6, '0')}`;
+      this.ctx.fillStyle = randomColor;
       this.ctx.beginPath();
-      var x = Math.random() * 800 | 0;
-      var y = Math.random() * 800 | 0;
-      var radius = (Math.random() * (1024 - (1024 / 5)) + (1024 / 5) | 0);
+      // Random x/y centerpoint that is within scene:
+      var x = Math.floor(this.random() * 800);
+      var y = this.random() * 800 | 0;
+      var radius = (this.random() * (1024 - (1024 / 5)) + (1024 / 5) | 0);
       this.ctx.arc(x, y, radius, 0, Math.PI * 2);
       this.ctx.fill();
 
