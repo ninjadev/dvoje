@@ -29,7 +29,7 @@
 
     update(frame) {
       super.update(frame);
-      if(BEAN % 4 === 0){
+      if(BEAN % 8 === 0){
         this.ctx.save();
 
         var randomColor = `#${Math.floor(this.random() * 0x1000000).toString(16).padStart(6, '0')}`;
