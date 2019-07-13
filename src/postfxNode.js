@@ -42,8 +42,8 @@
       Loader.load('res/brick_frame_long.png', this.brickLongImage);
 
       this.inventoryBox = document.createElement('canvas');
-      this.inventoryBox.width = this.canvas.width / 2;
-      this.inventoryBox.height = 300;
+      this.inventoryBox.width = this.canvas.width;
+      this.inventoryBox.height = this.canvas.height;
       this.inventoryBoxCtx = this.inventoryBox.getContext('2d');
       this.drawInventoryBox(this.inventoryBoxCtx, 0, 0, this.inventoryBox.width, this.inventoryBox.height);
 
@@ -407,12 +407,49 @@
 
     renderPartsInventoryBox() {
 
+      let inventoryPosition = "top-right";
+
       if (BEAN >= 256 && BEAN < 368) { //car
+        if(BEAN >= 296 && BEAN < 304) {
+          inventoryPosition = "bottom-left";
+        }
       } else if (BEAN >= 384 && BEAN < 496) { // heli
+        if(BEAN >= 384 && BEAN < 392) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 392 && BEAN < 400) {
+          inventoryPosition = "top-left";
+        } else if(BEAN >= 408 && BEAN < 416) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 416 && BEAN < 424) {
+          inventoryPosition = "top-left";
+        } else if(BEAN >= 424 && BEAN < 440) {
+          inventoryPosition = "bottom-right";
+        }
       } else if (BEAN >= 512 && BEAN < 624) { // robot
+        if(BEAN >= 512 && BEAN < 528) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 528 && BEAN < 536) {
+          inventoryPosition = "top-left";
+        } else if(BEAN >= 536 && BEAN < 552) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 576 && BEAN < 592) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 592 && BEAN < 600) {
+          inventoryPosition = "top-left";
+        } else if(BEAN >= 600 && BEAN < 608) {
+          inventoryPosition = "bottom-right";
+        }
       } else if (BEAN >= 896 && BEAN < 1008) { // treb
+        if(BEAN >= 896 && BEAN < 904) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 904 && BEAN < 912) {
+          inventoryPosition = "top-right";
+        } else if(BEAN >= 928 && BEAN < 936) {
+          inventoryPosition = "bottom-left";
+        }
       } else if (BEAN >= 1024 && BEAN < 1136) { // bat
       } else {
+        // Never show for other scenes
         return;
       }
 
@@ -436,8 +473,14 @@
           }
         }
 
+        var pos = inventoryPosition.split("-");
+
         if (Object.keys(mapParts).length > 0) {
-          var startOffsetX = this.stepNumber > 9 ? 400 : 300;
+          var startOffsetX = 10;
+
+          if (pos[0] == "top" && pos[1] == "left") {
+            startOffsetX = this.stepNumber > 9 ? 400 : 300;
+          }
           var startOffsetY = 80;
 
           var offsetX = 0;
@@ -481,17 +524,46 @@
           let fullWidth = invW + 30;
           let fullHeight = invH + 35;
 
-          //this.ctx.drawImage(this.inventoryBox, 0, 0, fullWidth, fullHeight, startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
-          this.ctx.drawImage(this.inventoryBox, 0, 0, fullWidth, fullHeight, startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
-          // this.canvas.width
+          let invX = startOffsetX-40;
+          let invY = startOffsetY-20;
+          if(pos[0] == "top") {
+            if(pos[1] == "right") {
+              invX = this.canvas.width-fullWidth-30;
+            }
+          } else {
+            invX = 150;
+            invY = this.canvas.height-fullHeight-startOffsetY-30;
+
+            if(pos[1] == "right") {
+              invX = this.canvas.width-fullWidth-30;
+            }
+          }
+          this.ctx.drawImage(this.inventoryBox, 0, 0, fullWidth, fullHeight, invX, invY, fullWidth, fullHeight);
+
           this.ctx.lineWidth = 8;
           this.ctx.strokeStyle = 'rgba(47, 58, 58)';
-          //this.ctx.strokeRect(startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
-          this.ctx.strokeRect(startOffsetX-40, startOffsetY-20, fullWidth, fullHeight);
+
+          this.ctx.strokeRect(invX, invY, fullWidth, fullHeight);
+
+
+          invX = 0;
+          invY = startOffsetY;
+          if(pos[0] == "top") {
+            if(pos[1] == "right") {
+              invX = this.canvas.width - fullWidth;
+            }
+          } else {
+            invX = 175;
+            invY = this.canvas.height-fullHeight-startOffsetY-10;
+
+            if(pos[1] == "right") {
+              invX = this.canvas.width - fullWidth;
+            }
+          }
 
           for(var file of imagesToBeDrawn) {
             let heightDiff = maxHeight - file.h;
-            this.ctx.drawImage(file.img, file.x, file.y + (heightDiff/2), file.w, file.h);
+            this.ctx.drawImage(file.img, invX + file.x, invY + (heightDiff/2), file.w, file.h);
           }
         }
       }
