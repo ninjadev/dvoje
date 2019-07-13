@@ -20,7 +20,7 @@
 
       this.backgroundNames = new THREE.Mesh(
         new THREE.BoxGeometry(50,50,50),
-        new THREE.MeshBasicMaterial({ side: THREE.BackSide})
+        new THREE.MeshBasicMaterial({transparent: true, side: THREE.BackSide})
       );
       this.scene.add(this.backgroundNames);
 
