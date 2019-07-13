@@ -10,6 +10,11 @@
       super(id, options);
     }
 
+    warmup(renderer) {
+      this.update(100);
+      this.render(renderer);
+    }
+
     update(frame) {
       this.uniforms.frame.value = frame;
       this.uniforms.GU.value = GU;

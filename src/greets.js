@@ -495,6 +495,11 @@
         this.bricks[i].position.z = 100;
       }
     }
+
+    warmup(renderer) {
+      this.update(6710);
+      this.render(renderer);
+    }
   }
 
   global.greets = greets;

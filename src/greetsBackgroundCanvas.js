@@ -117,6 +117,11 @@
       }
     }
 
+    warmup(renderer) {
+      this.update(6710);
+      this.render(renderer);
+    }
+
     render() {
       this.output.needsUpdate = true;
       this.outputs.render.setValue(this.output);

@@ -29,6 +29,11 @@
       this.resize();
     }
 
+    warmup(renderer) {
+      this.update(1);
+      this.render(renderer);
+    }
+
     resize() {
       const scale = 4;
       if(this.renderTarget)

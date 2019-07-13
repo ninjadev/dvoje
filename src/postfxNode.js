@@ -535,6 +535,11 @@
         }
       }
     }
+
+    warmup(renderer) {
+      this.update(2236);
+      this.render(renderer);
+    }
   }
 
   global.postfxNode = postfxNode;

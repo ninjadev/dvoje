@@ -210,6 +210,11 @@
 
       this.tex.needsUpdate = true;
     }
+
+    warmup(renderer) {
+      this.update(10065);
+      this.render(renderer);
+    }
   }
 
   global.outtro = outtro;
