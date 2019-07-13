@@ -17,10 +17,10 @@
       );
       this.scene.add(this.background);
 
-      var light = new THREE.PointLight(0xffffff, 1, 2000);
+      var light = new THREE.PointLight(0xffffff, 2, 2000);
       light.position.set(50, 50, 50);
       this.scene.add(light);
-      var light2 = new THREE.PointLight(0xffffff, 1, 2000);
+      var light2 = new THREE.PointLight(0xffffff, 2, 2000);
       light2.position.set(-50, -50, 50);
       this.scene.add(light2);
 
@@ -459,8 +459,6 @@
                             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]];
 
-
-                            
       var loadObject = function (objPath, material, three_scene, clone_array) {
         var objLoader = new THREE.OBJLoader();
         Loader.loadAjax(objPath, function(text) {
@@ -468,7 +466,7 @@
           var test;
           object.traverse(function(child) {
             if (child instanceof THREE.Mesh) {
-              child.material = new THREE.MeshStandardMaterial({color: 'white'});
+              child.material = new THREE.MeshStandardMaterial({color: '#645a4c', metalness: 0, roughness: 0.2});
               child.material.side = THREE.DoubleSide;
             }
 
