@@ -30,7 +30,8 @@
     "id": "greets",
     "type": "greets",
     "connected": {
-      "background": "greetsBackgroundCanvas.render"
+      "background": "greetsBackgroundCanvas.render",
+      "backgroundNames": "greetsBackgroundNames.render"
     }
   },
   {
@@ -132,5 +133,9 @@
   {
     "id": "greetsBackgroundCanvas",
     "type": "greetsBackgroundCanvas"
+  },
+  {
+    "id": "greetsBackgroundNames",
+    "type": "greetsBackgroundNames"
   }
 ]
