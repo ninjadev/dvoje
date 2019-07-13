@@ -11,7 +11,7 @@
         }
       });
 
-      this.random = new Random('greetsbg');
+      this.random = new Random('betterseed');
 
       this.canvas = document.createElement('canvas');
       this.ctx = this.canvas.getContext('2d');
