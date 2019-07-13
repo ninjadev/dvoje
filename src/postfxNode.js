@@ -458,6 +458,17 @@
           inventoryPosition = "bottom-left";
         }
       } else if (BEAN >= 1024 && BEAN < 1136) { // bat
+        if(BEAN >= 1024 && BEAN < 1032) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 1032 && BEAN < 1040) {
+          inventoryPosition = "top-right";
+        } else if(BEAN >= 1040 && BEAN < 1064) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 1088 && BEAN < 1112) {
+          inventoryPosition = "bottom-left";
+        } else if(BEAN >= 1112 && BEAN < 1120) {
+          inventoryPosition = "bottom-left";
+        }
       } else {
         // Never show for other scenes
         return;

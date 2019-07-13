@@ -112,12 +112,12 @@
     }, {
         position: new THREE.Vector3(5, -7, 0),
         lookAt: new THREE.Vector3(0, 10, 0), 
-        distance: 70, height: 45, angle: 3.5,
+        distance: 70, height: 20, angle: 3.5,
     }, {
-        position: new THREE.Vector3(6, -12, 0),
-        lookAt: new THREE.Vector3(0, 10, 0), 
-        distance: 140, height: 45, angle: 2.1,
-      }
+      position: new THREE.Vector3(6, -12, 0),
+      lookAt: new THREE.Vector3(0, 10, 0), 
+      distance: 140, height: 45, angle: 2.1,
+    }
     ],
     robot: [{
       position: new THREE.Vector3(0, 0, 0),
