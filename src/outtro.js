@@ -8,6 +8,12 @@
         }
       });
 
+      this.background = new THREE.Mesh(
+        new THREE.BoxGeometry(1000, 1000, 1000),
+        new THREE.MeshBasicMaterial({color: '#686868', side: THREE.BackSide})
+      );
+      this.scene.add(this.background);
+
       const sideTexture = Loader.loadTexture('res/construct_box_side.png');
       const topTexture = Loader.loadTexture('res/construct_box_side.png');
       topTexture.rotation = Math.PI/2;
@@ -79,25 +85,55 @@
         side: THREE.DoubleSide,
         transparent: true
       }));
-      this.textPlane.position.set(0, -20, 180);
+      this.textPlane.position.set(200, 20, 160);
+      this.textPlane.lookAt(new THREE.Vector3(300, 50, 252));
       this.scene.add(this.textPlane);
+
       this.colorNIN = 'rgba(0,0,0,0)';
       this.colorJA = 'rgba(0,0,0,0)';
       this.colorDEV = 'rgba(0,0,0,0)';
-      this.camera.position.z = 300;
-      this.camera.position.y = -20;
+
+      this.camera.position.z = 200;
     }
 
     update(frame) {
       super.update(frame);
-      this.camera.position.z += 0.1;
-
       let startBEAN = 1157;
       let startFrame = FRAME_FOR_BEAN(startBEAN);
+
       let nin = 1188;
       let ja = 1192;
       let dev = 1204;
+
+      const stopZoom = 1236;
+
+      const closeLid = 1178;
+
       let t = 0;
+
+      if(BEAN < stopZoom) {
+        t = frame - FRAME_FOR_BEAN(startBEAN);
+        this.camera.position.x = lerp(0, 300, t/300);
+        this.camera.position.y = lerp(0, 50, t/300);
+        this.camera.position.z = lerp(200, 252, t/300);
+        this.camera.lookAt(this.box.position);
+      }
+
+      if(BEAN == closeLid) {
+        // this is bugged
+        rotateAboutPoint(
+          this.boxTopLeft,
+          new THREE.Vector3(250/2, 150/2, 50/2),
+          new THREE.Vector3(1, 0, 0),
+          Math.PI/4+0.2
+        );
+        rotateAboutPoint(
+          this.boxTopRight,
+          new THREE.Vector3(250/2, 150/2, -50/2),
+          new THREE.Vector3(1, 0, 0),
+          -Math.PI/4+0.2
+        );
+      }
 
       if (BEAN < nin) {
         this.colorNIN = 'rgba(0,0,0,0)';
@@ -153,7 +189,7 @@
 
       this.ctx.restore();
       this.ctx.save();
-      
+
       this.ctx.translate(8*GU, 4.5*GU);
       this.ctx.scale(this.sizeJA, this.sizeJA);
       this.ctx.translate(-8*GU, -4.5*GU);
@@ -163,7 +199,7 @@
 
       this.ctx.restore();
       this.ctx.save();
-      
+
       this.ctx.translate(8*GU, 4.5*GU);
       this.ctx.scale(this.sizeDEV, this.sizeDEV);
       this.ctx.translate(-8*GU, -4.5*GU);
