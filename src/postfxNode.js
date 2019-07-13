@@ -158,9 +158,9 @@
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.font = 'bold 200px SchmelviticoBold';
 
-      var {invX, invY} = this.renderPartsInventoryBox();
+      this.renderPartsInventoryBox();
 
-      this.renderStepNumberVerticalLineAndBox(invX, invY);
+      this.renderStepNumberVerticalLineAndBox(100, 250);
 
       if (currentText) {
         this.ctx.save();
@@ -406,6 +406,16 @@
     }
 
     renderPartsInventoryBox() {
+
+      if (BEAN >= 256 && BEAN < 368) { //car
+      } else if (BEAN >= 384 && BEAN < 496) { // heli
+      } else if (BEAN >= 512 && BEAN < 624) { // robot
+      } else if (BEAN >= 896 && BEAN < 1008) { // treb
+      } else if (BEAN >= 1024 && BEAN < 1136) { // bat
+      } else {
+        return;
+      }
+
       var partsOnCurrentPage = this.inputs.partsOnCurrentPage.getValue();
       if(partsOnCurrentPage) {
         var mapParts = {};
@@ -482,7 +492,6 @@
           }
         }
       }
-      return {invX: 100, invY: 250};
     }
     
     renderStepNumberVerticalLineAndBox(x, y) {
