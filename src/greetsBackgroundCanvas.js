@@ -40,7 +40,7 @@
         // Exclude some of the colors that don't really make for good backgrounds.
         var availableColors = [
           '#FDB200', // SOLID-MEDIUM_ORANGE
-          // '#8A928D', // METAL-SILVER
+          '#8A928D', // METAL-SILVER
           // '#222222', // RUBBER-BLACK
           // '#645a4c', // CHROME-ANTIQUE_BRASS
           '#469bc3', // SOLID-DARK_AZURE
@@ -135,7 +135,16 @@
       }
 
       // Draw names!
-      // the 8 names: {Darklite, Desire, Dekadence, Ephidrena, Mr doob, Still, Solskogen crew, You}
+      var shoutOutNames = [
+        'Darklite',
+        'Desire',
+        'Dekadence',
+        'Ephidrena',
+        'Mr doob',
+        'Still',
+        'Solskogen crew',
+        'You'
+      ]
       // Have 139.625 frames for each, starting at frame 6710
       this.ctx.save();
 
@@ -154,7 +163,8 @@
 
       // Pick name and params
       var firstFrameNumber = 6710;
-      var nameDisplayIntervalFrames = 139;
+      var lastFrameNumber = 7827;
+      var nameDisplayIntervalFrames = Math.floor( (7827 - 6710) / shoutOutNames.length );
       var fontSize = 80; // For some long names we want a smaller font
       var currentName = '';
       if(frame < firstFrameNumber + nameDisplayIntervalFrames){
