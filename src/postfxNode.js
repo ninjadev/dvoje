@@ -275,6 +275,10 @@
           case 1162:
           case 1167:
           case 1173:
+          case 1216:
+          case 1220:
+          case 1222:
+          case 1227:
           case 1229:
           case 1231:
           case 1234:
@@ -301,6 +305,11 @@
       this.uniforms.legoGlitch.value = legoGlitch;
 
 
+      const fadeOutBean = 1250;
+      if (BEAN > fadeOutBean){
+        this.ctx.fillStyle = 'rgba(0,0,0,' + F(frame, 1250, 10) + ')';
+        this.ctx.fillRect(0,0,1920,1080);
+      }
 
       this.canvasTexture.needsUpdate = true;
 

@@ -114,6 +114,11 @@ void main() {
     //color = mix(color, vec3(1.), amount);
     color += amount * 0.5;
   }
+  if(frame >= 10065. - 0.5 && frame < 10065. + 30. - 0.5) {
+    float amount = clamp(0., 1., 1. - smoothstep(0., 2., (frame - 10065.) / 30.));
+    //color = mix(color, vec3(1.), amount);
+    color += amount * 0.5;
+  }
 
   gl_FragColor = vec4(color, 1.);
 }
