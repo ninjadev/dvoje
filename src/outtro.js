@@ -107,7 +107,8 @@
 
       const stopZoom = 1236;
 
-      const closeLid = 1178;
+      const startCloseLid = 1175;
+      const stopCloseLid = 1178;
 
       let t = 0;
 
@@ -119,18 +120,18 @@
         this.camera.lookAt(this.box.position);
       }
 
-      if(frame == FRAME_FOR_BEAN(closeLid)) {
+      if(frame >= FRAME_FOR_BEAN(startCloseLid) && frame < FRAME_FOR_BEAN(stopCloseLid)) {
         rotateAboutPoint(
           this.boxTopLeft,
           new THREE.Vector3(250/2, 150/2, 50/2),
           new THREE.Vector3(1, 0, 0),
-          lerp(Math.PI/4, Math.PI/4+0.3, t/100)
+          -0.1
         );
         rotateAboutPoint(
           this.boxTopRight,
           new THREE.Vector3(250/2, 150/2, -50/2),
           new THREE.Vector3(1, 0, 0),
-          -lerp(Math.PI/4, Math.PI/4+0.3, t/100)
+          0.1
         );
       }
 
