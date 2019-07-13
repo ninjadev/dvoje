@@ -468,14 +468,28 @@
             mapParts[key].count += 1;
           } else {
             mapParts[key] = {
-              count: 1
+              count: 1,
+              sortField: material.name + "_" + part.geometry.name,
+              key: key
             }
           }
         }
 
         var pos = inventoryPosition.split("-");
 
-        if (Object.keys(mapParts).length > 0) {
+        var parts = Object.values(mapParts);
+        if (parts.length > 0) {
+
+          parts = parts.sort(function(a, b) {
+            if ( a.sortField < b.sortField ){
+              return -1;
+            }
+            if ( a.sortField > b.sortField ){
+              return 1;
+            }
+            return 0;
+          });
+
           var startOffsetX = 10;
 
           if (pos[0] == "top" && pos[1] == "left") {
@@ -489,8 +503,8 @@
           let imagesToBeDrawn = [];
           let invW = 0, invH = 300;
 
-          for(var key of Object.keys(mapParts)) {
-            let file = this.inventoryImages["res/bricks/" + key];
+          for(var part of parts) {
+            let file = this.inventoryImages["res/bricks/" + part.key];
             let ratio = file.width / file.height;
             let scaleY = file.height / 850;
             let scaleX = file.width * scaleY;
