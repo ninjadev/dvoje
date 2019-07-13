@@ -26,49 +26,83 @@
     }
 
     update(frame) {
-      // begin canvas content
       super.update(frame);
-
       this.ctx.save();
-      this.ctx.translate(this.halfWidth, this.halfHeight);
 
-      var canvas_size = 1024;
-      var size = 800;
-      var width_small = 15;
-      var width_large = 50;
+      // var randomColor = `#${(Math.random() * 0x1000000 | 0).toString(16).padStart(6, '0')}`;
+
+      // debugger;
+      // this.ctx.translate(this.halfWidth, this.halfHeight);
+
+      this.ctx.fillStyle = '#000000';
+      this.ctx.fillRect(0,
+                        0,
+                        1024,
+                        1024);
 
 
-      this.ctx.fillStyle = '#6c79ae';
-      this.ctx.fillRect((canvas_size - size) / 2,
-                        (canvas_size - size) / 2,
-                        size,
-                        size);
-      this.ctx.clearRect((canvas_size - size) / 2 + width_small,
-                          (canvas_size - size) / 2 + width_small,
-                          size - 2 * width_small,
-                          size - 2 * width_small);
+      // var canvas_size = 1024;
+      // var size = 800;
+      // var width_small = 15;
+      // var width_large = 50;
 
-      this.ctx.fillRect((canvas_size - size) / 2 + 2 * width_small,
-                        (canvas_size - size) / 2 + 2 * width_small,
-                        size - 4 * width_small,
-                        size - 4 * width_small);
-      this.ctx.clearRect((canvas_size - size) / 2 + width_small + width_large,
-                          (canvas_size - size) / 2 + width_small + width_large,
-                          size - 2 * width_small - 2 * width_large,
-                          size - 2 * width_small - 2 * width_large);
+      // this.ctx.fillStyle = '#6c79ae';
+      // this.ctx.fillRect
 
-      this.ctx.fillRect((canvas_size - size) / 2 + 2 * width_small + width_large,
-                        (canvas_size - size) / 2 + 2 * width_small + width_large,
-                        size - 4 * width_small - 2 * width_large,
-                        size - 4 * width_small - 2 * width_large);
-      this.ctx.clearRect((canvas_size - size) / 2 + 3 * width_small + width_large,
-                          (canvas_size - size) / 2 + 3 * width_small + width_large,
-                          size - 6 * width_small - 2 * width_large,
-                          size - 6 * width_small - 2 * width_large);
+      // Use random color for drawing>
+      // this.ctx.fillStyle = `#${(Math.random() * 0x1000000 | 0).toString(16).padStart(6, '0')}`;
+      // this.ctx.beginPath();
+      // var x = Math.random() * size | 0;
+      // var y = Math.random() * size | 0;
+      // // var radius = (Math.random() * (canvas_size - (canvas_size / 5)) + (canvas_size / 5) | 0);
+      // // this.ctx.arc(x, y, radius, 0, Math.PI * 2);
+      // // this.ctx.fill();
+
+      // this.ctx.fillRect(
+      //   x, // x
+      //   y, // y
+      //   Math.random() * size, // width
+      //   Math.random() * size // height
+      // );
+
+      // section of nope:
+      // this.ctx.beginPath();
+      // this.ctx.moveTo(400, 50);
+      // this.ctx.lineTo(1024, 0);
+      // this.ctx.lineTo(5, 800);
+      // this.ctx.moveTo(0, 0);
+      // this.ctx.lineTo(15, 15);
+      // this.ctx.stroke();
+
+      // this.ctx.fillStyle = '#6c79ae';
+      // this.ctx.fillRect((canvas_size - size) / 2,
+      //                   (canvas_size - size) / 2,
+      //                   size,
+      //                   size);
+      // this.ctx.clearRect((canvas_size - size) / 2 + width_small,
+      //                     (canvas_size - size) / 2 + width_small,
+      //                     size - 2 * width_small,
+      //                     size - 2 * width_small);
+
+      // this.ctx.fillRect((canvas_size - size) / 2 + 2 * width_small,
+      //                   (canvas_size - size) / 2 + 2 * width_small,
+      //                   size - 4 * width_small,
+      //                   size - 4 * width_small);
+      // this.ctx.clearRect((canvas_size - size) / 2 + width_small + width_large,
+      //                     (canvas_size - size) / 2 + width_small + width_large,
+      //                     size - 2 * width_small - 2 * width_large,
+      //                     size - 2 * width_small - 2 * width_large);
+
+      // this.ctx.fillRect((canvas_size - size) / 2 + 2 * width_small + width_large,
+      //                   (canvas_size - size) / 2 + 2 * width_small + width_large,
+      //                   size - 4 * width_small - 2 * width_large,
+      //                   size - 4 * width_small - 2 * width_large);
+      // this.ctx.clearRect((canvas_size - size) / 2 + 3 * width_small + width_large,
+      //                     (canvas_size - size) / 2 + 3 * width_small + width_large,
+      //                     size - 6 * width_small - 2 * width_large,
+      //                     size - 6 * width_small - 2 * width_large);
 
       this.ctx.restore();
-
-      //end canvas content
     }
 
     render() {
