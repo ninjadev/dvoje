@@ -18,11 +18,11 @@
       );
       this.scene.add(this.background);
 
-      // this.backgroundNames = new THREE.Mesh(
-      //   new THREE.BoxGeometry(50,50,50),
-      //   new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.DoubleSide})
-      // );
-      // this.scene.add(this.backgroundNames);
+      this.backgroundNames = new THREE.Mesh(
+        new THREE.BoxGeometry(50,50,50),
+        new THREE.MeshBasicMaterial({wireframe: true, side: THREE.DoubleSide})
+      );
+      this.scene.add(this.backgroundNames);
 
       var light = new THREE.PointLight(0xffffff, 1, 2000);
       light.position.set(50, 50, 50);
@@ -351,6 +351,7 @@
     update(frame) {
       super.update(frame);
       this.background.material.map = this.inputs.background.getValue();
+      this.backgroundNames.material.map = this.inputs.backgroundNames.getValue();
 
       // brick count
       var bc = 0;
