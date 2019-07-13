@@ -461,7 +461,7 @@
       this.proto_brick2.scale.z = 0.05;
       if (this.bricks.length > 0) {
         if (BEAN < 788) {
-          var ela_scale = easeIn(0, 1, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(3)) + 
+          var ela_scale = easeIn(0, 1, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(3)) +
                           easeOut(1, 0, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(5)) * Math.sin(frame) * 5;
           this.bricks[0].scale.x = ela_scale;
           this.bricks[0].scale.y = ela_scale;
