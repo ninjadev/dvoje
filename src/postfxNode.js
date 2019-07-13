@@ -301,6 +301,11 @@
       this.uniforms.legoGlitch.value = legoGlitch;
 
 
+      const fadeOutBean = 1250;
+      if (BEAN > fadeOutBean){
+        this.ctx.fillStyle = 'rgba(0,0,0,' + F(frame, 1250, 10) + ')';
+        this.ctx.fillRect(0,0,1920,1080);
+      }
 
       this.canvasTexture.needsUpdate = true;
 
