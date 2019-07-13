@@ -406,6 +406,7 @@
     }
 
     renderPartsInventoryBox() {
+      this.ctx.save()
 
       let inventoryPosition = "top-right";
 
@@ -468,14 +469,28 @@
             mapParts[key].count += 1;
           } else {
             mapParts[key] = {
-              count: 1
+              count: 1,
+              sortField: material.name + "_" + part.geometry.name,
+              key: key
             }
           }
         }
 
         var pos = inventoryPosition.split("-");
 
-        if (Object.keys(mapParts).length > 0) {
+        var parts = Object.values(mapParts);
+        if (parts.length > 0) {
+
+          parts = parts.sort(function(a, b) {
+            if ( a.sortField < b.sortField ){
+              return -1;
+            }
+            if ( a.sortField > b.sortField ){
+              return 1;
+            }
+            return 0;
+          });
+
           var startOffsetX = 10;
 
           if (pos[0] == "top" && pos[1] == "left") {
@@ -489,8 +504,8 @@
           let imagesToBeDrawn = [];
           let invW = 0, invH = 300;
 
-          for(var key of Object.keys(mapParts)) {
-            let file = this.inventoryImages["res/bricks/" + key];
+          for(var part of parts) {
+            let file = this.inventoryImages["res/bricks/" + part.key];
             let ratio = file.width / file.height;
             let scaleY = file.height / 850;
             let scaleX = file.width * scaleY;
@@ -500,38 +515,31 @@
 
             let imgX = startOffsetX - 20 + offsetX;
 
-            /*
-            if (imgX + width > (1920/2)) {
-              offsetY += maxHeight + 10;
-              invW = offsetX;
-              offsetX = 0;
-            } else 
-            */{
-              offsetX += width + 10;
-            }
+            offsetX += width + 10;
 
             imagesToBeDrawn.push({
               img: file.img,
               x: imgX, 
               y: startOffsetY + offsetY,
               w: width,
-              h: height
+              h: height,
+              count: part.count
             })
             invW = Math.max(invW, offsetX);
             invH = offsetY + maxHeight;
           }
 
-          let fullWidth = invW + 30;
-          let fullHeight = invH + 35;
+          let fullWidth = invW + 50;
+          let fullHeight = invH + 55;
 
           let invX = startOffsetX-40;
           let invY = startOffsetY-20;
           if(pos[0] == "top") {
             if(pos[1] == "right") {
-              invX = this.canvas.width-fullWidth-30;
+              invX = this.canvas.width-fullWidth-50;
             }
           } else {
-            invX = 150;
+            invX = 130;
             invY = this.canvas.height-fullHeight-startOffsetY-30;
 
             if(pos[1] == "right") {
@@ -546,7 +554,7 @@
           this.ctx.strokeRect(invX, invY, fullWidth, fullHeight);
 
 
-          invX = 0;
+          invX = 10;
           invY = startOffsetY;
           if(pos[0] == "top") {
             if(pos[1] == "right") {
@@ -561,12 +569,18 @@
             }
           }
 
+
           for(var file of imagesToBeDrawn) {
             let heightDiff = maxHeight - file.h;
             this.ctx.drawImage(file.img, invX + file.x, invY + (heightDiff/2), file.w, file.h);
+
+            this.ctx.fillStyle = '#000';
+            this.ctx.font = '32px SchmelviticoLight';
+            this.ctx.fillText(file.count + " x ", invX + file.x - 20, invY + maxHeight + 20);
           }
         }
       }
+      this.ctx.restore();
     }
     
     renderStepNumberVerticalLineAndBox(x, y) {
