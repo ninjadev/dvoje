@@ -11,7 +11,7 @@
         }
       });
 
-      this.background = new THREE.Mesh(new THREE.BoxGeometry(100,100,100), new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide}));
+      this.background = new THREE.Mesh(new THREE.BoxGeometry(10000,10000,10000), new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide}));
       this.scene.add(this.background);
 
       var light = new THREE.PointLight(0xffffff, 1, 2000);
@@ -485,9 +485,11 @@
         var poi_z = sp * 11.5 * 0.6 + (1 - sp) * 11.5 * 0.6 / 20;
 
 
+        var cameraAngle = frame / shrink_duration * Math.PI * 2;
+        this.background.rotation.z = -cameraAngle*0.95;
         this.camera.position.z = poi_z;
-        this.camera.position.x = poi_x + 40 * Math.sin(frame / shrink_duration * Math.PI * 2) * (0.05 + sp * 0.95);
-        this.camera.position.y = poi_y + 40 * Math.cos(frame / shrink_duration * Math.PI * 2) * (0.05 + sp * 0.95);
+        this.camera.position.x = poi_x + 40 * Math.sin(cameraAngle) * (0.05 + sp * 0.95);
+        this.camera.position.y = poi_y + 40 * Math.cos(cameraAngle) * (0.05 + sp * 0.95);
         this.camera.lookAt(new THREE.Vector3(poi_x, poi_y, poi_z));
       }
 
