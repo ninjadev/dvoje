@@ -663,7 +663,7 @@
         var poi_z = sp * 11.5 * 0.6 + (1 - sp) * 11.5 * 0.6 / 20;
 
         var cameraAngle = (frame + play_speedup) / shrink_duration * Math.PI * 2;
-        this.background.rotation.z = -(cameraAngle + Math.PI * 2) + 0.05 * Math.sin(real_frame / FRAME_FOR_BEAN(24) * Math.PI);
+        this.background.rotation.z = -cameraAngle + 0.05 * Math.sin(real_frame / FRAME_FOR_BEAN(24) * Math.PI);
         this.background.scale.x = -1;
         this.camera.position.z = poi_z;
         this.camera.position.x = poi_x + 40 * Math.sin(cameraAngle) * (0.05 + sp * 0.95);
