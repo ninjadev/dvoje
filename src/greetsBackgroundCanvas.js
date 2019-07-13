@@ -28,6 +28,9 @@
     }
 
     update(frame) {
+      // first point of scene: frame: 6710, bean: 768
+      // last point of scene: frame: 7827, bean: 895
+      // duration: 1117 frames, 127 beans
       super.update(frame);
       if(BEAN % 8 === 0){
         this.ctx.save();
@@ -115,6 +118,44 @@
 
         this.ctx.restore();
       }
+
+      // Draw names!
+      // the 8 names: {Darklite, Desire, Dekadence, Ephidrena, Mr doob, Still, Solskogen crew, You}
+      // Have 139.625 frames for each, starting at frame 6710
+      this.ctx.save();
+      var firstFrameNumber = 6710;
+      var nameDisplayIntervalFrames = 139;
+      var currentName = '';
+      if(frame < firstFrameNumber + nameDisplayIntervalFrames){
+        currentName = 'Darklite';
+      }
+      else if (frame < firstFrameNumber + 2 * nameDisplayIntervalFrames){
+        currentName = 'Desire';
+      }
+      else if (frame < firstFrameNumber + 3 * nameDisplayIntervalFrames){
+        currentName = 'Dekadence';
+      }
+      else if (frame < firstFrameNumber + 4 * nameDisplayIntervalFrames){
+        currentName = 'Ephidrena';
+      }
+      else if (frame < firstFrameNumber + 5 * nameDisplayIntervalFrames){
+        currentName = 'Mr doob';
+      }
+      else if (frame < firstFrameNumber + 6 * nameDisplayIntervalFrames){
+        currentName = 'Still';
+      }
+      else if (frame < firstFrameNumber + 7 * nameDisplayIntervalFrames){
+        currentName = 'Solskogen crew';
+      }
+      else if (frame < firstFrameNumber + 8 * nameDisplayIntervalFrames){
+        currentName = 'You';
+      }
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.font = 'bold ' + (80) + 'pt oldfont';
+      this.ctx.textAlign = 'center';
+      this.ctx.textBaseline = 'middle';
+      this.ctx.fillText(currentName, 1024/4, 1024/2);
+      this.ctx.restore();
     }
 
     warmup(renderer) {
