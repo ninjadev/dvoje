@@ -26,5 +26,9 @@
     "frame": {
         "type": "f",
         "value": 0.0
+    },
+    "legoGlitch": {
+        "type": "f",
+        "value": 0.0
     }
 }

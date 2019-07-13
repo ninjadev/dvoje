@@ -1,6 +1,7 @@
 uniform float frame;
 uniform float videoAmount;
 uniform float abberration;
+uniform float legoGlitch;
 uniform sampler2D tDiffuse;
 uniform sampler2D paperTexture;
 uniform sampler2D videoTexture;
@@ -42,6 +43,11 @@ void main() {
 
   float eps = 0.04 * abberration;
   vec2 uv = vUv;
+
+  float bands = 64.;
+
+  uv.x += legoGlitch * mod(uv.y, 1./bands);
+
 
   /*
   if(frame < 5590.5 || frame > 7827.5) {

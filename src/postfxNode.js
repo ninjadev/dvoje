@@ -11,7 +11,7 @@
 
       this.stepNumber = 0;
       this.videos = {};
-      for (const filename of ['res/output-robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4', 'res/car.mp4']) {
+      for (const filename of ['res/robot.mp4', 'res/heli.mp4', 'res/Trebuchet.mp4', 'res/bat2.mp4', 'res/car.mp4']) {
         const video = document.createElement('video');
         const videoTexture = new THREE.VideoTexture(video);
         videoTexture.minFilter = THREE.LinearFilter;
@@ -27,6 +27,7 @@
 
       this.equalizerThrob = 0;
 
+
       this.canvas = document.createElement('canvas');
       this.ctx = this.canvas.getContext('2d');
       this.canvas.width = 1920;
@@ -35,6 +36,14 @@
       this.canvasTexture.minFilter = THREE.LinearFilter;
       this.canvasTexture.magFilter = THREE.LinearFilter;
 
+      this.brickImage = document.createElement('img');
+      Loader.load('res/brick_frame.png', this.brickImage);
+      this.brickLongImage = document.createElement('img');
+      Loader.load('res/brick_frame_long.png', this.brickLongImage);
+      this.box = document.createElement('canvas');
+      this.box.width = 500;
+      this.box.height = 400;
+      this.drawBox(this.box.getContext('2d'), 0, 0, 500, 400);
       this.inventoryBox = document.createElement('canvas');
       this.inventoryBox.width = this.canvas.width / 2;
       this.inventoryBox.height = 300;
@@ -192,16 +201,17 @@
         this.ctx.restore();
       }
 
+      let legoGlitch = 0;
       if (BEAN < 256) {
         let value = smoothstep(0, 1, F(frame, 64, 16));
         value = smoothstep(value, 0, F(frame, 64 + 48, 16));
-        value = smoothstep(value, 1, F(frame, 128, 16));
-        value = smoothstep(value, 0, F(frame, 128 + 48, 16));
+        value = smoothstep(value, 1, F(frame, 128 + 32, 16));
+        value = smoothstep(value, 0, F(frame, 128 + 48 + 64, 16));
         const ctx = this.ctx;
         ctx.save();
         ctx.globalAlpha = value;
         ctx.translate(1920 / 2, 1080 / 2);
-        const scaler = 1 + F(frame, (BEAN / 64 | 0) * 64, 64) * 0.25;
+        const scaler = 1 + F(frame, 64, 256);
         ctx.scale(scaler, scaler);
         ctx.fillStyle = 'white';
         ctx.strokeStyle = 'black';
@@ -211,7 +221,89 @@
         const text = BEAN < 128 ? 'N  I  N  J  A  D  E  V' : 'C  O  N  S  T  R  U  C  T';
         ctx.fillText(text, 0, 0);
         ctx.restore();
+
+
+
+        const fadeInDoneBean = 40;
+        if (BEAN < fadeInDoneBean){
+          this.ctx.fillStyle = 'rgba(0,0,0,' + smoothstep(0, 1, (1 - F(frame, 0, fadeInDoneBean))) + ')';
+          this.ctx.fillRect(0,0,1920,1080);
+        }
       }
+
+      // glitch controls
+      if ( (BEAN > 98 && BEAN < 253) || (BEAN > 706 && BEAN < 768) || BEAN > 1161){
+
+        const ctx = this.ctx;
+
+        switch (BEAN){
+          case 99:
+          case 130:
+          case 146:
+          case 160:
+          case 169:
+          case 178:
+          case 189:
+          case 200:
+          case 208:
+          case 212:
+          case 219:
+          case 222:
+          case 225:
+          case 228:
+          case 232:
+          case 236:
+          case 238:
+          case 242:
+          case 244:
+          case 245:
+          case 248:
+          case 250:
+          case 253:
+            legoGlitch = 1;
+          }
+
+        // snare drum
+        if (BEAN % 8 == 4 && BEAN > 706 && BEAN < 752){
+            legoGlitch = 1;
+        }
+
+        // craaaaaaazy!
+        if (BEAN > 751 && BEAN < 768){
+            legoGlitch = Math.random() * 16;
+        }
+
+        //outro 
+        switch (BEAN) {
+          case 1162:
+          case 1167:
+          case 1173:
+          case 1229:
+          case 1231:
+          case 1234:
+          case 1236:
+          case 1240:
+          case 1241:
+          case 1244:
+          case 1248:
+          case 1249:
+          case 1251:
+          case 1253:
+          case 1254:
+          case 1256:
+          case 1258:
+            legoGlitch = 1;
+        }
+        ctx.save();
+        ctx.globalAlpha = 0.5 * legoGlitch;
+        ctx.drawImage(this.brickImage, Math.random()*1920, Math.random()*1080);
+        ctx.drawImage(this.brickLongImage, Math.random()*1920, Math.random()*1080);
+        ctx.restore();
+
+      }
+      this.uniforms.legoGlitch.value = legoGlitch;
+
+
 
       this.canvasTexture.needsUpdate = true;
 
