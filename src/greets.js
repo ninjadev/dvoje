@@ -5,8 +5,17 @@
         camera: options.camera,
         outputs: {
           render: new NIN.TextureOutput()
+        },
+        inputs: {
+          background: new NIN.TextureInput()
         }
       });
+
+      this.background = new THREE.Mesh(
+        new THREE.BoxGeometry(10000,10000,10000),
+        new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide})
+      );
+      this.scene.add(this.background);
 
       var light = new THREE.PointLight(0xffffff, 1, 2000);
       light.position.set(50, 50, 50);
@@ -14,7 +23,7 @@
       var light2 = new THREE.PointLight(0xffffff, 1, 2000);
       light2.position.set(-50, -50, 50);
       this.scene.add(light2);
-      
+
       this.bricks = [];
       this.bricks2 = [];
       this.camera.far = 2000;
@@ -156,7 +165,6 @@
                                   [0,0,1,1,1,1,1,1,1,1],
                                   [1,1,0,0,0,0,0,0,0,0]]);
 
-
       this.brick_placements.push([[1,1,1,1,1,1,1,1,1,1],
                                   [0,0,1,1,1,1,1,1,1,1],
                                   [0,0,0,0,0,0,0,0,0,0],
@@ -233,7 +241,7 @@
                                   [1,0,0,0,0,0,0,0,0,0],
                                   [1,0,0,0,0,0,0,0,0,0],
                                   [1,0,0,0,0,0,0,0,0,0]]);
-      
+
       this.brick_placements.push([[1,1,1,1,1,1,1,1,1,1],
                                   [1,1,1,1,1,1,1,1,1,1],
                                   [1,1,1,1,1,1,1,1,1,1],
@@ -299,8 +307,6 @@
                             [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
                             [2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2]];
 
-
-
       var loadObject = function (objPath, material, three_scene, clone_array) {
         var objLoader = new THREE.OBJLoader();
         Loader.loadAjax(objPath, function(text) {
@@ -333,11 +339,11 @@
       loadObject('res/32000.obj', brick_material, this.proto_brick2, this.bricks2);
 
       this.brick2_built = false;
-
     }
 
     update(frame) {
       super.update(frame);
+      this.background.material.map = this.inputs.background.getValue();
 
       // brick count
       var bc = 0;
@@ -422,11 +428,10 @@
       }
       if (!this.brick2_built) {
         var bc2 = 0;
-        for(var x = 0; x < 10; x++) { 
+        for(var x = 0; x < 10; x++) {
           for(var y = 0; y < 10; y++) {
             for(var z = 0; z < this.brick_placements.length; z++) {
               if (this.brick_placements[z][x][y] == 1 && bc2 + 4 <= this.bricks2.length) {
-                
                 // Place one brick and mirror that operation on the xz and yz plane
                 this.bricks2[bc2].position.x = -9.5 + x;
                 this.bricks2[bc2].position.y = -4.5 + y * 0.5;
@@ -444,8 +449,6 @@
                 this.bricks2[bc2+3].position.y = +4.5 - y * 0.5;
                 this.bricks2[bc2+3].position.z = z * 0.6;
                 bc2 += 4;
-
-
               }
             }
           }
@@ -457,7 +460,7 @@
       this.proto_brick2.scale.z = 0.05;
       if (this.bricks.length > 0) {
         if (BEAN < 788) {
-          var ela_scale = easeIn(0, 1, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(3)) + 
+          var ela_scale = easeIn(0, 1, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(3)) +
                           easeOut(1, 0, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(5)) * Math.sin(frame) * 5;
           this.bricks[0].scale.x = ela_scale;
           this.bricks[0].scale.y = ela_scale;
@@ -473,17 +476,18 @@
           this.proto_brick2.position.x = -9.5;
           this.proto_brick2.position.y = -4.5;
           this.proto_brick2.position.z = 0;
-          
+
         }
         var poi_motion = sp;
         var poi_x = (1 - poi_motion) * this.bricks[0].position.x;
         var poi_y = (1 - poi_motion) * this.bricks[0].position.y;
         var poi_z = sp * 11.5 * 0.6 + (1 - sp) * 11.5 * 0.6 / 20;
 
-
+        var cameraAngle = frame / shrink_duration * Math.PI * 2;
+        this.background.rotation.z = -(cameraAngle + Math.PI * 2)*0.98;
         this.camera.position.z = poi_z;
-        this.camera.position.x = poi_x + 40 * Math.sin(frame / shrink_duration * Math.PI * 2) * (0.05 + sp * 0.95);
-        this.camera.position.y = poi_y + 40 * Math.cos(frame / shrink_duration * Math.PI * 2) * (0.05 + sp * 0.95);
+        this.camera.position.x = poi_x + 40 * Math.sin(cameraAngle) * (0.05 + sp * 0.95);
+        this.camera.position.y = poi_y + 40 * Math.cos(cameraAngle) * (0.05 + sp * 0.95);
         this.camera.lookAt(new THREE.Vector3(poi_x, poi_y, poi_z));
       }
 

@@ -28,7 +28,10 @@
   },
   {
     "id": "greets",
-    "type": "greets"
+    "type": "greets",
+    "connected": {
+      "background": "greetsBackgroundCanvas.render"
+    }
   },
   {
     "id": "Batmobile",
@@ -125,5 +128,9 @@
   {
     "id": "outtro",
     "type": "outtro"
+  },
+  {
+    "id": "greetsBackgroundCanvas",
+    "type": "greetsBackgroundCanvas"
   }
 ]
