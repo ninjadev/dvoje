@@ -394,29 +394,6 @@
                             [0,0,0,0,0,0,0,4,4,4,4,4,0,0,0,0,0,0,0,0],
                             [0,0,0,0,0,0,0,0,0,4,4,0,0,0,0,0,0,0,0,0]];
 
-
-                            // 6 = yellow
-     this.solskogen =      [[0,0,0,0,0,6,0,0,0,6,6,0,0,0,6,0,0,0,0,0],
-                            [0,0,0,0,0,6,6,0,0,6,6,0,0,6,6,0,0,0,0,0],
-                            [0,6,6,0,0,0,6,0,0,6,6,0,0,6,0,0,0,6,6,0],
-                            [0,0,6,6,0,0,0,0,0,0,0,0,0,0,0,0,6,6,0,0],
-                            [0,0,0,0,0,0,0,0,6,6,6,6,0,0,0,0,0,0,0,0],
-                            [6,0,0,0,0,6,6,6,6,6,6,6,6,6,6,0,0,0,0,0],
-                            [6,6,0,0,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,6],
-                            [0,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,0,0,6,6],
-                            [0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0],
-                            [6,6,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0],
-                            [6,6,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,6,6],
-                            [0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,6,6,0,6,6],
-                            [6,6,0,0,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0],
-                            [6,0,0,0,6,6,6,6,6,6,6,6,6,6,6,6,0,0,0,0],
-                            [0,0,0,0,0,6,6,6,6,6,6,6,6,6,6,0,0,0,6,6],
-                            [0,0,0,0,0,0,0,6,6,6,6,6,6,0,0,0,0,0,0,6],
-                            [0,0,6,6,0,0,0,0,0,0,0,0,0,0,0,0,6,6,0,0],
-                            [0,6,6,0,0,0,6,0,0,6,6,0,0,6,0,0,0,6,6,0],
-                            [0,0,0,0,0,6,6,0,0,6,6,0,0,6,6,0,0,0,0,0],
-                            [0,0,0,0,0,6,0,0,0,6,6,0,0,0,6,0,0,0,0,0]];
-
        this.altair =       [[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                             [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1],
                             [1,1,1,1,1,1,1,1,0,1,1,0,1,1,1,1,1,1,1,1],
@@ -501,6 +478,7 @@
 
       // brick count
       var bc = 0;
+      var real_frame = frame;
 
       var play_speedup = 0;
 
@@ -518,31 +496,40 @@
       var shrink_duration = FRAME_FOR_BEAN(16)
       var sp = Math.min(1, Math.max(0, (frame + play_speedup - start_shrink) / shrink_duration)); // zoom progress
 
+      var odd;
       var logo;
       if (BEAN < 796) {
         logo = this.greet_merqury;
+        odd = 1;
       }
       else if (BEAN < 796) {
         logo = this.greet_panda;
+        odd = 0;
       }
       else if (BEAN < 813) {
         logo = this.lft;
+        odd = 1;
       }
       else if (BEAN < 831) {
         logo = this.logicoma;
+        odd = 0;
       }
       else if (BEAN < 855) {
         logo = this.farbrausch;
+        odd = 1;
       }
       else if (BEAN < 879) {
         logo = this.altair;
+        odd = 0;
       }
       else if (BEAN < 916) {
         logo = this.cocoon;
+        odd = 1;
       }
       else
       {
         logo = this.altair;
+        odd = 0;
       }
 
       var colors = [new THREE.MeshStandardMaterial({color: 'white'}),
@@ -676,7 +663,7 @@
         var poi_z = sp * 11.5 * 0.6 + (1 - sp) * 11.5 * 0.6 / 20;
 
         var cameraAngle = (frame + play_speedup) / shrink_duration * Math.PI * 2;
-        this.background.rotation.z = -(cameraAngle + Math.PI * 2)*0.98;
+        this.background.rotation.z = -(cameraAngle + Math.PI * 2) + 0.05 * Math.sin(real_frame / FRAME_FOR_BEAN(24) * Math.PI);
         this.background.scale.x = -1;
         this.camera.position.z = poi_z;
         this.camera.position.x = poi_x + 40 * Math.sin(cameraAngle) * (0.05 + sp * 0.95);
