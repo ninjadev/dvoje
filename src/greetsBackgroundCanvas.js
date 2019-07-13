@@ -39,11 +39,11 @@
         // Draw main shape:
         this.ctx.beginPath();
         // Random x/y centerpoint that is within scene:
-        var x = Math.floor(this.random() * 900);
-        var y = Math.floor(this.random() * 900);
+        var x = Math.floor(this.random() * 1024);
+        var y = Math.floor(this.random() * 1024);
         // Random size of circle, but within reasonable bounds:
-        var maxCircleRadius = this.canvas.width / 5;
-        var minCircleRadius = this.canvas.width / 15;
+        var maxCircleRadius = this.canvas.width / 7;
+        var minCircleRadius = this.canvas.width / 25;
         var radius = Math.floor(this.random() * (maxCircleRadius - minCircleRadius) + minCircleRadius);
         // Draw circle based on config above
         this.ctx.arc(x, y, radius, 0, Math.PI * 2);
