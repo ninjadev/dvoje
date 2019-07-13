@@ -7,12 +7,6 @@
         }
       });
       const loader = new THREE.ColladaLoader();
-      Loader.loadAjax('res/build_logo.dae', text => {
-        const parsed = loader.parse(text);
-        console.log(parsed)
-
-        this.outputs.out.value = parsed.scene;
-      });
     }
 
     render() {
