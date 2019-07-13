@@ -35,8 +35,23 @@
       if(BEAN % 8 === 0){
         this.ctx.save();
 
-        // Use random color for drawing:
-        var randomColor = `#${Math.floor(this.random() * 0x1000000).toString(16).padStart(6, '0')}`;
+        var randomColor = '#FDB200';
+        // Use random color for drawing from selecton of colors we use elsewhere in demo.
+        // Exclude some of the colors that don't really make for good backgrounds.
+        var availableColors = [
+          '#FDB200', // SOLID-MEDIUM_ORANGE
+          // '#8A928D', // METAL-SILVER
+          // '#222222', // RUBBER-BLACK
+          // '#645a4c', // CHROME-ANTIQUE_BRASS
+          '#469bc3', // SOLID-DARK_AZURE
+          '#009624' // SOLID-BRIGHT_GREEN
+        ];
+        for (var i = availableColors.length - 1; i >= 0; i--) {
+          if(this.random() < 1 / availableColors.length){
+            randomColor = availableColors[i];
+            break;
+          }
+        }
         this.ctx.fillStyle = randomColor;
 
         // Main shape:
