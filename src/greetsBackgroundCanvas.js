@@ -76,6 +76,23 @@
           topHeadBumpHeight,
         );
 
+        // Draw mouth
+        // Mouth lower part
+        this.ctx.fillStyle = '#000000';
+        var motuhOuterRadius = radius * 0.75;
+        this.ctx.beginPath();
+        this.ctx.arc(x, y, motuhOuterRadius, 0, Math.PI * 2);
+        this.ctx.fill();
+
+        // Mouth upper part
+        var mouthInnerRadius = motuhOuterRadius * 0.8;
+        var mountInnerYOffset = radius - motuhOuterRadius;
+        var mouthInnerY = y - mountInnerYOffset;
+        this.ctx.fillStyle = randomColor;
+        this.ctx.beginPath();
+        this.ctx.arc(x, mouthInnerY, mouthInnerRadius, 0, Math.PI * 2);
+        this.ctx.fill();
+
         // Eyes
         this.ctx.fillStyle = '#000000';
         var eyeRadius = radius * 0.2;
