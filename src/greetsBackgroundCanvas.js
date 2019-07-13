@@ -172,6 +172,7 @@
       }
       else if (frame < firstFrameNumber + 5 * nameDisplayIntervalFrames){
         currentName = 'Mr doob';
+        fontSize = 70;
       }
       else if (frame < firstFrameNumber + 6 * nameDisplayIntervalFrames){
         currentName = 'Still';
