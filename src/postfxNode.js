@@ -406,6 +406,7 @@
     }
 
     renderPartsInventoryBox() {
+      this.ctx.save()
 
       let inventoryPosition = "top-right";
 
@@ -514,38 +515,31 @@
 
             let imgX = startOffsetX - 20 + offsetX;
 
-            /*
-            if (imgX + width > (1920/2)) {
-              offsetY += maxHeight + 10;
-              invW = offsetX;
-              offsetX = 0;
-            } else 
-            */{
-              offsetX += width + 10;
-            }
+            offsetX += width + 10;
 
             imagesToBeDrawn.push({
               img: file.img,
               x: imgX, 
               y: startOffsetY + offsetY,
               w: width,
-              h: height
+              h: height,
+              count: part.count
             })
             invW = Math.max(invW, offsetX);
             invH = offsetY + maxHeight;
           }
 
-          let fullWidth = invW + 30;
-          let fullHeight = invH + 35;
+          let fullWidth = invW + 50;
+          let fullHeight = invH + 55;
 
           let invX = startOffsetX-40;
           let invY = startOffsetY-20;
           if(pos[0] == "top") {
             if(pos[1] == "right") {
-              invX = this.canvas.width-fullWidth-30;
+              invX = this.canvas.width-fullWidth-50;
             }
           } else {
-            invX = 150;
+            invX = 130;
             invY = this.canvas.height-fullHeight-startOffsetY-30;
 
             if(pos[1] == "right") {
@@ -560,7 +554,7 @@
           this.ctx.strokeRect(invX, invY, fullWidth, fullHeight);
 
 
-          invX = 0;
+          invX = 10;
           invY = startOffsetY;
           if(pos[0] == "top") {
             if(pos[1] == "right") {
@@ -575,12 +569,18 @@
             }
           }
 
+
           for(var file of imagesToBeDrawn) {
             let heightDiff = maxHeight - file.h;
             this.ctx.drawImage(file.img, invX + file.x, invY + (heightDiff/2), file.w, file.h);
+
+            this.ctx.fillStyle = '#000';
+            this.ctx.font = '32px SchmelviticoLight';
+            this.ctx.fillText(file.count + " x ", invX + file.x - 20, invY + maxHeight + 20);
           }
         }
       }
+      this.ctx.restore();
     }
     
     renderStepNumberVerticalLineAndBox(x, y) {
