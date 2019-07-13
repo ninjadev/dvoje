@@ -23,12 +23,12 @@
 
       this.box = new THREE.Mesh(new THREE.BoxGeometry(250, 150, 50),
         [
-          new THREE.MeshBasicMaterial({map: sideTexture}),
-          new THREE.MeshBasicMaterial({map: sideTexture}),
-          new THREE.MeshBasicMaterial({color: 'gray'}),
-          new THREE.MeshBasicMaterial({map: sideTexture}),
-          new THREE.MeshBasicMaterial({map: frontTexture}),
-          new THREE.MeshBasicMaterial({map: frontTexture}),
+          new THREE.MeshStandardMaterial({map: sideTexture, roughness: 1, metalness: 0}),
+          new THREE.MeshStandardMaterial({map: sideTexture, roughness: 1, metalness: 0}),
+          new THREE.MeshStandardMaterial({color: 'gray', roughness: 1, metalness: 0}),
+          new THREE.MeshStandardMaterial({map: sideTexture, roughness: 1, metalness: 0}),
+          new THREE.MeshStandardMaterial({map: frontTexture, roughness: 1, metalness: 0}),
+          new THREE.MeshStandardMaterial({map: frontTexture, roughness: 1, metalness: 0}),
         ]
       );
       this.scene.add(this.box);
@@ -70,7 +70,7 @@
       this.scene.add(this.boxTopRight);
 
       let light = new THREE.DirectionalLight(0xffffff, 1, 1000);
-      light.position.set(50, 50, 50);
+      light.position.set(-100, 50, 50);
       this.scene.add(light);
 
       let ambientLight = new THREE.AmbientLight(0x404040, 1.5);
@@ -80,7 +80,7 @@
       this.tex = new THREE.Texture(this.canvas);
       this.tex.needsUpdate = true;
       this.ctx = this.canvas.getContext('2d');
-      this.textPlane = new THREE.Mesh(new THREE.PlaneGeometry(200,200), new THREE.MeshBasicMaterial({
+      this.textPlane = new THREE.Mesh(new THREE.PlaneGeometry(160, 90), new THREE.MeshBasicMaterial({
         map: this.tex,
         side: THREE.DoubleSide,
         transparent: true
