@@ -165,36 +165,43 @@
       var firstFrameNumber = 6710;
       var lastFrameNumber = 7827;
       var nameDisplayIntervalFrames = Math.floor( (7827 - 6710) / shoutOutNames.length );
-      var fontSize = 80; // For some long names we want a smaller font
+      var shoutoutNameTextOffsetX = 1024/4;
+      var fontSize = 70; // For some long names we want a smaller font
       var currentName = '';
       if(frame < firstFrameNumber + nameDisplayIntervalFrames){
         currentName = 'Darklite';
+        shoutoutNameTextOffsetX += 64;
       }
       else if (frame < firstFrameNumber + 2 * nameDisplayIntervalFrames){
         currentName = 'Desire';
+        shoutoutNameTextOffsetX += 16;
       }
       else if (frame < firstFrameNumber + 3 * nameDisplayIntervalFrames){
         currentName = 'Dekadence';
-        fontSize = 50;
+        fontSize = 45;
+        shoutoutNameTextOffsetX += 32;
       }
       else if (frame < firstFrameNumber + 4 * nameDisplayIntervalFrames){
         currentName = 'Ephidrena';
-        fontSize = 50;
+        fontSize = 40;
+        shoutoutNameTextOffsetX += 64;
       }
       else if (frame < firstFrameNumber + 5 * nameDisplayIntervalFrames){
         currentName = 'Mr doob';
-        fontSize = 70;
+        fontSize = 50;
+        shoutoutNameTextOffsetX += 32;
       }
       else if (frame < firstFrameNumber + 6 * nameDisplayIntervalFrames){
         currentName = 'Still';
       }
       else if (frame < firstFrameNumber + 7 * nameDisplayIntervalFrames){
         currentName = 'Solskogen crew';
-        fontSize = 50;
+        fontSize = 35;
+        shoutoutNameTextOffsetX += 64;
       }
       else {
         currentName = 'You!';
-        fontSize = 90;
+        fontSize = 80;
       }
 
       // Draw the name
@@ -202,7 +209,7 @@
       this.ctx.font = 'bold ' + (fontSize) + 'pt SchmelviticoBold';
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
-      this.ctx.fillText(currentName, 1024/4, textBackgroundY + textBackgroundHeight / 2);
+      this.ctx.fillText(currentName, shoutoutNameTextOffsetX, textBackgroundY + textBackgroundHeight / 2);
       this.ctx.restore();
     }
 
