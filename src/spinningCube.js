@@ -229,9 +229,9 @@
           lookAt: new THREE.Vector3(0, 10, 0),
         distance: 120, height: 25, angle: 3.5,
       }, {
-          position: new THREE.Vector3(8, -2, -0),
-          lookAt: new THREE.Vector3(0, 10, 0),
-        distance: 120, height: 25, angle: 3.5,
+          position: new THREE.Vector3(20, -2, -0),
+          lookAt: new THREE.Vector3(-30, 0, 25 ),
+        distance: 50, height: 25, angle: Math.PI,
       }, {
           position: new THREE.Vector3(-8, 2, -0),
           lookAt: new THREE.Vector3(0, 10, 0),
@@ -284,19 +284,19 @@
     }, {
       position: new THREE.Vector3(-2, 3, 0),
       lookAt: new THREE.Vector3(10, 4, -10),
-        distance: 80, height: 15, angle: 3,
+        distance: 80, height: 15, angle: 3 + Math.PI / 2,
     }, {
       position: new THREE.Vector3(-2, 3, 0),
       lookAt: new THREE.Vector3(10, 4, -10),
-        distance: 80, height: 15, angle: 3,
+        distance: 80, height: 15, angle: 3 + Math.PI ,
     }, {
       position: new THREE.Vector3(-2, 3, 0),
       lookAt: new THREE.Vector3(10, 4, -10),
-        distance: 80, height: 15, angle: 3,
+        distance: 80, height: 15, angle: 3 + Math.PI * 1.5,
     }, {
         position: new THREE.Vector3(-10, 6.5, 0),
         lookAt: new THREE.Vector3(0, 0, -10),
-        distance: 75, height: -5, angle: 3.9,
+        distance: 75, height: -5, angle: 2*Math.PI + 3.9,
     }]
   };
 
