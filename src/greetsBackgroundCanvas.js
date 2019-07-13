@@ -32,9 +32,11 @@
       if(BEAN % 8 === 0){
         this.ctx.save();
 
-        var randomColor = `#${Math.floor(this.random() * 0x1000000).toString(16).padStart(6, '0')}`;
         // Use random color for drawing>
+        var randomColor = `#${Math.floor(this.random() * 0x1000000).toString(16).padStart(6, '0')}`;
         this.ctx.fillStyle = randomColor;
+
+        // Draw main shape:
         this.ctx.beginPath();
         // Random x/y centerpoint that is within scene:
         var x = Math.floor(this.random() * 900);
@@ -46,6 +48,23 @@
         // Draw circle based on config above
         this.ctx.arc(x, y, radius, 0, Math.PI * 2);
         this.ctx.fill();
+
+        // Draw extras
+        // Neck part
+        var neckXscaling = 0.6;
+        var neckX = x - radius * neckXscaling;
+        var neckY = y + radius * 0.80;
+        var neckWidth = 2 * radius * neckXscaling;
+        var neckHeight = radius * 0.30;
+        this.ctx.fillRect(
+          neckX,
+          neckY,
+          neckWidth,
+          neckHeight,
+        );
+
+        //
+
 
         this.ctx.restore();
       }
