@@ -35,14 +35,23 @@
       this.canvasTexture.magFilter = THREE.LinearFilter;
 
       this.inventoryBox = document.createElement('canvas');
-      this.inventoryBox.width = 400;
+      this.inventoryBox.width = this.canvas.width / 2;
       this.inventoryBox.height = 300;
-      this.drawInventoryBox(this.inventoryBox.getContext('2d'), 0, 0, 400, 300);
+      this.inventoryBoxCtx = this.inventoryBox.getContext('2d');
+      this.drawInventoryBox(this.inventoryBoxCtx, 0, 0, this.inventoryBox.width, this.inventoryBox.height);
+      /*
+      this.inventoryBoxCrop = document.createElement('canvas');
+      this.inventoryBoxCrop.width = 600;
+      this.inventoryBoxCrop.height = 600;
+      */
+
 
       this.detailedBox = document.createElement('canvas');
       this.detailedBox.width = 500;
       this.detailedBox.height = 400;
       this.drawDetailsBox(this.detailedBox.getContext('2d'), 0, 0, 500, 400);
+
+      this.loadInventoryImages()
     }
 
     drawDetailsBox(ctx, x, y, w, h) {
@@ -105,10 +114,6 @@
       }
       ctx.stroke();
 
-      ctx.lineWidth = 8;
-      ctx.strokeStyle = 'rgba(47, 58, 58)';
-      ctx.strokeRect(0, 0, w, h);
-
       ctx.restore();
     }
 
@@ -146,8 +151,9 @@
       this.ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
       this.ctx.font = 'bold 200px SchmelviticoBold';
 
-      this.renderStepNumberVerticalLineAndBox();
-      this.renderPartsInventoryBox();
+      var {invX, invY} = this.renderPartsInventoryBox();
+
+      this.renderStepNumberVerticalLineAndBox(invX, invY);
 
       if (currentText) {
         this.ctx.save();
@@ -310,6 +316,7 @@
     }
 
     renderPartsInventoryBox() {
+      let inventoryWidth = 0;
       var partsOnCurrentPage = this.inputs.partsOnCurrentPage.getValue();
       if(partsOnCurrentPage) {
         var mapParts = {};
@@ -320,28 +327,82 @@
           if (Array.isArray(material)) {
             material = part.material[0];
           }
-          var key = part.geometry.name + "_" + material.name;
+          var key = part.geometry.name + "_" + material.name + "-removebg-preview.png";
           if (mapParts[key]) {
             mapParts[key].count += 1;
           } else {
             mapParts[key] = {
-              material: material,
-              geometry: part.geometry,
               count: 1
             }
           }
         }
 
         if (Object.keys(mapParts).length > 0) {
-          console.log('Used bricks', mapParts)
-          this.ctx.drawImage(this.inventoryBox, 50, 50);
+          var startOffsetX = 300;
+          var startOffsetY = 80;
+
+          var offsetX = 0;
+          var offsetY = 0;
+          let maxHeight = 0;
+          let imagesToBeDrawn = [];
+          let invW = 600, invH = 300;
+
+          for(var key of Object.keys(mapParts)) {
+            let file = this.inventoryImages["res/bricks/" + key];
+
+            let ratio = file.width / file.height;
+            let scaleY = file.height / 850;
+            let scaleX = file.width * scaleY;
+            let height = 200 * scaleY;
+            maxHeight = Math.max(height, maxHeight);
+            let width = height * ratio;
+
+            console.log(key);
+            console.log("ratio", ratio)
+            console.log("offsetX", offsetX)
+            console.log("offsetY", offsetY)
+            console.log("height", height)
+            console.log("width", width)
+
+            imagesToBeDrawn.push({
+              img: file.img,
+              x: startOffsetX - 20 + offsetX, 
+              y: startOffsetY + offsetY,
+              w: width,
+              h: height
+            })
+
+            offsetX += width + 10;
+            invH = offsetY + maxHeight;
+            invW = offsetX;
+          }
+
+          /*
+          this.inventoryBoxCtx.lineWidth = 8;
+          this.inventoryBoxCtx.strokeStyle = 'rgba(47, 58, 58)';
+          this.inventoryBoxCtx.strokeRect(0, 0, invW, invH);
+          */
+
+          //this.ctx.drawImage(this.inventoryBoxCrop, 0, 0, 600, 600);
+
+          console.log(invW, invH);
+          //this.ctx.drawImage(this.inventoryBoxCropCtx, -600+offsetX-40, -600+offsetY-40, invW, invH);
+          this.ctx.drawImage(this.inventoryBox, 0, 0, invW + 20, invH+30, startOffsetX-40, startOffsetY-20, invW + 20, invH+30);
+
+          for(var file of imagesToBeDrawn) {
+            this.ctx.drawImage(file.img, file.x, file.y, file.w, file.h);
+          }
+
+          inventoryWidth = invW
 
           // render models
         }
       }
+      // - inventoryWidth?
+      return {invX: 100, invY: 250};
     }
-
-    renderStepNumberVerticalLineAndBox() {
+    
+    renderStepNumberVerticalLineAndBox(x, y) {
 
       let stepNumber = 0
 
@@ -367,14 +428,31 @@
       const count = 35;
       for (let i = 0; i < count; i++) {
         this.ctx.fillStyle = i === count - 1 ? '#e1cf69' : 'black';
-        this.ctx.fillText(stepNumber, 530 - i, 300 - i);
+        this.ctx.fillText(stepNumber, x - i, y - i);
       }
 
       this.ctx.fillStyle = 'black';
-      this.ctx.fillRect(100, 420 , 8, 1080 - 580);
+      this.ctx.fillRect(100, 320 , 8, 1080 - 480);
 
       // Will move based on interesting building
       //this.ctx.drawImage(this.detailedBox, 1920-600, 400);
+    }
+
+    loadInventoryImages() {
+      this.inventoryImages = {};
+      var imgs = [{file:"Part-18946_dot_dat_METAL-SILVER-removebg-preview.png",width:364,height:379},{file:"Part-2714a_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png",width:696,height:359},{file:"Part-2717_dot_dat_SOLID-DARK_AZURE-removebg-preview.png",width:463,height:540},{file:"Part-32000_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png",width:440,height:439},{file:"Part-32000_dot_dat_SOLID-MEDIUM_ORANGE-removebg-preview.png",width:396,height:388},{file:"Part-32000_dot_dat_SOLID-WHITE-removebg-preview.png",width:395,height:387},{file:"Part-32001_dot_dat_SOLID-MEDIUM_ORANGE-removebg-preview.png",width:654,height:382},{file:"Part-32555_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png",width:715,height:349},{file:"Part-32555_dot_dat_SOLID-MEDIUM_ORANGE-removebg-preview.png",width:717,height:348},{file:"Part-3647_dot_dat_METAL-SILVER-removebg-preview.png",width:233,height:235},{file:"Part-3648a_dot_dat_METAL-SILVER-removebg-preview.png",width:483,height:518},{file:"Part-3650c_dot_dat_METAL-SILVER-removebg-preview.png",width:482,height:518},{file:"Part-3673_dot_dat_METAL-SILVER-removebg-preview.png",width:348,height:246},{file:"Part-3700_dot_dat_SOLID-BRIGHT_GREEN-removebg-preview.png",width:401,height:389},{file:"Part-3701_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png",width:566,height:442},{file:"Part-3702_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png",width:627,height:399},{file:"Part-3702_dot_dat_SOLID-BRIGHT_GREEN-removebg-preview.png",width:628,height:398},{file:"Part-3708_dot_dat_SOLID-BLACK-removebg-preview.png",width:698,height:358},{file:"Part-3709b_dot_dat_SOLID-BRIGHT_GREEN-removebg-preview.png",width:628,height:398},{file:"Part-3713_dot_dat_METAL-SILVER-removebg-preview.png",width:248,height:221},{file:"Part-3737_dot_dat_SOLID-BLACK-removebg-preview.png",width:698,height:358},{file:"Part-3894_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png",width:606,height:413},{file:"Part-3894_dot_dat_SOLID-BRIGHT_GREEN-removebg-preview.png",width:611,height:409},{file:"Part-3894_dot_dat_SOLID-MEDIUM_ORANGE-removebg-preview.png",width:606,height:413},{file:"Part-4019_dot_dat_METAL-SILVER-removebg-preview.png",width:360,height:382},{file:"Part-4143_dot_dat_METAL-SILVER-removebg-preview.png",width:265,height:291},{file:"Part-4266c02_dot_dat_METAL-SILVER-removebg-preview.png",width:492,height:508},{file:"Part-50451_dot_dat_SOLID-BLACK-removebg-preview.png",width:695,height:360},{file:"Part-64393_dot_dat_SOLID-DARK_AZURE-removebg-preview.png",width:621,height:402},{file:"Part-64681_dot_dat_SOLID-DARK_AZURE-removebg-preview.png",width:711,height:352},{file:"Part-6558_dot_dat_METAL-SILVER-removebg-preview.png",width:489,height:306},{file:"Part-6630_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png",width:675,height:370}];
+      for (const file of imgs) {
+        const img = document.createElement('img');
+        let filename = "res/bricks/" + file.file
+        img.style = "max-width: 100px";
+        Loader.load(filename, img);
+        console.log(img)
+        this.inventoryImages[filename] = {
+          img: img,
+          height: file.height,
+          width: file.width
+        }
+      }
     }
   }
 
