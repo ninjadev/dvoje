@@ -63,7 +63,18 @@
           neckHeight,
         );
 
-        //
+        // Top head part
+        var topHeadBumpXScale = 0.4;
+        var topHeadBumpX = x - radius * topHeadBumpXScale;
+        var topHeadBumpY = y - radius * 1.2;
+        var topHeadBumpWidth = 2 * radius * topHeadBumpXScale;
+        var topHeadBumpHeight = radius * 0.4;
+        this.ctx.fillRect(
+          topHeadBumpX,
+          topHeadBumpY,
+          topHeadBumpWidth,
+          topHeadBumpHeight,
+        );
 
 
         this.ctx.restore();
