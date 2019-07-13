@@ -494,6 +494,9 @@
       }
 
       frame -= frameOffset;
+      let startFrameForInventory = ((this.stepNumber) * 70)-44
+      let endFrameForInventory = ((this.stepNumber+1) * 70)-44
+      
       this.model.traverse(obj => {
         if(obj.material) {
           const action = positions[obj.name];
@@ -501,6 +504,9 @@
             //console.log('ERROR', obj.name);
             return;
           }
+            if (action.start_frame >= startFrameForInventory && action.start_frame < endFrameForInventory) {
+              this.partsOnCurrentPage[obj.name] = obj;
+            }
             if(action.start_frame > frame) {
               obj.visible = false;
               const materials = obj.material instanceof Array ? obj.material : [obj.material];
@@ -512,10 +518,6 @@
             }
 
             obj.visible = true;
-
-            if (action.start_frame >= ((this.stepNumber-1) * 70) && action.start_frame < (this.stepNumber * 70) ) {
-              this.partsOnCurrentPage[obj.name] = obj;
-            }
 
             const materials = obj.material instanceof Array ? obj.material : [obj.material];
             for(const material of materials) {
