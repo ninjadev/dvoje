@@ -123,6 +123,20 @@
       // the 8 names: {Darklite, Desire, Dekadence, Ephidrena, Mr doob, Still, Solskogen crew, You}
       // Have 139.625 frames for each, starting at frame 6710
       this.ctx.save();
+
+      // Always clear text background:
+      this.ctx.fillStyle = '#000000';
+      var textBackgroundX = 0;
+      var textBackgroundY = 450;
+      var textBackgroundWidth = 640;
+      var textBackgroundHeight = 128;
+      this.ctx.fillRect(
+        textBackgroundX,
+        textBackgroundY,
+        textBackgroundWidth,
+        textBackgroundHeight,
+      );
+
       var firstFrameNumber = 6710;
       var nameDisplayIntervalFrames = 139;
       var currentName = '';
@@ -151,7 +165,7 @@
         currentName = 'You';
       }
       this.ctx.fillStyle = '#ffffff';
-      this.ctx.font = 'bold ' + (80) + 'pt oldfont';
+      this.ctx.font = 'bold ' + (60) + 'pt oldfont';
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
       this.ctx.fillText(currentName, 1024/4, 1024/2);
