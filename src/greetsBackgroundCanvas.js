@@ -57,8 +57,8 @@
         // Main shape:
         this.ctx.beginPath();
         // Random x/y centerpoint that is within scene:
-        var x = Math.floor(this.random() * 1024);
-        var y = Math.floor(this.random() * 1024);
+        var x = Math.floor(this.random() * this.canvas.width);
+        var y = Math.floor(this.random() * this.canvas.height);
         // Random size of circle, but within reasonable bounds:
         var maxCircleRadius = this.canvas.width / 7;
         var minCircleRadius = this.canvas.width / 25;
@@ -78,7 +78,7 @@
           neckX,
           neckY,
           neckWidth,
-          neckHeight,
+          neckHeight
         );
 
         // Top head part
@@ -91,7 +91,7 @@
           topHeadBumpX,
           topHeadBumpY,
           topHeadBumpWidth,
-          topHeadBumpHeight,
+          topHeadBumpHeight
         );
 
         // Mouth
@@ -144,28 +144,28 @@
         'Still',
         'Solskogen crew',
         'You'
-      ]
+      ];
       // Have 139.625 frames for each, starting at frame 6710
       this.ctx.save();
 
       // Always clear text background:
       this.ctx.fillStyle = '#444';
       var textBackgroundX = 0;
-      var textBackgroundY = 450;
-      var textBackgroundWidth = 512;
-      var textBackgroundHeight = 128;
+      var textBackgroundY = this.canvas.height - this.canvas.height / 16;
+      var textBackgroundWidth = this.canvas.width/2;
+      var textBackgroundHeight = this.canvas.height/8;
       this.ctx.fillRect(
         textBackgroundX,
         textBackgroundY,
         textBackgroundWidth,
-        textBackgroundHeight,
+        textBackgroundHeight
       );
 
       // Pick name and params
       var firstFrameNumber = 6710;
       var lastFrameNumber = 7827;
       var nameDisplayIntervalFrames = Math.floor( (7827 - 6710) / shoutOutNames.length );
-      var shoutoutNameTextOffsetX = 1024/4;
+      var shoutoutNameTextOffsetX = this.canvas.width/4;
       var fontSize = 70; // For some long names we want a smaller font
       var currentName = '';
       if(frame < firstFrameNumber + nameDisplayIntervalFrames){
