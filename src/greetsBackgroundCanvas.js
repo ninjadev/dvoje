@@ -152,9 +152,10 @@
         textBackgroundHeight,
       );
 
+      // Pick name and params
       var firstFrameNumber = 6710;
       var nameDisplayIntervalFrames = 139;
-      var fontSize = 80;
+      var fontSize = 80; // For some long names we want a smaller font
       var currentName = '';
       if(frame < firstFrameNumber + nameDisplayIntervalFrames){
         currentName = 'Darklite';
@@ -181,15 +182,17 @@
         currentName = 'Solskogen crew';
         fontSize = 50;
       }
-      else if (frame < firstFrameNumber + 8 * nameDisplayIntervalFrames){
+      else {
         currentName = 'You!';
         fontSize = 90;
       }
+
+      // Draw the name
       this.ctx.fillStyle = '#ffffff';
       this.ctx.font = 'bold ' + (fontSize) + 'pt SchmelviticoBold';
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
-      this.ctx.fillText(currentName, 1024/4, 450 + 64);
+      this.ctx.fillText(currentName, 1024/4, textBackgroundY + textBackgroundHeight / 2);
       this.ctx.restore();
     }
 
