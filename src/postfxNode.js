@@ -40,10 +40,7 @@
       Loader.load('res/brick_frame.png', this.brickImage);
       this.brickLongImage = document.createElement('img');
       Loader.load('res/brick_frame_long.png', this.brickLongImage);
-      this.box = document.createElement('canvas');
-      this.box.width = 500;
-      this.box.height = 400;
-      this.drawBox(this.box.getContext('2d'), 0, 0, 500, 400);
+
       this.inventoryBox = document.createElement('canvas');
       this.inventoryBox.width = this.canvas.width / 2;
       this.inventoryBox.height = 300;
