@@ -501,11 +501,21 @@
       // brick count
       var bc = 0;
 
+      var play_speedup = 0;
+
+      if (BEAN > 796 && BEAN < 831) {
+        // These 35 BEANS need to have the same time passing as 48
+        play_speedup = (frame - FRAME_FOR_BEAN(796)) * ((48 / 35) - 1);
+      }
+      if (BEAN >= 831) {
+        frame += FRAME_FOR_BEAN(13);
+      }
+
       frame = frame % FRAME_FOR_BEAN(24) + FRAME_FOR_BEAN(768);
 
       var start_shrink = FRAME_FOR_BEAN(775);
       var shrink_duration = FRAME_FOR_BEAN(16)
-      var sp = Math.min(1, Math.max(0, (frame - start_shrink) / shrink_duration)); // zoom progress
+      var sp = Math.min(1, Math.max(0, (frame + play_speedup - start_shrink) / shrink_duration)); // zoom progress
 
       var logo;
       if (BEAN < 796) {
@@ -514,20 +524,20 @@
       else if (BEAN < 796) {
         logo = this.greet_panda;
       }
-      else if (BEAN < 820) {
+      else if (BEAN < 813) {
         logo = this.lft;
       }
-      else if (BEAN < 844) {
+      else if (BEAN < 831) {
         logo = this.logicoma;
       }
-      else if (BEAN < 868) {
+      else if (BEAN < 855) {
         logo = this.farbrausch;
       }
-      else if (BEAN < 892) {
-        logo = this.solskogen;
+      else if (BEAN < 879) {
+        logo = this.altair;
       }
       else if (BEAN < 916) {
-        logo = this.solskogen;
+        logo = this.cocoon;
       }
       else
       {
@@ -547,7 +557,7 @@
           for(var z = 0; z < this.brick_placements.length; z++) {
             if (this.brick_placements[z][x][y] == 1 && bc + 4 <= this.bricks.length) {
               var start_build = FRAME_FOR_BEAN(776);
-              var brick_fall = 1 - Math.min(1, (frame - start_build - (x+y+z) * 3));
+              var brick_fall = 1 - Math.min(1, (frame + play_speedup - start_build - (x+y+z) * 3));
 
               // Place one brick and mirror that operation on the xz and yz plane
               this.bricks[bc].position.x = -9.5 + x;
@@ -642,8 +652,8 @@
       this.proto_brick2.scale.z = 0.05;
       if (this.bricks.length > 0) {
         if (BEAN < 788) {
-          var ela_scale = easeIn(0, 1, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(3)) +
-                          easeOut(1, 0, (frame - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(5)) * Math.sin(frame) * 5;
+          var ela_scale = easeIn(0, 1, (frame + play_speedup - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(3)) +
+                          easeOut(1, 0, (frame + play_speedup - FRAME_FOR_BEAN(768)) / FRAME_FOR_BEAN(5)) * Math.sin(frame) * 5;
           this.bricks[0].scale.x = ela_scale;
           this.bricks[0].scale.y = ela_scale;
           this.bricks[0].scale.z = ela_scale;
@@ -664,7 +674,7 @@
         var poi_y = (1 - poi_motion) * this.bricks[0].position.y;
         var poi_z = sp * 11.5 * 0.6 + (1 - sp) * 11.5 * 0.6 / 20;
 
-        var cameraAngle = frame / shrink_duration * Math.PI * 2;
+        var cameraAngle = (frame + play_speedup) / shrink_duration * Math.PI * 2;
         this.background.rotation.z = -(cameraAngle + Math.PI * 2)*0.98;
         this.background.scale.x = -1;
         this.camera.position.z = poi_z;
