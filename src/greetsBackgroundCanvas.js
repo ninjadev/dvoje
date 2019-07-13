@@ -128,7 +128,7 @@
       this.ctx.fillStyle = '#000000';
       var textBackgroundX = 0;
       var textBackgroundY = 450;
-      var textBackgroundWidth = 640;
+      var textBackgroundWidth = 512;
       var textBackgroundHeight = 128;
       this.ctx.fillRect(
         textBackgroundX,
@@ -139,6 +139,7 @@
 
       var firstFrameNumber = 6710;
       var nameDisplayIntervalFrames = 139;
+      var fontSize = 80;
       var currentName = '';
       if(frame < firstFrameNumber + nameDisplayIntervalFrames){
         currentName = 'Darklite';
@@ -148,9 +149,11 @@
       }
       else if (frame < firstFrameNumber + 3 * nameDisplayIntervalFrames){
         currentName = 'Dekadence';
+        fontSize = 50;
       }
       else if (frame < firstFrameNumber + 4 * nameDisplayIntervalFrames){
         currentName = 'Ephidrena';
+        fontSize = 50;
       }
       else if (frame < firstFrameNumber + 5 * nameDisplayIntervalFrames){
         currentName = 'Mr doob';
@@ -160,12 +163,14 @@
       }
       else if (frame < firstFrameNumber + 7 * nameDisplayIntervalFrames){
         currentName = 'Solskogen crew';
+        fontSize = 50;
       }
       else if (frame < firstFrameNumber + 8 * nameDisplayIntervalFrames){
-        currentName = 'You';
+        currentName = 'You!';
+        fontSize = 90;
       }
       this.ctx.fillStyle = '#ffffff';
-      this.ctx.font = 'bold ' + (60) + 'pt oldfont';
+      this.ctx.font = 'bold ' + (fontSize) + 'pt oldfont';
       this.ctx.textAlign = 'center';
       this.ctx.textBaseline = 'middle';
       this.ctx.fillText(currentName, 1024/4, 1024/2);

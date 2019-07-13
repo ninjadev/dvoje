@@ -665,6 +665,7 @@
 
         var cameraAngle = frame / shrink_duration * Math.PI * 2;
         this.background.rotation.z = -(cameraAngle + Math.PI * 2)*0.98;
+        this.background.scale.x = -1;
         this.camera.position.z = poi_z;
         this.camera.position.x = poi_x + 40 * Math.sin(cameraAngle) * (0.05 + sp * 0.95);
         this.camera.position.y = poi_y + 40 * Math.cos(cameraAngle) * (0.05 + sp * 0.95);
