@@ -438,6 +438,8 @@
         } else if(BEAN >= 600 && BEAN < 608) {
           inventoryPosition = "bottom-right";
         }
+      } else if (BEAN >= 768 && BEAN < 892) { // greet
+        inventoryPosition = "top-right";
       } else if (BEAN >= 896 && BEAN < 1008) { // treb
         if(BEAN >= 896 && BEAN < 920) {
           inventoryPosition = "bottom-left";
@@ -466,7 +468,10 @@
       }
 
       var partsOnCurrentPage = this.inputs.partsOnCurrentPage.getValue();
-      if(partsOnCurrentPage) {
+
+      let isGreeting = (BEAN >= 768 && BEAN < 892);
+
+      if(partsOnCurrentPage || isGreeting) {
         var mapParts = {};
 
         for(var partKey of Object.keys(partsOnCurrentPage)) {
@@ -483,6 +488,15 @@
               count: 1,
               sortField: material.name + "_" + part.geometry.name,
               key: key
+            }
+          }
+        }
+        if (isGreeting) {
+          mapParts = {
+            "Part-32000_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png": {
+              count: 5199,
+              sortField: "CHROME-ANTIQUE_BRASS_Part-32000_dot_dat",
+              key: "Part-32000_dot_dat_CHROME-ANTIQUE_BRASS-removebg-preview.png"
             }
           }
         }
