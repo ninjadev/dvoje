@@ -11,7 +11,10 @@
         }
       });
 
-      this.background = new THREE.Mesh(new THREE.BoxGeometry(10000,10000,10000), new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide}));
+      this.background = new THREE.Mesh(
+        new THREE.BoxGeometry(10000,10000,10000),
+        new THREE.MeshBasicMaterial({color: 0xffffff, side: THREE.BackSide})
+      );
       this.scene.add(this.background);
 
       var light = new THREE.PointLight(0xffffff, 1, 2000);
@@ -162,7 +165,6 @@
                                   [0,0,1,1,1,1,1,1,1,1],
                                   [1,1,0,0,0,0,0,0,0,0]]);
 
-
       this.brick_placements.push([[1,1,1,1,1,1,1,1,1,1],
                                   [0,0,1,1,1,1,1,1,1,1],
                                   [0,0,0,0,0,0,0,0,0,0],
@@ -305,8 +307,6 @@
                             [2,3,3,3,3,3,3,3,3,2,2,3,3,3,3,3,3,3,3,2],
                             [2,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,2]];
 
-
-
       var loadObject = function (objPath, material, three_scene, clone_array) {
         var objLoader = new THREE.OBJLoader();
         Loader.loadAjax(objPath, function(text) {
@@ -339,7 +339,6 @@
       loadObject('res/32000.obj', brick_material, this.proto_brick2, this.bricks2);
 
       this.brick2_built = false;
-
     }
 
     update(frame) {
@@ -483,7 +482,6 @@
         var poi_x = (1 - poi_motion) * this.bricks[0].position.x;
         var poi_y = (1 - poi_motion) * this.bricks[0].position.y;
         var poi_z = sp * 11.5 * 0.6 + (1 - sp) * 11.5 * 0.6 / 20;
-
 
         var cameraAngle = frame / shrink_duration * Math.PI * 2;
         this.background.rotation.z = -(cameraAngle + Math.PI * 2)*0.98;

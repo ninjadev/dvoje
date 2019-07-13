@@ -32,11 +32,11 @@
       if(BEAN % 8 === 0){
         this.ctx.save();
 
-        // Use random color for drawing>
+        // Use random color for drawing:
         var randomColor = `#${Math.floor(this.random() * 0x1000000).toString(16).padStart(6, '0')}`;
         this.ctx.fillStyle = randomColor;
 
-        // Draw main shape:
+        // Main shape:
         this.ctx.beginPath();
         // Random x/y centerpoint that is within scene:
         var x = Math.floor(this.random() * 1024);
@@ -49,7 +49,7 @@
         this.ctx.arc(x, y, radius, 0, Math.PI * 2);
         this.ctx.fill();
 
-        // Draw extras
+        // Extras
         // Neck part
         var neckXscaling = 0.6;
         var neckX = x - radius * neckXscaling;
@@ -76,7 +76,7 @@
           topHeadBumpHeight,
         );
 
-        // Draw mouth
+        // Mouth
         // Mouth lower part
         this.ctx.fillStyle = '#000000';
         var motuhOuterRadius = radius * 0.70;
