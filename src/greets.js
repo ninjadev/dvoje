@@ -517,20 +517,23 @@
         logo = this.greet_panda;
       }
       else if (BEAN < 820) {
-        logo = this.greet_merqury;
+        logo = this.lft;
       }
       else if (BEAN < 844) {
-        logo = this.greet_panda;
+        logo = this.logicoma;
       }
       else if (BEAN < 868) {
-        logo = this.greet_merqury;
+        logo = this.farbrausch;
       }
       else if (BEAN < 892) {
-        logo = this.greet_panda;
+        logo = this.solskogen;
+      }
+      else if (BEAN < 916) {
+        logo = this.solskogen;
       }
       else
       {
-        logo = this.greet_panda;
+        logo = this.altair;
       }
 
       var colors = [new THREE.MeshStandardMaterial({color: 'white'}),
@@ -570,7 +573,7 @@
                 if (this.bricks[bc] != undefined) {
                   this.bricks[bc].traverse(function(child) {
                     if (child instanceof THREE.Mesh) {
-                      child.material = colors[logo[19-z][19 -y]];
+                      child.material = colors[logo[19-z][19-y]];
                     }
                   });
                 }
@@ -579,7 +582,7 @@
                 if (this.bricks[bc+2] != undefined) {
                   this.bricks[bc+2].traverse(function(child) {
                     if (child instanceof THREE.Mesh) {
-                      child.material = colors[logo[19-z][19 -y]];
+                      child.material = colors[logo[19-z][y]];
                     }
                   });
                 }
@@ -625,7 +628,7 @@
                   if (this.bricks2[bc2+2] != undefined) {
                     this.bricks2[bc2+2].traverse(function(child) {
                       if (child instanceof THREE.Mesh) {
-                        child.material = colors[logo[19-z][19 -y]];
+                        child.material = colors[logo[19-z][y]];
                       }
                     });
                   }
