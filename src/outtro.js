@@ -102,7 +102,7 @@
       let startFrame = FRAME_FOR_BEAN(startBEAN);
 
       let nin = 1188;
-      let ja = 1192;
+      let ja = 1191;
       let dev = 1204;
 
       const stopZoom = 1236;
