@@ -174,10 +174,12 @@
       }
       else if (frame < firstFrameNumber + 2 * nameDisplayIntervalFrames){
         currentName = 'Desire';
+        shoutoutNameTextOffsetX += 16;
       }
       else if (frame < firstFrameNumber + 3 * nameDisplayIntervalFrames){
         currentName = 'Dekadence';
         fontSize = 45;
+        shoutoutNameTextOffsetX += 32;
       }
       else if (frame < firstFrameNumber + 4 * nameDisplayIntervalFrames){
         currentName = 'Ephidrena';
