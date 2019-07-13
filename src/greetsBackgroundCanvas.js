@@ -168,28 +168,28 @@
       var shoutoutNameTextOffsetX = this.canvas.width/4;
       var fontSize = 70; // For some long names we want a smaller font
       var currentName = '';
-      if(frame < firstFrameNumber + nameDisplayIntervalFrames){
+      if(frame < firstFrameNumber + 1 * nameDisplayIntervalFrames){
         currentName = 'Darklite';
-        shoutoutNameTextOffsetX += 64;
+        shoutoutNameTextOffsetX += this.canvas.width / 5;
       }
       else if (frame < firstFrameNumber + 2 * nameDisplayIntervalFrames){
         currentName = 'Desire';
-        shoutoutNameTextOffsetX += 16;
+        shoutoutNameTextOffsetX += this.canvas.width / 7;
       }
       else if (frame < firstFrameNumber + 3 * nameDisplayIntervalFrames){
         currentName = 'Dekadence';
         fontSize = 45;
-        shoutoutNameTextOffsetX += 32;
+        shoutoutNameTextOffsetX += this.canvas.width / 6;
       }
       else if (frame < firstFrameNumber + 4 * nameDisplayIntervalFrames){
         currentName = 'Ephidrena';
         fontSize = 40;
-        shoutoutNameTextOffsetX += 64;
+        shoutoutNameTextOffsetX += this.canvas.width / 5;
       }
       else if (frame < firstFrameNumber + 5 * nameDisplayIntervalFrames){
         currentName = 'Mr doob';
         fontSize = 50;
-        shoutoutNameTextOffsetX += 32;
+        shoutoutNameTextOffsetX += this.canvas.width / 6;
       }
       else if (frame < firstFrameNumber + 6 * nameDisplayIntervalFrames){
         currentName = 'Still';
@@ -197,7 +197,7 @@
       else if (frame < firstFrameNumber + 7 * nameDisplayIntervalFrames){
         currentName = 'Solskogen crew';
         fontSize = 35;
-        shoutoutNameTextOffsetX += 64;
+        shoutoutNameTextOffsetX += this.canvas.width / 5;
       }
       else {
         currentName = 'You!';
