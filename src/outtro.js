@@ -85,7 +85,7 @@
         side: THREE.DoubleSide,
         transparent: true
       }));
-      this.textPlane.position.set(200, 20, 160);
+      this.textPlane.position.set(190, 30, 160);
       this.textPlane.lookAt(new THREE.Vector3(300, 50, 252));
       this.scene.add(this.textPlane);
 
@@ -119,19 +119,18 @@
         this.camera.lookAt(this.box.position);
       }
 
-      if(BEAN == closeLid) {
-        // this is bugged
+      if(frame == FRAME_FOR_BEAN(closeLid)) {
         rotateAboutPoint(
           this.boxTopLeft,
           new THREE.Vector3(250/2, 150/2, 50/2),
           new THREE.Vector3(1, 0, 0),
-          Math.PI/4+0.2
+          lerp(Math.PI/4, Math.PI/4+0.3, t/100)
         );
         rotateAboutPoint(
           this.boxTopRight,
           new THREE.Vector3(250/2, 150/2, -50/2),
           new THREE.Vector3(1, 0, 0),
-          -Math.PI/4+0.2
+          -lerp(Math.PI/4, Math.PI/4+0.3, t/100)
         );
       }
 
