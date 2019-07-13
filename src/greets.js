@@ -20,7 +20,7 @@
 
       this.backgroundNames = new THREE.Mesh(
         new THREE.BoxGeometry(50,50,50),
-        new THREE.MeshBasicMaterial({wireframe: true, side: THREE.DoubleSide})
+        new THREE.MeshBasicMaterial({ side: THREE.BackSide})
       );
       this.scene.add(this.backgroundNames);
 
@@ -493,7 +493,7 @@
 
         var cameraAngle = frame / shrink_duration * Math.PI * 2;
         this.background.rotation.z = -(cameraAngle + Math.PI * 2)*0.98;
-        this.backgroundNames.rotation.z = -(cameraAngle + Math.PI * 2);
+        this.backgroundNames.rotation.z = 0 //-(cameraAngle + Math.PI * 2);
         this.camera.position.z = poi_z;
         this.camera.position.x = poi_x + 40 * Math.sin(cameraAngle) * (0.05 + sp * 0.95);
         this.camera.position.y = poi_y + 40 * Math.cos(cameraAngle) * (0.05 + sp * 0.95);

@@ -25,17 +25,6 @@
       this.output = new THREE.VideoTexture(this.canvas);
       this.output.minFilter = THREE.LinearFilter;
       this.output.magFilter = THREE.LinearFilter;
-
-      // function getSpriteFromText(text){
-      //   return new THREE.TextSprite({
-      //     textSize: 20,
-      //     texture: {
-      //         text: text,
-      //         fontFamily: 'Impact, Courier, Arial, Helvetica, sans-serif',
-      //     },
-      //     material: {color: 0xffffff},
-      //   });
-      // }
     }
 
 
@@ -43,7 +32,12 @@
       super.update(frame);
       this.ctx.save();
 
-      // this.scene.add(getSpriteFromText("Hello Solskogen!"));
+      this.ctx.fillStyle = '#ffffff';
+      this.ctx.font = 'bold ' + (1.5 * GU) + 'pt oldfont';
+      this.ctx.textAlign = 'left';
+      this.ctx.textBaseline = 'middle';
+
+      this.ctx.fillText('NIN', 3.8 * GU, 4.5 * GU);
 
       this.ctx.restore();
     }
