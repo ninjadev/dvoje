@@ -144,6 +144,7 @@
         this.ctx.restore();
       }
 
+      let legoGlitch = 0;
       if (BEAN < 256) {
         let value = smoothstep(0, 1, F(frame, 64, 16));
         value = smoothstep(value, 0, F(frame, 64 + 48, 16));
@@ -165,7 +166,19 @@
         ctx.restore();
 
 
-        let legoGlitch = 0;
+
+        const fadeInDoneBean = 40;
+        if (BEAN < fadeInDoneBean){
+          this.ctx.fillStyle = 'rgba(0,0,0,' + smoothstep(0, 1, (1 - F(frame, 0, fadeInDoneBean))) + ')';
+          this.ctx.fillRect(0,0,1920,1080);
+        }
+      }
+
+      // glitch controls
+      if ( (BEAN > 98 && BEAN < 253) || (BEAN > 706 && BEAN < 768) || BEAN > 1161){
+
+        const ctx = this.ctx;
+
         switch (BEAN){
           case 99:
           case 130:
@@ -191,36 +204,38 @@
           case 250:
           case 253:
             legoGlitch = 1;
-        }
-        legoGlitch =1;
-        ctx.save();
-        ctx.globalAlpha = 0.5 * legoGlitch;
-        this.uniforms.legoGlitch.value = legoGlitch;
-        ctx.drawImage(this.brickImage, Math.random()*1920, Math.random()*1080);
-        ctx.drawImage(this.brickLongImage, Math.random()*1920, Math.random()*1080);
-        ctx.restore();
-
-
-        const fadeInDoneBean = 40;
-        if (BEAN < fadeInDoneBean){
-          this.ctx.fillStyle = 'rgba(0,0,0,' + smoothstep(0, 1, (1 - F(frame, 0, fadeInDoneBean))) + ')';
-          this.ctx.fillRect(0,0,1920,1080);
-        }
-      }
-
-      let legoGlitch = 0;
-      if (BEAN > 706 && BEAN < 768){
-
-        const ctx = this.ctx;
+          }
 
         // snare drum
-        if (BEAN % 8 == 4 && BEAN < 752){
+        if (BEAN % 8 == 4 && BEAN > 706 && BEAN < 752){
             legoGlitch = 1;
         }
 
         // craaaaaaazy!
         if (BEAN > 751 && BEAN < 768){
             legoGlitch = Math.random() * 16;
+        }
+
+        //outro 
+        switch (BEAN) {
+          case 1162:
+          case 1167:
+          case 1173:
+          case 1229:
+          case 1231:
+          case 1234:
+          case 1236:
+          case 1240:
+          case 1241:
+          case 1244:
+          case 1248:
+          case 1249:
+          case 1251:
+          case 1253:
+          case 1254:
+          case 1256:
+          case 1258:
+            legoGlitch = 1;
         }
         ctx.save();
         ctx.globalAlpha = 0.5 * legoGlitch;
