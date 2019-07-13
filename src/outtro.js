@@ -8,12 +8,12 @@
         }
       });
 
-      const sideTexture = Loader.loadTexture('res/box_Side.png');
-      const topTexture = Loader.loadTexture('res/box_Side.png');
+      const sideTexture = Loader.loadTexture('res/construct_box_side.png');
+      const topTexture = Loader.loadTexture('res/construct_box_side.png');
       topTexture.rotation = Math.PI/2;
       topTexture.wrapS = THREE.RepeatWrapping;
       topTexture.wrapT = THREE.RepeatWrapping;
-      const frontTexture = Loader.loadTexture('res/box_Front.png');
+      const frontTexture = Loader.loadTexture('res/construct_box.png');
 
       this.box = new THREE.Mesh(new THREE.BoxGeometry(250, 150, 50),
         [
@@ -94,9 +94,9 @@
 
       let startBEAN = 1157;
       let startFrame = FRAME_FOR_BEAN(startBEAN);
-      let nin = startBEAN + 24;
-      let ja = startBEAN + 24 * 2;
-      let dev = startBEAN + 24 * 3;
+      let nin = 1188;
+      let ja = 1192;
+      let dev = 1204;
       let t = 0;
 
       if (BEAN < nin) {
@@ -138,6 +138,7 @@
       this.ctx.font = 'bold ' + (size * GU) + `pt ${font}`;
       this.ctx.textAlign = 'left';
       this.ctx.textBaseline = 'middle';
+      this.ctx.clearRect(0, 0, 16*GU, 9*GU);
 
       this.ctx.fillStyle = 'rgba(0,0,0,0)';
       this.ctx.fillRect(0, 0, 16*GU, 9*GU);
@@ -147,8 +148,6 @@
       this.ctx.scale(this.sizeNIN, this.sizeNIN);
       this.ctx.translate(-8*GU, -4.5*GU);
 
-      this.ctx.fillStyle = '#000000';
-      this.ctx.fillText('NIN', 3.8 * GU, 4.6 * GU);
       this.ctx.fillStyle = this.colorNIN;
       this.ctx.fillText('NIN', 3.7 * GU, 4.5 * GU);
 
@@ -159,8 +158,6 @@
       this.ctx.scale(this.sizeJA, this.sizeJA);
       this.ctx.translate(-8*GU, -4.5*GU);
 
-      this.ctx.fillStyle = '#000000';
-      this.ctx.fillText('JA', 6.8 * GU, 4.6 * GU);
       this.ctx.fillStyle = this.colorJA;
       this.ctx.fillText('JA', 6.7 * GU, 4.5 * GU);
 
@@ -171,8 +168,6 @@
       this.ctx.scale(this.sizeDEV, this.sizeDEV);
       this.ctx.translate(-8*GU, -4.5*GU);
 
-      this.ctx.fillStyle = '#000000';
-      this.ctx.fillText('DEV', 9.0 * GU, 4.6 * GU);
       this.ctx.fillStyle = this.colorDEV;
       this.ctx.fillText('DEV', 8.9 * GU, 4.5 * GU);
 
