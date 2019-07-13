@@ -301,9 +301,12 @@
   };
 
   class spinningCube extends NIN.THREENode {
+
     constructor(id, options) {
       super(id, {
         camera: options.camera,
+        partsOnCurrentPage: {},
+        stepNumber: 0,
         inputs: {
           model: new NIN.Input(),
           positions: new NIN.Input(),
@@ -313,6 +316,7 @@
           normal: new NIN.TextureOutput(),
           depth: new NIN.TextureOutput(),
           inverter: new NIN.TextureOutput(),
+          partsOnCurrentPage: new NIN.Output(),
         }
       });
 
@@ -466,10 +470,9 @@
       }
 
 
-      const step = (((BEAN % 128) / 8) | 0) + 1;
-      const t = F(frame, beanOffset + (step) * 8 - 1, 1);
-      const previousCameraAngle = cameraAngles[Math.max(step - 1, 0)];
-      const currentCameraAngle = cameraAngles[Math.max(0, Math.min(step, cameraAngles.length - 1))];
+      const t = F(frame, beanOffset + (this.stepNumber) * 8 - 1, 1);
+      const previousCameraAngle = cameraAngles[Math.max(this.stepNumber - 1, 0)];
+      const currentCameraAngle = cameraAngles[Math.max(0, Math.min(this.stepNumber, cameraAngles.length - 1))];
       if (previousCameraAngle && currentCameraAngle) {
         const angle = easeIn(previousCameraAngle.angle, currentCameraAngle.angle, t);
         const lookAtX = easeIn(previousCameraAngle.lookAt.x, currentCameraAngle.lookAt.x, t);
@@ -490,11 +493,10 @@
         this.camera.position.z += positionZ;
       }
 
-
-
-
-
       frame -= frameOffset;
+      let startFrameForInventory = ((this.stepNumber) * 70)-44
+      let endFrameForInventory = ((this.stepNumber+1) * 70)-44
+      
       this.model.traverse(obj => {
         if(obj.material) {
           const action = positions[obj.name];
@@ -502,6 +504,9 @@
             //console.log('ERROR', obj.name);
             return;
           }
+            if (action.start_frame >= startFrameForInventory && action.start_frame < endFrameForInventory) {
+              this.partsOnCurrentPage[obj.name] = obj;
+            }
             if(action.start_frame > frame) {
               obj.visible = false;
               const materials = obj.material instanceof Array ? obj.material : [obj.material];
@@ -513,6 +518,7 @@
             }
 
             obj.visible = true;
+
             const materials = obj.material instanceof Array ? obj.material : [obj.material];
             for(const material of materials) {
               material.targetColor.copy(material.originalColor);
@@ -531,12 +537,17 @@
             obj.quaternion.w = action.quaterions[idx].w;
           }
       });
+      this.outputs.partsOnCurrentPage.setValue(this.partsOnCurrentPage);
     }
 
     update(frame) {
       super.update(frame);
-
-      this.positions = this.inputs.positions.getValue();
+      let currentStepNumber = (((BEAN % 128) / 8) | 0) + 1
+      if (currentStepNumber != this.stepNumber) {
+        this.partsOnCurrentPage = {}
+      }
+      this.stepNumber = currentStepNumber;
+       this.positions = this.inputs.positions.getValue();
 
       const model = this.inputs.model.getValue();
       if(model !== this.model) {

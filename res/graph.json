@@ -68,7 +68,8 @@
     },
     "connected": {
       "tDiffuse": "FXAA.render",
-      "paperTexture": "PaperJPG.out"
+      "paperTexture": "PaperJPG.out",
+      "partsOnCurrentPage": "SpinningCube.partsOnCurrentPage"
     }
   },
   {
