@@ -40,6 +40,11 @@
       this.scene.add(this.plane);
     }
 
+    warmup(renderer) {
+      this.update(100);
+      this.render(renderer);
+    }
+
     update(frame) {
       super.update(frame);
 

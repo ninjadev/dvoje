@@ -438,6 +438,11 @@
         color1G/0xff * (baseColor + (1-baseColor) * intensity * this.lightThrob3),
         color1B/0xff * (baseColor + (1-baseColor) * intensity * this.lightThrob3));
     }
+
+    warmup(renderer) {
+      this.update(5591);
+      this.render(renderer);
+    }
   }
 
   global.funksolo = funksolo;

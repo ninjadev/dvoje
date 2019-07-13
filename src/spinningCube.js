@@ -655,6 +655,13 @@
       this.outputs.depth.setValue(renderTargetNormal.depthTexture);
       this.outputs.inverter.setValue(invertLinesRenderTarget.texture);
     }
+
+    warmup(renderer) {
+      for (let i of [0, 2236, 3354, 4473, 5591, 6710, 7828, 8947, 10065, 3215, 4333, 8807, 9925]) {
+        this.update(i);
+        this.render(renderer);
+      }
+    }
   }
 
   global.spinningCube = spinningCube;

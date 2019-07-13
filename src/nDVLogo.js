@@ -54,6 +54,11 @@
       this.output.needsUpdate = true;
       this.outputs.render.setValue(this.output);
     }
+
+    warmup(renderer) {
+      this.update(6710);
+      this.render(renderer);
+    }
   }
 
   global.nDVLogo = nDVLogo;
